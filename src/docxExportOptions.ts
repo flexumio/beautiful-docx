@@ -7,9 +7,9 @@ export type DocxExportOptions = {
   pageHeight: number;
   textFont: string;
   titleFont: string;
+  verticalSpaces: number;
   ignoreIndentation?: boolean;
   images?: ImageMap;
-  verticalSpaces: number;
 };
 
 export const defaultExportOptions: DocxExportOptions = {

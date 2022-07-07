@@ -1,5 +1,5 @@
 import { Document, Packer } from 'docx';
-import { DocxExportOptions } from './docxExportOptions';
+import { defaultExportOptions, DocxExportOptions } from './docxExportOptions';
 import { getDefaultSectionsProperties } from './docxSectionHelpers';
 import { getDefaultFooter } from './docxFooterHelpers';
 import { getDocumentStyles, getNumberingConfig } from './docxStylesHelper';
@@ -24,8 +24,8 @@ const getDocument = async (html: string, docxExportOptions: DocxExportOptions): 
   });
 };
 
-export const generateDocx = async (html: string, docxExportOptions: DocxExportOptions): Promise<Buffer> => {
-  const doc = await getDocument(html, docxExportOptions);
+export const generateDocx = async (html: string, docxExportOptions?: Partial<DocxExportOptions>): Promise<Buffer> => {
+  const doc = await getDocument(html, { ...defaultExportOptions, ...docxExportOptions });
 
   return await Packer.toBuffer(doc);
 };
