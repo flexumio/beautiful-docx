@@ -18,7 +18,7 @@ import {
 import { Element, Node, Styles } from 'himalaya';
 import { ColorTranslator } from 'colortranslator';
 import { parseParagraphChild, parseTopLevelElement } from './docxHtmlParser';
-import { DocxExportOptions } from '../docxExportOptions';
+import { DocxExportOptions } from '../options';
 import { covertPixelsToPoints, getAttributeMap, parseStyles } from './common';
 import { getPageWidth, getTableIndent } from '../docxSectionHelpers';
 import { ITableCellMarginOptions } from 'docx/build/file/table/table-properties/table-cell-margin';
@@ -104,7 +104,7 @@ const parseBorderOptions = (styles: Styles): IBorderOptions => {
       throw new Error(`Unable to parse border options: ${styles['border']}`);
     }
 
-    const [_, width, style, color] = matched;
+    const [, width, style, color] = matched;
 
     const cellColorTranslator = new ColorTranslator(color);
     return {
@@ -237,7 +237,7 @@ const parseTableBody = (element: Element, docxExportOptions: DocxExportOptions):
   return rows;
 };
 
-const parseColumnWidths = (colGroup: Element, columnsCount: number, tableWidth: number): number[] => {
+const parseColumnWidths = (colGroup: Element | undefined, columnsCount: number, tableWidth: number): number[] => {
   if (colGroup?.children?.length === columnsCount) {
     return colGroup.children.map(item => {
       if (item.type === 'element' && item.tagName === 'col') {
@@ -280,7 +280,7 @@ export const parseTable = (tableFigure: Element, docxExportOptions: DocxExportOp
   const tableAttr = getAttributeMap(table.attributes);
   const tableStyles = parseStyles(tableAttr['style']);
 
-  let colGroup: Element;
+  let colGroup: Element | undefined = undefined;
 
   for (const tableChild of table.children) {
     if (tableChild.type === 'element') {

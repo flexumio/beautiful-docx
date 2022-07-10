@@ -12,7 +12,7 @@ import {
   VerticalPositionRelativeFrom,
 } from 'docx';
 import { Element, Node } from 'himalaya';
-import { DocxExportOptions, ImageMap } from '../docxExportOptions';
+import { DocxExportOptions, ImageMap } from '../options';
 import { convertTwipToPixels, getAttributeMap, parseStyles } from './common';
 import { getPageWidth } from '../docxSectionHelpers';
 
@@ -114,8 +114,8 @@ const getImageSize = (
   const pageWidthPixels = convertTwipToPixels(pageWidth);
   const imageDimensions = imageSize(image);
 
-  const originWidth = imageDimensions.width;
-  const originHeight = imageDimensions.height;
+  const originWidth = imageDimensions.width || 0;
+  const originHeight = imageDimensions.height || 0;
 
   const imageAttr = getAttributeMap(imageFigure.attributes);
   const imageStyles = parseStyles(imageAttr['style']);
@@ -162,6 +162,10 @@ export const parseImage = (imageFigure: Element, docxExportOptions: DocxExportOp
   const image = imageFigure.children.find(item => item.type === 'element' && item.tagName === 'img') as Element;
   const imageAttr = getAttributeMap(image.attributes);
   const imageSourceUrl = imageAttr['src'];
+
+  if (!docxExportOptions.images) {
+    throw new Error('Cannot handle image insertion');
+  }
 
   const imageBuffer = docxExportOptions.images[imageSourceUrl];
 

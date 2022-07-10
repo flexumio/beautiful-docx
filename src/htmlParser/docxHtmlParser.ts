@@ -15,7 +15,7 @@ import {
   UnderlineType,
 } from 'docx';
 import { DEFAULT_NUMBERING_REF } from '../docxStylesHelper';
-import { DocxExportOptions } from '../docxExportOptions';
+import { DocxExportOptions } from '../options';
 import { parseTable } from './tableParser';
 import { getAttributeMap, ParseResult, parseStyles } from './common';
 import { downloadImages, parseImage } from './imageParser';

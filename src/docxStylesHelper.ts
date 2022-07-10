@@ -1,11 +1,5 @@
 import { AlignmentType, INumberingOptions, IStylesOptions, LevelFormat, LevelSuffix } from 'docx';
-import { DocxExportOptions } from './docxExportOptions';
-
-const PARAGRAPH_FONT_SIZE = 24;
-const HEADING_1_FONT_SIZE = 39;
-const HEADING_2_FONT_SIZE = 33;
-const HEADING_3_FONT_SIZE = 30;
-const HEADING_4_FONT_SIZE = 27;
+import { DocxExportOptions } from './options';
 
 const FONT_TO_LINE_RATIO = 10;
 
@@ -23,62 +17,62 @@ export const getDocumentStyles = (exportOptions: DocxExportOptions): IStylesOpti
         next: 'Normal',
         quickFormat: true,
         run: {
-          font: exportOptions.titleFont,
-          size: HEADING_1_FONT_SIZE,
+          font: exportOptions.font.headersFontFamily,
+          size: exportOptions.font.headersSizes.h1,
           bold: true,
         },
         paragraph: {
           alignment: AlignmentType.CENTER,
-          spacing: { line: HEADING_1_FONT_SIZE * FONT_TO_LINE_RATIO },
+          spacing: { line: exportOptions.font.headersSizes.h1 * FONT_TO_LINE_RATIO },
         },
       },
     ],
     default: {
       document: {
         run: {
-          font: exportOptions.textFont,
-          size: PARAGRAPH_FONT_SIZE,
+          font: exportOptions.font.baseFontFamily,
+          size: exportOptions.font.baseSize,
           bold: false,
         },
       },
       heading1: {
         run: {
-          font: exportOptions.titleFont,
-          size: HEADING_1_FONT_SIZE,
+          font: exportOptions.font.headersFontFamily,
+          size: exportOptions.font.headersSizes.h1,
           bold: true,
         },
         paragraph: {
-          spacing: { line: HEADING_1_FONT_SIZE * FONT_TO_LINE_RATIO },
+          spacing: { line: exportOptions.font.headersSizes.h1 * FONT_TO_LINE_RATIO },
         },
       },
       heading2: {
         run: {
-          font: exportOptions.titleFont,
-          size: HEADING_2_FONT_SIZE,
+          font: exportOptions.font.headersFontFamily,
+          size: exportOptions.font.headersSizes.h2,
           bold: true,
         },
         paragraph: {
-          spacing: { line: HEADING_2_FONT_SIZE * FONT_TO_LINE_RATIO },
+          spacing: { line: exportOptions.font.headersSizes.h2 * FONT_TO_LINE_RATIO },
         },
       },
       heading3: {
         run: {
-          font: exportOptions.titleFont,
-          size: HEADING_3_FONT_SIZE,
+          font: exportOptions.font.headersFontFamily,
+          size: exportOptions.font.headersSizes.h3,
           bold: true,
         },
         paragraph: {
-          spacing: { line: HEADING_3_FONT_SIZE * FONT_TO_LINE_RATIO },
+          spacing: { line: exportOptions.font.headersSizes.h3 * FONT_TO_LINE_RATIO },
         },
       },
       heading4: {
         run: {
-          font: exportOptions.titleFont,
-          size: HEADING_4_FONT_SIZE,
+          font: exportOptions.font.headersFontFamily,
+          size: exportOptions.font.headersSizes.h4,
           bold: true,
         },
         paragraph: {
-          spacing: { line: HEADING_4_FONT_SIZE * FONT_TO_LINE_RATIO },
+          spacing: { line: exportOptions.font.headersSizes.h4 * FONT_TO_LINE_RATIO },
         },
       },
     },

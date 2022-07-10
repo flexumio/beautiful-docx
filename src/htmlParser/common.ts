@@ -11,7 +11,7 @@ export const getAttributeMap = (attribs: Attribute[]): AttributeMap => {
   const map: AttributeMap = {};
 
   for (const attr of attribs) {
-    map[attr.key] = attr.value;
+    map[attr.key] = attr.value || '';
   }
 
   return map;
