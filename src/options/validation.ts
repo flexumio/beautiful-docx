@@ -27,7 +27,7 @@ export const optionsSchema = z.object({
       h4: z.number().positive(),
     }),
   }),
-  verticalSpaces: z.number().positive(),
+  verticalSpaces: z.number().nonnegative(),
 });
 
 export const userOptionsSchema = optionsSchema.deepPartial().strict();
