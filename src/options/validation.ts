@@ -1,7 +1,7 @@
 import { z } from 'zod';
-import { DocxExportOptions, PageOrientation } from './docxOptions';
+import { PageOrientation } from './docxOptions';
 
-export const optionsSchema: z.ZodSchema<DocxExportOptions> = z.object({
+export const optionsSchema = z.object({
   page: z.object({
     orientation: z.nativeEnum(PageOrientation),
     size: z.object({
@@ -29,3 +29,5 @@ export const optionsSchema: z.ZodSchema<DocxExportOptions> = z.object({
   }),
   verticalSpaces: z.number().positive(),
 });
+
+export const userOptionsSchema = optionsSchema.deepPartial().strict();
