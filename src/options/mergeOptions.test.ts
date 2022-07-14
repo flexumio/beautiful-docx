@@ -1,5 +1,4 @@
-import { mergeWithDefaultOptions, defaultExportOptions } from './defaultOptions';
-import { DocxExportOptions, PageFormat, PageOrientation } from './docxOptions';
+import { mergeWithDefaultOptions, defaultExportOptions, DocxExportOptions, PageFormat, PageOrientation } from '.';
 
 test('mergeWithDefaultOptions should return default options if called without arguments', () => {
   const options = mergeWithDefaultOptions();
