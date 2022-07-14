@@ -1,2 +1,2 @@
-export * from './docxOptions';
-export * from './defaultOptions';
+export * from './optionsConfig';
+export * from './OptionsBuilder';

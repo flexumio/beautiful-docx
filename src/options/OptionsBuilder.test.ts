@@ -1,12 +1,13 @@
-import { mergeWithDefaultOptions, defaultExportOptions, DocxExportOptions, PageFormat, PageOrientation } from '.';
+import { defaultExportOptions, DocxExportOptions, OptionsBuilder, PageFormat, PageOrientation } from '.';
 
-test('mergeWithDefaultOptions should return default options if called without arguments', () => {
-  const options = mergeWithDefaultOptions();
+test('mergeOptions should return default options if called without arguments', () => {
+  const builder = new OptionsBuilder();
+  const options = builder.mergeOptions();
 
   expect(options).toMatchObject<DocxExportOptions>(defaultExportOptions);
 });
 
-describe('mergeWithDefaultOptions should return right object if called with arguments', () => {
+describe('mergeOptions should return right object if called with arguments', () => {
   test('should merge page options', () => {
     const testOptions = {
       page: {
@@ -16,7 +17,8 @@ describe('mergeWithDefaultOptions should return right object if called with argu
       },
     };
 
-    const options = mergeWithDefaultOptions(testOptions);
+    const builder = new OptionsBuilder();
+    const options = builder.mergeOptions(testOptions);
 
     const expectedOptions = {
       ...defaultExportOptions,
@@ -42,7 +44,8 @@ describe('mergeWithDefaultOptions should return right object if called with argu
       },
     };
 
-    const options = mergeWithDefaultOptions(testOptions);
+    const builder = new OptionsBuilder();
+    const options = builder.mergeOptions(testOptions);
 
     const expectedOptions = {
       ...defaultExportOptions,
@@ -57,10 +60,11 @@ describe('mergeWithDefaultOptions should return right object if called with argu
   });
 });
 
-test('mergeWithDefaultOptions should throw error when called with wrong arguments', () => {
+test('mergeOptions should throw error when called with wrong arguments', () => {
   const testOptions = {
     foo: { bar: 'baz' },
   };
+  const builder = new OptionsBuilder();
 
-  expect(() => mergeWithDefaultOptions(testOptions as unknown as DocxExportOptions)).toThrowError();
+  expect(() => builder.mergeOptions(testOptions as unknown as DocxExportOptions)).toThrowError();
 });

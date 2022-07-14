@@ -1,5 +1,5 @@
 import { z } from 'zod';
-import { PageOrientation } from './docxOptions';
+import { PageOrientation } from './optionsConfig';
 
 export const optionsSchema = z.object({
   page: z.object({

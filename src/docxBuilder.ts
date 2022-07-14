@@ -1,5 +1,5 @@
 import { Document, Packer } from 'docx';
-import { DocxExportOptions, mergeWithDefaultOptions } from './options';
+import { DocxExportOptions, OptionsBuilder } from './options';
 import { getDefaultSectionsProperties } from './docxSectionHelpers';
 import { getDefaultFooter } from './docxFooterHelpers';
 import { getDocumentStyles, getNumberingConfig } from './docxStylesHelper';
@@ -29,8 +29,10 @@ export const generateDocx = async (
   html: string,
   docxExportOptions?: DeepPartial<DocxExportOptions>
 ): Promise<Buffer> => {
-  const docxOptions = mergeWithDefaultOptions(docxExportOptions);
-  const doc = await getDocument(html, docxOptions);
+  const optionsBuilder = new OptionsBuilder();
+  optionsBuilder.mergeOptions(docxExportOptions);
+
+  const doc = await getDocument(html, optionsBuilder.options);
 
   return await Packer.toBuffer(doc);
 };
