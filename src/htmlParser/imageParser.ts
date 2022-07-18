@@ -1,4 +1,3 @@
-import axios from 'axios';
 import { imageSize } from 'image-size';
 import {
   HorizontalPositionAlign,
@@ -11,33 +10,10 @@ import {
   VerticalPositionAlign,
   VerticalPositionRelativeFrom,
 } from 'docx';
-import { Element, Node } from 'himalaya';
-import { DocxExportOptions, ImageMap } from '../options';
+import { Element } from 'himalaya';
+import { DocxExportOptions } from '../options';
 import { convertTwipToPixels, getAttributeMap, parseStyles } from './common';
 import { getPageWidth } from '../docxSectionHelpers';
-
-const downloadImage = async (url: string): Promise<Buffer> => {
-  return axios.get(url, { responseType: 'arraybuffer' }).then(response => Buffer.from(response.data, 'binary'));
-};
-
-export const downloadImages = async (root: Node[], imagesMap: ImageMap): Promise<ImageMap> => {
-  for (const child of root) {
-    if (child.type === 'element') {
-      if (child.tagName === 'img') {
-        const imageAttr = getAttributeMap(child.attributes);
-        const imageSourceUrl = imageAttr['src'];
-
-        if (!imagesMap[imageSourceUrl]) {
-          imagesMap[imageSourceUrl] = await downloadImage(imageSourceUrl);
-        }
-      } else if (child.children.length) {
-        await downloadImages(child.children, imagesMap);
-      }
-    }
-  }
-
-  return imagesMap;
-};
 
 const getHorizontalPositionAlign = (classes: string[]): HorizontalPositionAlign => {
   if (classes.includes('image-style-block-align-left') || classes.includes('image-style-align-left')) {

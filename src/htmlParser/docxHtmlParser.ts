@@ -1,16 +1,14 @@
-import { parse, Node, Attribute, Element } from 'himalaya';
+import { Node, Attribute, Element } from 'himalaya';
 import {
   AlignmentType,
   BorderStyle,
   convertMillimetersToTwip,
   ExternalHyperlink,
   HeadingLevel,
-  ImageRun,
   IParagraphOptions,
   IRunOptions,
   Paragraph,
   ParagraphChild,
-  Table,
   TextRun,
   UnderlineType,
 } from 'docx';
@@ -18,7 +16,7 @@ import { DEFAULT_NUMBERING_REF } from '../DocumentBuilder';
 import { DocxExportOptions } from '../options';
 import { parseTable } from './tableParser';
 import { getAttributeMap, ParseResult, parseStyles } from './common';
-import { downloadImages, parseImage } from './imageParser';
+import { parseImage } from './imageParser';
 
 const FIRST_LINE_INDENT_MILLIMETERS = 6;
 const BLOCKQUOTE_SIZE = 25;
@@ -230,74 +228,4 @@ export const parseTopLevelElement = (
     default:
       throw new Error(`Unsupported top tag ${element.tagName}`);
   }
-};
-
-const parseHtmlTree = (root: Node[], docxExportOptions: DocxExportOptions): ParseResult[] => {
-  const paragraphs: ParseResult[] = [];
-  let pCounts = 0;
-
-  for (const child of root) {
-    if (child.type === 'element') {
-      const attributesMap = getAttributeMap(child.attributes);
-      if (child.tagName === 'div' && attributesMap['class'] === 'scene') {
-        paragraphs.push(
-          ...[
-            ...parseHtmlTree(child.children, docxExportOptions),
-            new Paragraph({ children: [new TextRun({ break: 1 })] }),
-          ]
-        );
-      } else {
-        const topLevelElement = parseTopLevelElement(child, pCounts, docxExportOptions);
-        paragraphs.push(...topLevelElement);
-
-        if (child.tagName === 'p') pCounts++;
-      }
-    }
-  }
-
-  return paragraphs;
-};
-
-const postProcess = (docxTree: ParseResult[]): (Paragraph | Table)[] => {
-  const results: (Paragraph | Table)[] = [];
-
-  let iterator = 0;
-
-  while (iterator < docxTree.length) {
-    const currentItem = docxTree[iterator];
-    const nextItem = docxTree[iterator + 1];
-
-    const isCurrentItemImage = currentItem instanceof ImageRun;
-    const isNextItemParagraph = nextItem instanceof Paragraph;
-
-    if (isCurrentItemImage && isNextItemParagraph) {
-      nextItem.addChildElement(currentItem);
-      results.push(nextItem);
-      iterator += 2;
-      continue;
-    }
-
-    if (isCurrentItemImage && !isNextItemParagraph) {
-      results.push(new Paragraph({ children: [currentItem] }));
-      iterator += 1;
-      continue;
-    }
-
-    results.push(currentItem);
-    iterator += 1;
-  }
-
-  return results;
-};
-
-export const parseHtmlContent = async (
-  content: string,
-  docxExportOptions: DocxExportOptions
-): Promise<(Paragraph | Table)[]> => {
-  const parsedContent = parse(content);
-  const images = await downloadImages(parsedContent, {});
-
-  const docxTree = parseHtmlTree(parsedContent, { ...docxExportOptions, images });
-
-  return postProcess(docxTree);
 };
