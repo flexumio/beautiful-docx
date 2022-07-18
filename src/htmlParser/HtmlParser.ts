@@ -1,8 +1,15 @@
-import { ImageRun, Paragraph, Table } from 'docx';
-import { Node, parse } from 'himalaya';
+import { HeadingLevel, ImageRun, Paragraph, Table } from 'docx';
+import { Element, Node, parse } from 'himalaya';
 import { DocxExportOptions } from '../options';
 import { ParseResult } from './common';
-import { parseTopLevelElement } from './docxHtmlParser';
+import {
+  parseBlockquote,
+  parseFigure,
+  parseHeader,
+  parseList,
+  parseParagraph,
+  parseParagraphChild,
+} from './docxHtmlParser';
 import { ImagesAdapter } from './ImagesAdapter';
 
 export class HtmlParser {
@@ -32,7 +39,7 @@ export class HtmlParser {
         continue;
       }
 
-      const topLevelElement = parseTopLevelElement(child, pCounts, this.options);
+      const topLevelElement = this.parseTopLevelElement(child, pCounts);
       paragraphs.push(...topLevelElement);
 
       if (child.tagName === 'p') {
@@ -42,6 +49,35 @@ export class HtmlParser {
 
     return paragraphs;
   }
+
+  private parseTopLevelElement = (element: Element, pIndex: number): ParseResult[] => {
+    switch (element.tagName) {
+      case 'p':
+        return parseParagraph(element, pIndex, this.options);
+      case 'strong':
+      case 'i':
+      case 'u':
+      case 's':
+        return [new Paragraph({ children: parseParagraphChild(element) })];
+      case 'h1':
+        return parseHeader(element, HeadingLevel.HEADING_1);
+      case 'h2':
+        return parseHeader(element, HeadingLevel.HEADING_2);
+      case 'h3':
+        return parseHeader(element, HeadingLevel.HEADING_3);
+      case 'h4':
+        return parseHeader(element, HeadingLevel.HEADING_4);
+      case 'ul':
+      case 'ol':
+        return parseList(element, 0);
+      case 'figure':
+        return parseFigure(element, this.options);
+      case 'blockquote':
+        return parseBlockquote(element);
+      default:
+        throw new Error(`Unsupported top tag ${element.tagName}`);
+    }
+  };
 
   postProcess(docxTree: ParseResult[]) {
     const results: (Paragraph | Table)[] = [];

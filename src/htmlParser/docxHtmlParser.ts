@@ -119,7 +119,7 @@ const parseListItem = (element: Node, options: IParagraphOptions, level: number)
   throw new Error('The child of list should be list item');
 };
 
-const parseList = (element: Element, level: number): Paragraph[] => {
+export const parseList = (element: Element, level: number): Paragraph[] => {
   const ulParagraphOption: IParagraphOptions = { bullet: { level } };
   const olParagraphOption: IParagraphOptions = { numbering: { reference: DEFAULT_NUMBERING_REF, level } };
 
@@ -133,7 +133,7 @@ const parseList = (element: Element, level: number): Paragraph[] => {
   }
 };
 
-const parseHeader = (element: Element, level: HeadingLevel): Paragraph[] => {
+export const parseHeader = (element: Element, level: HeadingLevel): Paragraph[] => {
   const h1options: IParagraphOptions = {
     heading: level,
     alignment: parseTextAlignment(element.attributes),
@@ -151,7 +151,7 @@ const getIndent = (paragraphIndex: number, docxExportOptions: DocxExportOptions)
   return { firstLine: convertMillimetersToTwip(FIRST_LINE_INDENT_MILLIMETERS) };
 };
 
-const parseParagraph = (element: Element, index: number, docxExportOptions: DocxExportOptions): Paragraph[] => {
+export const parseParagraph = (element: Element, index: number, docxExportOptions: DocxExportOptions): Paragraph[] => {
   const pOptions: IParagraphOptions = {
     alignment: parseTextAlignment(element.attributes),
     children: element.children.flatMap(child => parseParagraphChild(child)),
@@ -161,7 +161,7 @@ const parseParagraph = (element: Element, index: number, docxExportOptions: Docx
   return [new Paragraph(pOptions)];
 };
 
-const parseBlockquote = (element: Element): Paragraph[] => {
+export const parseBlockquote = (element: Element): Paragraph[] => {
   return element.children.map(child => {
     const options: IParagraphOptions = {
       alignment: parseTextAlignment(element.attributes),
@@ -183,7 +183,7 @@ const parseBlockquote = (element: Element): Paragraph[] => {
   });
 };
 
-const parseFigure = (element: Element, docxExportOptions: DocxExportOptions): ParseResult[] => {
+export const parseFigure = (element: Element, docxExportOptions: DocxExportOptions): ParseResult[] => {
   const attributesMap = getAttributeMap(element.attributes);
   const classString = attributesMap['class'] || '';
   const classes = classString.split(' ');
@@ -195,37 +195,4 @@ const parseFigure = (element: Element, docxExportOptions: DocxExportOptions): Pa
   }
 
   throw new Error(`Unsupported figure with class ${attributesMap['class']}`);
-};
-
-export const parseTopLevelElement = (
-  element: Element,
-  pIndex: number,
-  docxExportOptions: DocxExportOptions
-): ParseResult[] => {
-  switch (element.tagName) {
-    case 'p':
-      return parseParagraph(element, pIndex, docxExportOptions);
-    case 'strong':
-    case 'i':
-    case 'u':
-    case 's':
-      return [new Paragraph({ children: parseParagraphChild(element) })];
-    case 'h1':
-      return parseHeader(element, HeadingLevel.HEADING_1);
-    case 'h2':
-      return parseHeader(element, HeadingLevel.HEADING_2);
-    case 'h3':
-      return parseHeader(element, HeadingLevel.HEADING_3);
-    case 'h4':
-      return parseHeader(element, HeadingLevel.HEADING_4);
-    case 'ul':
-    case 'ol':
-      return parseList(element, 0);
-    case 'figure':
-      return parseFigure(element, docxExportOptions);
-    case 'blockquote':
-      return parseBlockquote(element);
-    default:
-      throw new Error(`Unsupported top tag ${element.tagName}`);
-  }
 };
