@@ -17,11 +17,12 @@ import {
 
 import { Element, Node, Styles } from 'himalaya';
 import { ColorTranslator } from 'colortranslator';
-import { parseParagraphChild, parseTopLevelElement } from './docxHtmlParser';
+import { parseParagraphChild } from './docxHtmlParser';
 import { DocxExportOptions } from '../options';
-import { covertPixelsToPoints, getAttributeMap, parseStyles } from './common';
+import { covertPixelsToPoints, getAttributeMap, parseStyles } from './utils';
 import { getPageWidth, getTableIndent } from '../docxSectionHelpers';
 import { ITableCellMarginOptions } from 'docx/build/file/table/table-properties/table-cell-margin';
+import { HtmlParser } from './HtmlParser';
 
 const INLINE_TEXT_ELEMENTS = ['strong', 'i', 'u', 's', 'a'];
 
@@ -45,7 +46,7 @@ const parseTableCellChildren = (nodes: Node[], docxExportOptions: DocxExportOpti
   }
 
   return nodes.flatMap((node, index) => {
-    if (node.type === 'element') return parseTopLevelElement(node, index, docxExportOptions);
+    if (node.type === 'element') return new HtmlParser(docxExportOptions).parseTopLevelElement(node, index);
 
     return [];
   });

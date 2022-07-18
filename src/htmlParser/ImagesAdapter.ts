@@ -1,7 +1,7 @@
 import axios from 'axios';
 import { Node } from 'himalaya';
 import { ImageMap } from '../options';
-import { getAttributeMap } from './common';
+import { getAttributeMap } from './utils';
 
 export class ImagesAdapter {
   private imagesMap: ImageMap = {};

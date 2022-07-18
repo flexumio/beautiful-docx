@@ -1,16 +1,14 @@
-import { HeadingLevel, ImageRun, Paragraph, Table } from 'docx';
+import { HeadingLevel, Paragraph as IParagraph, ImageRun, Table } from 'docx';
 import { Element, Node, parse } from 'himalaya';
 import { DocxExportOptions } from '../options';
-import { ParseResult } from './common';
-import {
-  parseBlockquote,
-  parseFigure,
-  parseHeader,
-  parseList,
-  parseParagraph,
-  parseParagraphChild,
-} from './docxHtmlParser';
+import { Blockquote } from './Blockquote';
+import { ParseResult } from './utils';
+import { Figure, parseParagraphChild } from './docxHtmlParser';
+import { Header } from './Header';
 import { ImagesAdapter } from './ImagesAdapter';
+import { Paragraph } from './Paragraph';
+import { TextBlock } from './TextBlock';
+import { List } from './List';
 
 export class HtmlParser {
   constructor(public options: DocxExportOptions) {}
@@ -50,30 +48,30 @@ export class HtmlParser {
     return paragraphs;
   }
 
-  private parseTopLevelElement = (element: Element, pIndex: number): ParseResult[] => {
+  parseTopLevelElement = (element: Element, pIndex: number): ParseResult[] => {
     switch (element.tagName) {
       case 'p':
-        return parseParagraph(element, pIndex, this.options);
+        return [new Paragraph(element, pIndex, this.options)];
       case 'strong':
       case 'i':
       case 'u':
       case 's':
-        return [new Paragraph({ children: parseParagraphChild(element) })];
+        return [new TextBlock({ children: parseParagraphChild(element) })];
       case 'h1':
-        return parseHeader(element, HeadingLevel.HEADING_1);
+        return [new Header(element, HeadingLevel.HEADING_1)];
       case 'h2':
-        return parseHeader(element, HeadingLevel.HEADING_2);
+        return [new Header(element, HeadingLevel.HEADING_2)];
       case 'h3':
-        return parseHeader(element, HeadingLevel.HEADING_3);
+        return [new Header(element, HeadingLevel.HEADING_3)];
       case 'h4':
-        return parseHeader(element, HeadingLevel.HEADING_4);
+        return [new Header(element, HeadingLevel.HEADING_4)];
       case 'ul':
       case 'ol':
-        return parseList(element, 0);
+        return new List(element, 0).getChildren();
       case 'figure':
-        return parseFigure(element, this.options);
+        return new Figure(element, this.options).getChildren();
       case 'blockquote':
-        return parseBlockquote(element);
+        return element.children.map(i => new Blockquote(i, element));
       default:
         throw new Error(`Unsupported top tag ${element.tagName}`);
     }
@@ -99,7 +97,7 @@ export class HtmlParser {
       }
 
       if (isCurrentItemImage && !isNextItemParagraph) {
-        results.push(new Paragraph({ children: [currentItem] }));
+        results.push(new IParagraph({ children: [currentItem] }));
         iterator += 1;
         continue;
       }

@@ -1,0 +1,35 @@
+import { IParagraphOptions } from 'docx';
+import { Node } from 'himalaya';
+import { parseParagraphChild } from './docxHtmlParser';
+import { List } from './List';
+import { TextBlock } from './TextBlock';
+import { isListTag, parseTextAlignment } from './utils';
+
+export class ListItem extends TextBlock {
+  nestedLists: ListItem[] = [];
+  constructor(element: Node, options: IParagraphOptions, level: number) {
+    if (!(element.type === 'element' && element.tagName === 'li')) {
+      throw new Error('The child of list should be list item');
+    }
+
+    const liOptions: IParagraphOptions = {
+      ...options,
+      alignment: parseTextAlignment(element.attributes),
+      children: [],
+    };
+
+    element.children.forEach(child => {
+      if (child.type === 'element' && isListTag(child.tagName)) {
+        this.nestedLists.push(...new List(child, level + 1).getChildren());
+      } else {
+        liOptions.children?.push(...parseParagraphChild(child));
+      }
+    });
+
+    super(options);
+  }
+
+  getElements() {
+    return [this, ...this.nestedLists];
+  }
+}

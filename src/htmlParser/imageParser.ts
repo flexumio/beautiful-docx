@@ -12,7 +12,7 @@ import {
 } from 'docx';
 import { Element } from 'himalaya';
 import { DocxExportOptions } from '../options';
-import { convertTwipToPixels, getAttributeMap, parseStyles } from './common';
+import { convertTwipToPixels, getAttributeMap, parseStyles } from './utils';
 import { getPageWidth } from '../docxSectionHelpers';
 
 const getHorizontalPositionAlign = (classes: string[]): HorizontalPositionAlign => {

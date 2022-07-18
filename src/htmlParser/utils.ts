@@ -1,5 +1,16 @@
-import { convertInchesToTwip, ImageRun, Paragraph, Table, TableOfContents } from 'docx';
+import {
+  AlignmentType,
+  convertInchesToTwip,
+  convertMillimetersToTwip,
+  ImageRun,
+  Paragraph,
+  Table,
+  TableOfContents,
+} from 'docx';
 import { Attribute, Styles } from 'himalaya';
+import { DocxExportOptions } from '../options';
+
+const FIRST_LINE_INDENT_MILLIMETERS = 6;
 
 export type ParseResult = Paragraph | Table | TableOfContents | ImageRun;
 
@@ -55,4 +66,39 @@ export const convertPixelsToTwip = (pixels: number): number => {
 
 export const convertTwipToPixels = (twip: number): number => {
   return Math.floor(twip / 15);
+};
+
+export const parseTextAlignment = (attribs: Attribute[]): AlignmentType => {
+  const cellAttributes = getAttributeMap(attribs);
+  const style = parseStyles(cellAttributes['style']);
+
+  switch (style['text-align']) {
+    case 'justify':
+      return AlignmentType.JUSTIFIED;
+    case 'left':
+      return AlignmentType.LEFT;
+    case 'right':
+      return AlignmentType.RIGHT;
+    case 'center':
+      return AlignmentType.CENTER;
+    default:
+      return AlignmentType.LEFT;
+  }
+};
+
+export const cleanTextContent = (content: string) => {
+  // replace &nbsp; characters
+  return content.replace(/&nbsp;/g, ' ').trim();
+};
+
+export const getIndent = (paragraphIndex: number, docxExportOptions: DocxExportOptions) => {
+  if (paragraphIndex === 0 || docxExportOptions.ignoreIndentation) {
+    return undefined;
+  }
+
+  return { firstLine: convertMillimetersToTwip(FIRST_LINE_INDENT_MILLIMETERS) };
+};
+
+export const isListTag = (tagName: string): boolean => {
+  return tagName === 'ul' || tagName === 'ol';
 };
