@@ -14,7 +14,7 @@ import {
   TextRun,
   UnderlineType,
 } from 'docx';
-import { DEFAULT_NUMBERING_REF } from '../docxStylesHelper';
+import { DEFAULT_NUMBERING_REF } from '../DocumentBuilder';
 import { DocxExportOptions } from '../options';
 import { parseTable } from './tableParser';
 import { getAttributeMap, ParseResult, parseStyles } from './common';

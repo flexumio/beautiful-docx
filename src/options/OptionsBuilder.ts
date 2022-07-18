@@ -1,5 +1,5 @@
 import { DeepPartial } from '../utils';
-import { defaultExportOptions, DocxExportOptions, PageFormat, PageOrientation } from './optionsConfig';
+import { defaultExportOptions, DocxExportOptions } from './optionsConfig';
 import merge from 'ts-deepmerge';
 import { userOptionsSchema } from './schema';
 
