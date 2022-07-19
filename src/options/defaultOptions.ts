@@ -1,6 +1,7 @@
 import { DeepPartial } from '../utils';
 import { DocxExportOptions, PageFormat, PageOrientation } from './docxOptions';
 import merge from 'ts-deepmerge';
+import { userOptionsSchema } from './validation';
 
 const TOP_MARGIN_DEFAULT = 19;
 const RIGHT_MARGIN_DEFAULT = 12.7;
@@ -41,6 +42,7 @@ export const defaultExportOptions: DocxExportOptions = {
 
 export const mergeWithDefaultOptions = (userInputOptions?: DeepPartial<DocxExportOptions>): DocxExportOptions => {
   if (userInputOptions === undefined) return defaultExportOptions;
+  userOptionsSchema.parse(userInputOptions);
 
   return merge(defaultExportOptions, userInputOptions);
 };
