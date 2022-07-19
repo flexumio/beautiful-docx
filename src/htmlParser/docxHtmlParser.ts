@@ -2,9 +2,10 @@ import { Node, Element } from 'himalaya';
 import { ExternalHyperlink, IRunOptions, ParagraphChild, TextRun, UnderlineType } from 'docx';
 
 import { DocxExportOptions } from '../options';
-import { parseTable } from './tableParser';
+
 import { cleanTextContent, getAttributeMap, ParseResult } from './utils';
 import { parseImage } from './imageParser';
+import { TableCreator } from './Table';
 
 export const parseParagraphChild = (element: Node, textOptions: IRunOptions = {}): ParagraphChild[] => {
   if (element.type === 'text') {
@@ -52,20 +53,6 @@ export const parseParagraphChild = (element: Node, textOptions: IRunOptions = {}
   return [];
 };
 
-export const parseFigure = (element: Element, docxExportOptions: DocxExportOptions): ParseResult[] => {
-  const attributesMap = getAttributeMap(element.attributes);
-  const classString = attributesMap['class'] || '';
-  const classes = classString.split(' ');
-
-  if (classes.includes('table')) {
-    return parseTable(element, docxExportOptions);
-  } else if (classes.includes('image')) {
-    return parseImage(element, docxExportOptions);
-  }
-
-  throw new Error(`Unsupported figure with class ${attributesMap['class']}`);
-};
-
 export class Figure {
   private children: ParseResult[];
   constructor(element: Element, docxExportOptions: DocxExportOptions) {
@@ -75,7 +62,13 @@ export class Figure {
     const classes = classString.split(' ');
 
     if (classes.includes('table')) {
-      this.children = parseTable(element, docxExportOptions);
+      const tableNode = element.children.find(i => i.type === 'element' && i.tagName === 'table') as Element;
+
+      if (!tableNode) {
+        throw new Error('No table element found');
+      }
+
+      this.children = new TableCreator(tableNode, docxExportOptions).create();
     } else if (classes.includes('image')) {
       this.children = parseImage(element, docxExportOptions);
     } else {

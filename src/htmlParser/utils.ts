@@ -102,3 +102,11 @@ export const getIndent = (paragraphIndex: number, docxExportOptions: DocxExportO
 export const isListTag = (tagName: string): boolean => {
   return tagName === 'ul' || tagName === 'ol';
 };
+
+export const getPageWidth = (exportOptions: DocxExportOptions): number => {
+  return (
+    convertInchesToTwip(exportOptions.page.size.width) -
+    convertMillimetersToTwip(exportOptions.page.margins.right) -
+    convertMillimetersToTwip(exportOptions.page.margins.left)
+  );
+};

@@ -13,6 +13,5 @@ export class Header extends TextBlock {
       children: element.children.flatMap(child => parseParagraphChild(child)),
     };
     super(options);
-    this.options = options;
   }
 }
