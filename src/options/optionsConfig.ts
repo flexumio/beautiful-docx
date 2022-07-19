@@ -53,6 +53,7 @@ export type FontOptions = {
   };
 };
 
+// TODO: write docs for options
 export type DocxExportOptions = {
   page: PageOptions;
   font: FontOptions;

@@ -5,10 +5,11 @@
 The simplest example is:
 
 ```typescript
-import { generateDocx } from 'html-to-docx-ts';
+import { HtmlToDocx } from 'html-to-docx-ts';
 import * as fs from 'fs';
 
-const buffer = await generateDocx('<p>Something</p>');
+const htmlToDocx = new HtmlToDocx();
+const buffer = await htmlToDocx.generateDocx('<p>Something</p>');
 
 fs.writeFileSync('test.docx', buffer);
 ```
@@ -19,10 +20,11 @@ It's possible to overwrite default docx options:
 import { generateDocx } from 'html-to-docx-ts';
 import * as fs from 'fs';
 
-const buffer = await generateDocx('<p>Something</p>', {
+const htmlToDocx = new HtmlToDocx({
   pageWidth: 5,
   pageHeight: 6,
 });
+const buffer = await htmlToDocx.generateDocx('<p>Something</p>');
 
 fs.writeFileSync('test.docx', buffer);
 ```
