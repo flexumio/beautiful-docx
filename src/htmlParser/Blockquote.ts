@@ -1,6 +1,6 @@
 import { BorderStyle, convertMillimetersToTwip, IParagraphOptions } from 'docx';
 import { Element, Node } from 'himalaya';
-import { parseParagraphChild } from './docxHtmlParser';
+import { TextInline } from './TextInline';
 import { TextBlock } from './TextBlock';
 import { parseTextAlignment } from './utils';
 
@@ -15,11 +15,11 @@ export class Blockquote extends TextBlock {
       children:
         node.type === 'element'
           ? node.children.flatMap(child =>
-              parseParagraphChild(child, {
+              new TextInline(child, {
                 italics: true,
-              })
+              }).getContent()
             )
-          : parseParagraphChild(node),
+          : new TextInline(node).getContent(),
       border: {
         left: { style: BorderStyle.SINGLE, size: BLOCKQUOTE_SIZE, color: BLOCKQUOTE_COLOR, space: BLOCKQUOTE_SPACE },
       },

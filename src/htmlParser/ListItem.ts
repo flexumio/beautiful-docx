@@ -1,6 +1,6 @@
 import { IParagraphOptions } from 'docx';
 import { Node } from 'himalaya';
-import { parseParagraphChild } from './docxHtmlParser';
+import { TextInline } from './TextInline';
 import { List } from './List';
 import { TextBlock } from './TextBlock';
 import { isListTag, parseTextAlignment } from './utils';
@@ -22,7 +22,7 @@ export class ListItem extends TextBlock {
       if (child.type === 'element' && isListTag(child.tagName)) {
         this.nestedLists.push(...new List(child, level + 1).getChildren());
       } else {
-        liOptions.children?.push(...parseParagraphChild(child));
+        liOptions.children?.push(...new TextInline(child).getContent());
       }
     });
 

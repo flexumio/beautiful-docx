@@ -12,8 +12,7 @@ import {
 } from 'docx';
 import { Element } from 'himalaya';
 import { DocxExportOptions } from '../options';
-import { convertTwipToPixels, getAttributeMap, parseStyles } from './utils';
-import { getPageWidth } from '../docxSectionHelpers';
+import { convertTwipToPixels, getAttributeMap, getPageWidth, parseStyles } from './utils';
 
 const getHorizontalPositionAlign = (classes: string[]): HorizontalPositionAlign => {
   if (classes.includes('image-style-block-align-left') || classes.includes('image-style-align-left')) {

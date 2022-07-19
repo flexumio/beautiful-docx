@@ -2,7 +2,7 @@ import { ColorTranslator } from 'colortranslator';
 import { ShadingType, TableCell, VerticalAlign } from 'docx';
 import { Element, Styles } from 'himalaya';
 import { DocxExportOptions } from '../../options';
-import { parseParagraphChild } from '../docxHtmlParser';
+import { TextInline } from '../TextInline';
 import { HtmlParser } from '../HtmlParser';
 import { TextBlock } from '../TextBlock';
 import { AttributeMap, getAttributeMap, parseStyles } from '../utils';
@@ -33,7 +33,7 @@ export class Cell {
     const firstNode = nodes[0];
 
     if (isInlineTextElement(firstNode)) {
-      return [new TextBlock({ children: nodes.flatMap(node => parseParagraphChild(node)) })];
+      return [new TextBlock({ children: nodes.flatMap(node => new TextInline(node).getContent()) })];
     }
 
     return nodes.flatMap((node, index) => {

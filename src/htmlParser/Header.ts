@@ -2,7 +2,7 @@ import { TextBlock } from './TextBlock';
 import { HeadingLevel } from 'docx';
 import { Element } from 'himalaya';
 
-import { parseParagraphChild } from './docxHtmlParser';
+import { TextInline } from './TextInline';
 import { parseTextAlignment } from './utils';
 
 export class Header extends TextBlock {
@@ -10,7 +10,7 @@ export class Header extends TextBlock {
     const options = {
       heading: level,
       alignment: parseTextAlignment(element.attributes),
-      children: element.children.flatMap(child => parseParagraphChild(child)),
+      children: element.children.flatMap(child => new TextInline(child).getContent()),
     };
     super(options);
   }

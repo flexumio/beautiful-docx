@@ -3,12 +3,14 @@ import { Element, Node, parse } from 'himalaya';
 import { DocxExportOptions } from '../options';
 import { Blockquote } from './Blockquote';
 import { ParseResult } from './utils';
-import { Figure, parseParagraphChild } from './docxHtmlParser';
+
 import { Header } from './Header';
 import { ImagesAdapter } from './ImagesAdapter';
 import { Paragraph } from './Paragraph';
 import { TextBlock } from './TextBlock';
 import { List } from './List';
+import { TextInline } from './TextInline';
+import { Figure } from './Figure';
 
 export class HtmlParser {
   constructor(public options: DocxExportOptions) {}
@@ -56,7 +58,7 @@ export class HtmlParser {
       case 'i':
       case 'u':
       case 's':
-        return [new TextBlock({ children: parseParagraphChild(element) })];
+        return [new TextBlock({ children: new TextInline(element).getContent() })];
       case 'h1':
         return [new Header(element, HeadingLevel.HEADING_1)];
       case 'h2':
