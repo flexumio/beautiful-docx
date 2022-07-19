@@ -6,13 +6,15 @@ import { AttributeMap, getAttributeMap, getPageWidth, parseStyles } from '../uti
 import { getTableIndent, parseBorderOptions } from './utils';
 import { TextBlock } from '../TextBlock';
 import { Cell } from './Cell';
+import { DocxFragment } from '../DocxFragment';
 
-export class TableCreator {
+export class TableCreator implements DocxFragment<TextBlock | Table> {
   private attr: AttributeMap;
   private table: Table;
   private colGroup: Element | null = null;
   private rows: TableRow[] = [];
   private styles: Styles;
+  content: (TextBlock | Table)[];
 
   constructor(private element: Element, public exportOptions: DocxExportOptions) {
     this.attr = getAttributeMap(element.attributes);
@@ -35,9 +37,11 @@ export class TableCreator {
       },
       columnWidths: this.columnWidth,
     });
+
+    this.content = this.create();
   }
 
-  create() {
+  private create() {
     return [new TextBlock({ children: [] }), this.table, new TextBlock({ children: [] })];
   }
 
@@ -96,7 +100,7 @@ export class TableCreator {
       switch (child.tagName) {
         case 'th':
         case 'td':
-          children.push(new Cell(child, this.exportOptions, isHeader).create());
+          children.push(...new Cell(child, this.exportOptions, isHeader).getContent());
           break;
         default:
           throw new Error(`Unsupported row element: ${child.tagName}`);
@@ -108,6 +112,10 @@ export class TableCreator {
 
   private setColGroup(colGroup: Element) {
     this.colGroup = colGroup;
+  }
+
+  getContent() {
+    return this.content;
   }
 
   private get columnsCount() {

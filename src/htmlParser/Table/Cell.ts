@@ -7,16 +7,21 @@ import { HtmlParser } from '../HtmlParser';
 import { TextBlock } from '../TextBlock';
 import { AttributeMap, getAttributeMap, parseStyles } from '../utils';
 import { isInlineTextElement, parseBorderOptions } from './utils';
+import { DocxFragment } from '../DocxFragment';
 
-export class Cell {
+export class Cell implements DocxFragment<TableCell> {
   attributes: AttributeMap;
   styles: Styles;
+  content: TableCell[];
+
   constructor(private element: Element, public exportOptions: DocxExportOptions, public isHeader: boolean) {
     this.attributes = getAttributeMap(element.attributes);
     this.styles = parseStyles(this.attributes.styles);
+
+    this.content = [this.create()];
   }
 
-  public create() {
+  private create() {
     return new TableCell({
       margins: this.margins,
       rowSpan: parseInt(this.attributes['rowspan'] || '1'),
@@ -43,6 +48,10 @@ export class Cell {
 
       return new HtmlParser(this.exportOptions).parseTopLevelElement(node, index);
     });
+  }
+
+  getContent(): TableCell[] {
+    return this.content;
   }
 
   get cellShading() {

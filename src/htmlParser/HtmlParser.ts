@@ -53,27 +53,27 @@ export class HtmlParser {
   parseTopLevelElement = (element: Element, pIndex: number): ParseResult[] => {
     switch (element.tagName) {
       case 'p':
-        return [new Paragraph(element, pIndex, this.options)];
+        return new Paragraph(element, pIndex, this.options).getContent();
       case 'strong':
       case 'i':
       case 'u':
       case 's':
-        return [new TextBlock({ children: new TextInline(element).getContent() })];
+        return new TextBlock({ children: new TextInline(element).getContent() }).getContent();
       case 'h1':
-        return [new Header(element, HeadingLevel.HEADING_1)];
+        return new Header(element, HeadingLevel.HEADING_1).getContent();
       case 'h2':
-        return [new Header(element, HeadingLevel.HEADING_2)];
+        return new Header(element, HeadingLevel.HEADING_2).getContent();
       case 'h3':
-        return [new Header(element, HeadingLevel.HEADING_3)];
+        return new Header(element, HeadingLevel.HEADING_3).getContent();
       case 'h4':
-        return [new Header(element, HeadingLevel.HEADING_4)];
+        return new Header(element, HeadingLevel.HEADING_4).getContent();
       case 'ul':
       case 'ol':
-        return new List(element, 0).getChildren();
+        return new List(element, 0).getContent();
       case 'figure':
-        return new Figure(element, this.options).getChildren();
+        return new Figure(element, this.options).getContent();
       case 'blockquote':
-        return element.children.map(i => new Blockquote(i, element));
+        return new Blockquote(element).getContent();
       default:
         throw new Error(`Unsupported top tag ${element.tagName}`);
     }

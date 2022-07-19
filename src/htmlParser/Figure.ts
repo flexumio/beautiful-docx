@@ -1,11 +1,12 @@
 import { Element } from 'himalaya';
 import { DocxExportOptions } from '../options';
+import { DocxFragment } from './DocxFragment';
 import { parseImage } from './imageParser';
 import { TableCreator } from './Table';
 import { getAttributeMap, ParseResult } from './utils';
 
-export class Figure {
-  private children: ParseResult[];
+export class Figure implements DocxFragment<ParseResult> {
+  content: ParseResult[];
   constructor(element: Element, docxExportOptions: DocxExportOptions) {
     const attributesMap = getAttributeMap(element.attributes);
     // TODO: rework with tagName
@@ -19,14 +20,14 @@ export class Figure {
         throw new Error('No table element found');
       }
 
-      this.children = new TableCreator(tableNode, docxExportOptions).create();
+      this.content = new TableCreator(tableNode, docxExportOptions).getContent();
     } else if (classes.includes('image')) {
-      this.children = parseImage(element, docxExportOptions);
+      this.content = parseImage(element, docxExportOptions);
     } else {
       throw new Error(`Unsupported figure with class ${attributesMap['class']}`);
     }
   }
-  getChildren() {
-    return this.children;
+  getContent() {
+    return this.content;
   }
 }
