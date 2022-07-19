@@ -1,7 +1,7 @@
 import { Element } from 'himalaya';
 import { DocxExportOptions } from '../options';
 import { DocxFragment } from './DocxFragment';
-import { parseImage } from './imageParser';
+import { Image } from './Image';
 import { TableCreator } from './Table';
 import { getAttributeMap, ParseResult } from './utils';
 
@@ -22,7 +22,7 @@ export class Figure implements DocxFragment<ParseResult> {
 
       this.content = new TableCreator(tableNode, docxExportOptions).getContent();
     } else if (classes.includes('image')) {
-      this.content = parseImage(element, docxExportOptions);
+      this.content = new Image(element, docxExportOptions).getContent();
     } else {
       throw new Error(`Unsupported figure with class ${attributesMap['class']}`);
     }

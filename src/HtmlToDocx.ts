@@ -1,6 +1,6 @@
 import { Packer } from 'docx';
 import { DocumentBuilder } from './DocumentBuilder';
-import { HtmlParser } from './htmlParser/HtmlParser';
+import { HtmlParser } from './htmlParser';
 
 import { DocxExportOptions, OptionsBuilder } from './options';
 import { DeepPartial } from './utils';

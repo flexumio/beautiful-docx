@@ -1,1 +1,1 @@
-export * from './TextInline';
+export * from './HtmlParser';
