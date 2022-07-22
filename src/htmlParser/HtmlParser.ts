@@ -78,30 +78,4 @@ export class HtmlParser {
         throw new Error(`Unsupported top tag ${element.tagName}`);
     }
   };
-
-  postProcess(docxTree: IText[]) {
-    return docxTree;
-    // const results: (IParagraph | Table)[] = [];
-    // let iterator = 0;
-    // while (iterator < docxTree.length) {
-    //   const currentItem = docxTree[iterator];
-    //   const nextItem = docxTree[iterator + 1];
-    //   const isCurrentItemImage = currentItem instanceof ImageRun;
-    //   const isNextItemParagraph = nextItem instanceof IParagraph;
-    //   if (isCurrentItemImage && isNextItemParagraph) {
-    //     nextItem.addChildElement(currentItem);
-    //     results.push(nextItem);
-    //     iterator += 2;
-    //     continue;
-    //   }
-    //   if (isCurrentItemImage && !isNextItemParagraph) {
-    //     results.push(new IParagraph({ children: [currentItem] }));
-    //     iterator += 1;
-    //     continue;
-    //   }
-    //   results.push(currentItem);
-    //   iterator += 1;
-    // }
-    // return results;
-  }
 }

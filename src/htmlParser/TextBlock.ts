@@ -29,7 +29,6 @@ export class TextBlock implements IText {
 
   constructor(public options: IParagraphOptions, public children: IText[]) {
     this.content = [this];
-
     this.children = children.filter(i => !(i instanceof TextInline && i.isEmpty));
     if (this.children.length === 0) {
       this.content = [];
@@ -51,5 +50,5 @@ export class TextBlock implements IText {
 }
 
 export type TextType = InlineTextType | BlockTextType;
-export type BlockTextType = 'paragraph' | 'text' | 'heading' | 'list' | 'list-item';
+export type BlockTextType = 'paragraph' | 'text' | 'heading' | 'list' | 'list-item' | 'blockquote';
 export type InlineTextType = 'br' | 'text' | 'strong' | 'i' | 'u' | 's' | 'a';

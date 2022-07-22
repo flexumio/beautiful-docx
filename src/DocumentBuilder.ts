@@ -4,11 +4,13 @@ import {
   convertMillimetersToTwip,
   Document,
   Footer,
+  ImageRun,
   LevelFormat,
   LevelSuffix,
   NumberFormat,
   PageNumber,
   Paragraph,
+  Table,
   TextRun,
 } from 'docx';
 import { IText } from './htmlParser/TextBlock';
@@ -32,10 +34,35 @@ export class DocumentBuilder {
           footers: {
             default: this.getFooter(),
           },
-          children: content.flatMap(i => i.transformToDocx()) as Paragraph[],
+          children: this.postProcessContent(content.flatMap(i => i.transformToDocx()) as Paragraph[]),
         },
       ],
     });
+  }
+
+  private postProcessContent(docxTree: Paragraph[]) {
+    const results: (Paragraph | Table)[] = [];
+    let iterator = 0;
+    while (iterator < docxTree.length) {
+      const currentItem = docxTree[iterator];
+      const nextItem = docxTree[iterator + 1];
+      const isCurrentItemImage = currentItem instanceof ImageRun;
+      const isNextItemParagraph = nextItem instanceof Paragraph;
+      if (isCurrentItemImage && isNextItemParagraph) {
+        nextItem.addChildElement(currentItem);
+        results.push(nextItem);
+        iterator += 2;
+        continue;
+      }
+      if (isCurrentItemImage && !isNextItemParagraph) {
+        results.push(new Paragraph({ children: [currentItem] }));
+        iterator += 1;
+        continue;
+      }
+      results.push(currentItem);
+      iterator += 1;
+    }
+    return results;
   }
 
   private getStyles() {
