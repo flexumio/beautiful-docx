@@ -17,7 +17,27 @@ const main = async () => {
     verticalSpaces: 0,
   });
   const buffer = await htmlToDocx.generateDocx(
-    '<p><s>Something</s><br/><i>sometimes</i></p> <br/> <br/><p>Something</p> <strong>bold</strong>'
+    `
+    <p>
+      <s>Something</s>
+      <br/>
+      <i>sometimes</i>
+    </p>
+    <br/>
+    <br/>
+    <p>Something</p>
+    <strong>bold</strong>
+    <ul>
+      <li>List Item</li>
+      <li>List Item</li>
+      <li>List Item</li>
+    </ul>
+    <ol>
+      <li>List Item</li>
+      <li>List Item</li>
+      <li>List Item</li>
+    </ol>
+    `
   );
   console.timeEnd('Loading');
   fs.writeFileSync('test-lib.docx', buffer);

@@ -9,10 +9,13 @@ const supportedTextTypes: InlineTextType[] = ['br', 'text', 'strong', 'i', 'u', 
 export class TextInline implements IText {
   type: InlineTextType;
   content: (string | IText)[];
+  isEmpty = false;
+
   constructor(private element: Node, public options: IRunOptions = {}, public children: Node[] = []) {
     if (this.element.type === 'text') {
       this.content = [this.element.content];
       this.type = 'text';
+      this.isEmpty = this.element.content.trim() === '';
       return;
     }
     if (this.element.type !== 'element') {

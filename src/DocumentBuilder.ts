@@ -22,7 +22,6 @@ export class DocumentBuilder {
   constructor(public options: DocxExportOptions) {}
 
   build(content: IText[]) {
-    console.log(content);
     return new Document({
       features: { updateFields: true },
       styles: this.getStyles(),

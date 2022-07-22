@@ -1,4 +1,4 @@
-import { Packer, Paragraph } from 'docx';
+import { Packer } from 'docx';
 import { DocumentBuilder } from './DocumentBuilder';
 import { HtmlParser } from './htmlParser';
 
