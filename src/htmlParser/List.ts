@@ -1,22 +1,24 @@
-import { IParagraphOptions } from 'docx';
+import { IParagraphOptions, Paragraph } from 'docx';
 import { Element } from 'himalaya';
 import { DEFAULT_NUMBERING_REF } from '../DocumentBuilder';
-import { DocxFragment } from './DocxFragment';
 import { ListItem } from './ListItem';
+import { TextType, IText } from './TextBlock';
 
-export class List implements DocxFragment<ListItem> {
-  content: ListItem[];
+export class List implements IText {
+  type: TextType = 'list';
+  content: IText[];
+  options: IParagraphOptions;
 
   constructor(element: Element, level: number) {
     switch (element.tagName) {
       case 'ul': {
-        const option: IParagraphOptions = { bullet: { level } };
-        this.content = element.children.flatMap(child => new ListItem(child, option, level).getContent());
+        this.options = { bullet: { level } };
+        this.content = element.children.flatMap(child => new ListItem(child, this.options, level).getContent());
         break;
       }
       case 'ol': {
-        const option: IParagraphOptions = { numbering: { reference: DEFAULT_NUMBERING_REF, level } };
-        this.content = element.children.flatMap(child => new ListItem(child, option, level).getContent());
+        this.options = { numbering: { reference: DEFAULT_NUMBERING_REF, level } };
+        this.content = element.children.flatMap(child => new ListItem(child, this.options, level).getContent());
         break;
       }
       default:
@@ -26,5 +28,9 @@ export class List implements DocxFragment<ListItem> {
 
   getContent() {
     return this.content;
+  }
+
+  transformToDocx() {
+    return this.content.flatMap(i => i.transformToDocx());
   }
 }

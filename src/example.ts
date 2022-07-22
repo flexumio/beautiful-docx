@@ -2,6 +2,7 @@ import { HtmlToDocx } from './index';
 import * as fs from 'fs';
 
 const main = async () => {
+  console.time('Loading');
   const htmlToDocx = new HtmlToDocx({
     page: {
       size: {
@@ -15,8 +16,10 @@ const main = async () => {
     },
     verticalSpaces: 0,
   });
-  const buffer = await htmlToDocx.generateDocx('<p>Something</p>');
-
+  const buffer = await htmlToDocx.generateDocx(
+    '<p><s>Something</s><br/><i>sometimes</i></p> <br/> <br/><p>Something</p> <strong>bold</strong>'
+  );
+  console.timeEnd('Loading');
   fs.writeFileSync('test-lib.docx', buffer);
 };
 

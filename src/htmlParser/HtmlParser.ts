@@ -1,4 +1,4 @@
-import { HeadingLevel, Paragraph as IParagraph, ImageRun, Table } from 'docx';
+import { HeadingLevel } from 'docx';
 import { Element, Node, parse } from 'himalaya';
 import { DocxExportOptions } from '../options';
 import { Blockquote } from './Blockquote';
@@ -10,7 +10,6 @@ import { Paragraph } from './Paragraph';
 import { TextBlock } from './TextBlock';
 import { List } from './List';
 import { TextInline } from './TextInline';
-import { Figure } from './Figure';
 
 export class HtmlParser {
   constructor(public options: DocxExportOptions) {}
@@ -22,7 +21,7 @@ export class HtmlParser {
 
     const docxTree = this.parseHtmlTree(parsedContent);
 
-    return this.postProcess(docxTree);
+    return docxTree;
   }
 
   async setImages(content: Node[]) {
@@ -50,7 +49,7 @@ export class HtmlParser {
     return paragraphs;
   }
 
-  parseTopLevelElement = (element: Element, pIndex: number): ParseResult[] => {
+  parseTopLevelElement = (element: Element, pIndex: number) => {
     switch (element.tagName) {
       case 'p':
         return new Paragraph(element, pIndex, this.options).getContent();
@@ -58,7 +57,8 @@ export class HtmlParser {
       case 'i':
       case 'u':
       case 's':
-        return new TextBlock({ children: new TextInline(element).getContent() }).getContent();
+      case 'br':
+        return new TextBlock({}, new TextInline(element).getContent()).getContent();
       case 'h1':
         return new Header(element, HeadingLevel.HEADING_1).getContent();
       case 'h2':
@@ -70,8 +70,8 @@ export class HtmlParser {
       case 'ul':
       case 'ol':
         return new List(element, 0).getContent();
-      case 'figure':
-        return new Figure(element, this.options).getContent();
+      // case 'figure':
+      //   return new Figure(element, this.options).getContent();
       case 'blockquote':
         return new Blockquote(element).getContent();
       default:
@@ -79,35 +79,35 @@ export class HtmlParser {
     }
   };
 
-  postProcess(docxTree: ParseResult[]) {
-    const results: (Paragraph | Table)[] = [];
+  //   postProcess(docxTree: ParseResult[]) {
+  //     const results: (IParagraph | Table)[] = [];
 
-    let iterator = 0;
+  //     let iterator = 0;
 
-    while (iterator < docxTree.length) {
-      const currentItem = docxTree[iterator];
-      const nextItem = docxTree[iterator + 1];
+  //     while (iterator < docxTree.length) {
+  //       const currentItem = docxTree[iterator];
+  //       const nextItem = docxTree[iterator + 1];
 
-      const isCurrentItemImage = currentItem instanceof ImageRun;
-      const isNextItemParagraph = nextItem instanceof Paragraph;
+  //       const isCurrentItemImage = currentItem instanceof ImageRun;
+  //       const isNextItemParagraph = nextItem instanceof IParagraph;
 
-      if (isCurrentItemImage && isNextItemParagraph) {
-        nextItem.addChildElement(currentItem);
-        results.push(nextItem);
-        iterator += 2;
-        continue;
-      }
+  //       if (isCurrentItemImage && isNextItemParagraph) {
+  //         nextItem.addChildElement(currentItem);
+  //         results.push(nextItem);
+  //         iterator += 2;
+  //         continue;
+  //       }
 
-      if (isCurrentItemImage && !isNextItemParagraph) {
-        results.push(new IParagraph({ children: [currentItem] }));
-        iterator += 1;
-        continue;
-      }
+  //       if (isCurrentItemImage && !isNextItemParagraph) {
+  //         results.push(new IParagraph({ children: [currentItem] }));
+  //         iterator += 1;
+  //         continue;
+  //       }
 
-      results.push(currentItem);
-      iterator += 1;
-    }
+  //       results.push(currentItem);
+  //       iterator += 1;
+  //     }
 
-    return results;
-  }
+  //     return results;
+  //   }
 }

@@ -1,4 +1,4 @@
-import { Packer } from 'docx';
+import { Packer, Paragraph } from 'docx';
 import { DocumentBuilder } from './DocumentBuilder';
 import { HtmlParser } from './htmlParser';
 
@@ -17,7 +17,6 @@ export class HtmlToDocx {
   public async generateDocx(html: string): Promise<Buffer> {
     const documentContent = await new HtmlParser(this.options).parse(html);
     const doc = new DocumentBuilder(this.options).build(documentContent);
-
     return await Packer.toBuffer(doc);
   }
 }

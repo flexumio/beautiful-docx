@@ -1,77 +1,76 @@
-import { Node } from 'himalaya';
+import { Element, Node } from 'himalaya';
 import { ExternalHyperlink, IRunOptions, ParagraphChild, TextRun, UnderlineType } from 'docx';
 
 import { cleanTextContent } from './utils';
-import { DocxFragment } from './DocxFragment';
 
-export class TextInline implements DocxFragment<ParagraphChild> {
-  content: ParagraphChild[];
-  constructor(element: Node, options: IRunOptions = {}) {
-    if (element.type === 'text') {
-      this.content = [new TextRun({ text: cleanTextContent(element.content), ...options })];
+import { InlineTextType, IText } from './TextBlock';
+
+const supportedTextTypes: InlineTextType[] = ['br', 'text', 'strong', 'i', 'u', 's', 'a'];
+export class TextInline implements IText {
+  type: InlineTextType;
+  content: (string | IText)[];
+  constructor(private element: Node, public options: IRunOptions = {}, public children: Node[] = []) {
+    if (this.element.type === 'text') {
+      this.content = [this.element.content];
+      this.type = 'text';
       return;
     }
-
-    if (element.type !== 'element') {
+    if (this.element.type !== 'element') {
       this.content = [];
+      this.type = 'text';
       return;
     }
-
-    switch (element.tagName) {
-      case 'br': {
-        this.content = [new TextRun({ break: 1 })];
-        break;
-      }
-      case 'strong': {
-        this.content = element.children.flatMap(child =>
-          new TextInline(child, { ...options, bold: true }).getContent()
-        );
-        break;
-      }
-      case 'i': {
-        this.content = element.children.flatMap(child =>
-          new TextInline(child, { ...options, italics: true }).getContent()
-        );
-        break;
-      }
-      case 'u': {
-        this.content = element.children.flatMap(child =>
-          new TextInline(child, {
-            ...options,
-            underline: { type: UnderlineType.SINGLE },
-          }).getContent()
-        );
-        break;
-      }
-      case 's': {
-        this.content = element.children.flatMap(child =>
-          new TextInline(child, {
-            ...options,
-            strike: true,
-          }).getContent()
-        );
-        break;
-      }
-      case 'a': {
-        this.content = [
-          new ExternalHyperlink({
-            link: element.attributes.find(item => item.key === 'href')?.value || '',
-            children: element.children.flatMap(child =>
-              new TextInline(child, {
-                ...options,
-              }).getContent()
-            ),
-          }),
-        ];
-        break;
-      }
-      default: {
-        throw new Error(`Unsupported ${element.tagName} tag`);
-      }
+    if (!supportedTextTypes.includes(this.element.tagName as InlineTextType)) {
+      throw new Error(`Unsupported ${this.element.tagName} tag`);
     }
+    this.options = { ...this.options, ...inlineTextOptionsDictionary[this.element.tagName as InlineTextType] };
+
+    this.content = this.element.children.flatMap(i => {
+      return new TextInline(i, this.options, (i.type === 'element' && i.children) || []).getContent();
+    });
+
+    this.type = this.element.tagName as InlineTextType;
   }
 
   getContent() {
-    return this.content;
+    return [this];
+  }
+
+  transformToDocx(): ParagraphChild[] {
+    if (this.type === 'br') {
+      return [new TextRun(this.options)];
+    }
+
+    return this.content.flatMap(content => {
+      if (typeof content === 'string') {
+        if (this.type === 'a') {
+          const element = this.element as Element;
+          return [
+            new ExternalHyperlink({
+              link: element.attributes.find(item => item.key === 'href')?.value || '',
+              children: element.children.flatMap(child =>
+                new TextInline(child, {
+                  ...this.options,
+                }).transformToDocx()
+              ),
+            }),
+          ];
+        }
+
+        return [new TextRun({ text: cleanTextContent(content), ...this.options })];
+      } else {
+        return content.transformToDocx();
+      }
+    });
   }
 }
+
+const inlineTextOptionsDictionary: { [key in InlineTextType]: IRunOptions } = {
+  br: { break: 1 },
+  text: {},
+  strong: { bold: true },
+  i: { italics: true },
+  u: { underline: { type: UnderlineType.SINGLE } },
+  s: { strike: true },
+  a: {},
+};

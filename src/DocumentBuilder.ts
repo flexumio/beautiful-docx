@@ -9,9 +9,9 @@ import {
   NumberFormat,
   PageNumber,
   Paragraph,
-  Table,
   TextRun,
 } from 'docx';
+import { IText } from './htmlParser/TextBlock';
 import { DocxExportOptions } from './options';
 
 export const FONT_TO_LINE_RATIO = 10;
@@ -21,7 +21,8 @@ export const DEFAULT_NUMBERING_REF = 'default-numbering';
 export class DocumentBuilder {
   constructor(public options: DocxExportOptions) {}
 
-  build(content: (Paragraph | Table)[]) {
+  build(content: IText[]) {
+    console.log(content);
     return new Document({
       features: { updateFields: true },
       styles: this.getStyles(),
@@ -32,7 +33,7 @@ export class DocumentBuilder {
           footers: {
             default: this.getFooter(),
           },
-          children: content,
+          children: content.flatMap(i => i.transformToDocx()) as Paragraph[],
         },
       ],
     });
