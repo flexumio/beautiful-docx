@@ -1,24 +1,11 @@
-// import { IParagraphOptions, Paragraph } from 'docx';
-// import { DocxFragment } from './DocxFragment';
-
-// export class TextBlock<T = Paragraph> extends Paragraph implements DocxFragment<T> {
-//   content: T[];
-//   constructor(public options: IParagraphOptions) {
-//     super(options);
-//     this.content = [this as unknown as T];
-//   }
-
-//   getContent() {
-//     return this.content;
-//   }
-// }
-import { IParagraphOptions, IRunOptions, Paragraph, ParagraphChild } from 'docx';
+import { IImageOptions, IParagraphOptions, IRunOptions, Paragraph, ParagraphChild } from 'docx';
 import { TextInline } from './TextInline';
 
+// TODO: change naming
 export interface IText {
   type: TextType;
   content: (string | IText)[];
-  options: IParagraphOptions | IRunOptions;
+  options?: IParagraphOptions | IRunOptions | IImageOptions;
   getContent(): IText[];
   transformToDocx(): (Paragraph | ParagraphChild)[];
 }
@@ -50,5 +37,5 @@ export class TextBlock implements IText {
 }
 
 export type TextType = InlineTextType | BlockTextType;
-export type BlockTextType = 'paragraph' | 'text' | 'heading' | 'list' | 'list-item' | 'blockquote';
+export type BlockTextType = 'paragraph' | 'text' | 'heading' | 'list' | 'list-item' | 'blockquote' | 'image' | 'figure';
 export type InlineTextType = 'br' | 'text' | 'strong' | 'i' | 'u' | 's' | 'a';

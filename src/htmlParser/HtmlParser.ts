@@ -10,6 +10,7 @@ import { Paragraph } from './Paragraph';
 import { IText, TextBlock } from './TextBlock';
 import { List } from './List';
 import { TextInline } from './TextInline';
+import { Figure } from './Figure';
 
 export class HtmlParser {
   constructor(public options: DocxExportOptions) {}
@@ -70,8 +71,9 @@ export class HtmlParser {
       case 'ul':
       case 'ol':
         return new List(element, 0).getContent();
-      // case 'figure':
-      //   return new Figure(element, this.options).getContent();
+      // TODO: added image | table support without figure tag
+      case 'figure':
+        return new Figure(element, this.options).getContent();
       case 'blockquote':
         return new Blockquote(element).getContent();
       default:

@@ -14,7 +14,7 @@ import {
 import { Element } from 'himalaya';
 import { DocxExportOptions } from '../options';
 import { convertTwipToPixels, getAttributeMap, getPageWidth, parseStyles } from './utils';
-import { DocxFragment } from './DocxFragment';
+import { IText, TextType } from './TextBlock';
 
 enum ImageOrientation {
   Horizontal = 1,
@@ -27,8 +27,9 @@ enum ImageOrientation {
   Rotate270 = 6,
 }
 
-export class Image implements DocxFragment<ImageRun> {
-  content: ImageRun[];
+export class Image implements IText {
+  type: TextType = 'image';
+  content: IText[];
   options: IImageOptions;
   classes: string[];
 
@@ -48,7 +49,7 @@ export class Image implements DocxFragment<ImageRun> {
     const imageBuffer = exportOptions.images[imageSourceUrl];
     this.options = this.createOptions(imageBuffer);
 
-    this.content = [new ImageRun(this.options)];
+    this.content = [this];
   }
 
   private createOptions(imageBuffer: Buffer) {
@@ -178,7 +179,11 @@ export class Image implements DocxFragment<ImageRun> {
     };
   }
 
-  getContent(): ImageRun[] {
+  getContent() {
     return this.content;
+  }
+
+  transformToDocx() {
+    return [new ImageRun(this.options)];
   }
 }
