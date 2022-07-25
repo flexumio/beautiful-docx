@@ -1,15 +1,16 @@
 import { Paragraph, ParagraphChild } from 'docx';
 import { Element } from 'himalaya';
-import { DocxExportOptions } from '../options';
+import { DocxExportOptions } from '../../options';
 
 import { Image } from './Image';
 import { TableCreator } from './Table';
-import { IText, TextType } from './TextBlock';
-import { getAttributeMap } from './utils';
+import { DocumentElement, DocumentElementType } from './DocumentElement';
+import { getAttributeMap } from '../utils';
 
-export class Figure implements IText {
-  type: TextType = 'figure';
-  content: IText[];
+export class Figure implements DocumentElement {
+  type: DocumentElementType = 'figure';
+
+  private content: DocumentElement[];
   constructor(element: Element, docxExportOptions: DocxExportOptions) {
     const attributesMap = getAttributeMap(element.attributes);
     // TODO: rework with tagName
@@ -32,6 +33,7 @@ export class Figure implements IText {
       throw new Error(`Unsupported figure with class ${attributesMap['class']}`);
     }
   }
+
   getContent() {
     return this.content;
   }

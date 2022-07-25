@@ -5,16 +5,16 @@ import {
   IImageOptions,
   ImageRun,
   IMediaTransformation,
-  ITextWrapping,
   TextWrappingSide,
   TextWrappingType,
   VerticalPositionAlign,
   VerticalPositionRelativeFrom,
+  ITextWrapping,
 } from 'docx';
 import { Element } from 'himalaya';
-import { DocxExportOptions } from '../options';
-import { convertTwipToPixels, getAttributeMap, getPageWidth, parseStyles } from './utils';
-import { IText, TextType } from './TextBlock';
+import { DocxExportOptions } from '../../options';
+import { convertTwipToPixels, getAttributeMap, getPageWidth, parseStyles } from '../utils';
+import { DocumentElement, DocumentElementType } from './DocumentElement';
 
 enum ImageOrientation {
   Horizontal = 1,
@@ -27,11 +27,11 @@ enum ImageOrientation {
   Rotate270 = 6,
 }
 
-export class Image implements IText {
-  type: TextType = 'image';
-  content: IText[];
-  options: IImageOptions;
-  classes: string[];
+export class Image implements DocumentElement {
+  type: DocumentElementType = 'image';
+  private content: DocumentElement[];
+  private options: IImageOptions;
+  private classes: string[];
 
   constructor(private imageFigure: Element, private exportOptions: DocxExportOptions) {
     const figureAttr = getAttributeMap(imageFigure.attributes);

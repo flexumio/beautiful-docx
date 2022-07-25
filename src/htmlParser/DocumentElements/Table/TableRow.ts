@@ -1,13 +1,13 @@
 import { Paragraph, ParagraphChild, TableCell, TableRow as DocxTableRow } from 'docx';
 import { Element } from 'himalaya';
-import { DocxExportOptions } from '../../options';
-import { IText, TextType } from '../TextBlock';
+import { DocxExportOptions } from '../../../options';
+import { DocumentElement, DocumentElementType } from '../DocumentElement';
 import { Cell } from './Cell';
 
-export class TableRow implements IText {
-  type: TextType = 'table-row';
-  content: TableRow[];
-  children: IText[] = [];
+export class TableRow implements DocumentElement {
+  type: DocumentElementType = 'table-row';
+
+  private children: DocumentElement[] = [];
 
   constructor(element: Element, private isHeader: boolean, exportOptions: DocxExportOptions) {
     this.children = [];
@@ -25,8 +25,6 @@ export class TableRow implements IText {
           throw new Error(`Unsupported row element: ${child.tagName}`);
       }
     }
-
-    this.content = [this];
   }
 
   transformToDocx(): (Paragraph | ParagraphChild)[] {
@@ -39,7 +37,7 @@ export class TableRow implements IText {
   }
 
   getContent() {
-    return this.content;
+    return [this];
   }
 
   get cellCount(): number {

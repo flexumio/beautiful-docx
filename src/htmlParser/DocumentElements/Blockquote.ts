@@ -1,19 +1,20 @@
 import { BorderStyle, convertMillimetersToTwip, IParagraphOptions, Paragraph, ParagraphChild } from 'docx';
-import { Element } from 'himalaya';
+import { Element, Node } from 'himalaya';
 import { TextInline } from './TextInline';
-import { BlockTextType, IText, TextBlock } from './TextBlock';
-import { parseTextAlignment } from './utils';
+import { parseTextAlignment } from '../utils';
+import { BlockTextType, DocumentElement } from './DocumentElement';
+import { TextBlock } from './TextBlock';
 
 const BLOCKQUOTE_SIZE = 25;
 const BLOCKQUOTE_COLOR = '#cccccc';
 const BLOCKQUOTE_SPACE = 12;
 
-export class Blockquote implements IText {
+export class Blockquote implements DocumentElement {
   type: BlockTextType = 'blockquote';
-  content: IText[];
-  options: IParagraphOptions;
+  private content: DocumentElement[];
+  private options: IParagraphOptions;
 
-  constructor(element: Element) {
+  constructor(private element: Element) {
     this.options = {
       alignment: parseTextAlignment(element.attributes),
       border: {
@@ -21,20 +22,26 @@ export class Blockquote implements IText {
       },
       indent: { left: convertMillimetersToTwip(6) },
     };
-    this.content = element.children.flatMap(node => {
+    this.content = this.createContent();
+  }
+
+  private createContent() {
+    return this.element.children.flatMap(node => {
+      const isElement = node.type === 'element';
+
       const block = new TextBlock(
         this.options,
-        node.type === 'element'
-          ? node.children.flatMap(child =>
-              new TextInline(child, {
-                italics: true,
-              }).getContent()
-            )
-          : new TextInline(node, { italics: true }).getContent()
+        isElement ? node.children.flatMap(this.createInlineChild) : this.createInlineChild(node)
       ).getContent();
 
       return block;
     });
+  }
+
+  private createInlineChild(node: Node) {
+    return new TextInline(node, {
+      italics: true,
+    }).getContent();
   }
 
   getContent() {

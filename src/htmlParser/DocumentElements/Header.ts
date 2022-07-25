@@ -1,12 +1,13 @@
-import { TextBlock, TextType } from './TextBlock';
+import { TextBlock } from './TextBlock';
 import { HeadingLevel } from 'docx';
 import { Element } from 'himalaya';
 
 import { TextInline } from './TextInline';
-import { parseTextAlignment } from './utils';
+import { parseTextAlignment } from '../utils';
+import { DocumentElementType } from './DocumentElement';
 
 export class Header extends TextBlock {
-  type: TextType = 'heading';
+  type: DocumentElementType = 'heading';
   constructor(element: Element, level: HeadingLevel) {
     const options = {
       heading: level,

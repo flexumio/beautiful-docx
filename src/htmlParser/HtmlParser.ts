@@ -1,16 +1,10 @@
 import { HeadingLevel } from 'docx';
 import { Element, Node, parse } from 'himalaya';
 import { DocxExportOptions } from '../options';
-import { Blockquote } from './Blockquote';
-import { ParseResult } from './utils';
-
-import { Header } from './Header';
+import { Figure, Header, List, Paragraph, TextBlock, TextInline } from './DocumentElements';
+import { Blockquote } from './DocumentElements/Blockquote';
+import { DocumentElement } from './DocumentElements/DocumentElement';
 import { ImagesAdapter } from './ImagesAdapter';
-import { Paragraph } from './Paragraph';
-import { IText, TextBlock } from './TextBlock';
-import { List } from './List';
-import { TextInline } from './TextInline';
-import { Figure } from './Figure';
 
 export class HtmlParser {
   constructor(public options: DocxExportOptions) {}
@@ -31,7 +25,7 @@ export class HtmlParser {
   }
 
   parseHtmlTree(root: Node[]) {
-    const paragraphs: ParseResult[] = [];
+    const paragraphs: DocumentElement[] = [];
     let pCounts = 0;
 
     for (const child of root) {

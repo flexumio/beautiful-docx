@@ -1,11 +1,8 @@
 import { AlignmentType, convertInchesToTwip, convertMillimetersToTwip } from 'docx';
 import { Attribute, Styles } from 'himalaya';
 import { DocxExportOptions } from '../options';
-import { IText } from './TextBlock';
 
 const FIRST_LINE_INDENT_MILLIMETERS = 6;
-
-export type ParseResult = IText;
 
 export type AttributeMap = {
   [k: string]: string;

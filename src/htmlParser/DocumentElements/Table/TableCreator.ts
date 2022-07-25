@@ -1,20 +1,21 @@
 import { AlignmentType, Table, TableLayoutType, WidthType, TableRow as DocxTableRow } from 'docx';
 import { Element, Styles } from 'himalaya';
-import { DocxExportOptions } from '../../options';
-import { AttributeMap, getAttributeMap, getPageWidth, parseStyles } from '../utils';
+import { DocxExportOptions } from '../../../options';
+import { AttributeMap, getAttributeMap, getPageWidth, parseStyles } from '../../utils';
 import { getTableIndent, parseBorderOptions } from './utils';
-import { IText, TextBlock, TextType } from '../TextBlock';
+import { TextBlock } from '../TextBlock';
 import { TableRow } from './TableRow';
+import { DocumentElement, DocumentElementType } from '../DocumentElement';
 
-export class TableCreator implements IText {
-  type: TextType = 'table';
+export class TableCreator implements DocumentElement {
+  type: DocumentElementType = 'table';
   private attr: AttributeMap;
   private colGroup: Element | null = null;
   private children: TableRow[] = [];
   private styles: Styles;
-  content: IText[];
+  private content: DocumentElement[];
 
-  constructor(private element: Element, public exportOptions: DocxExportOptions) {
+  constructor(private element: Element, private exportOptions: DocxExportOptions) {
     this.attr = getAttributeMap(element.attributes);
     this.styles = parseStyles(this.attr['style']);
 

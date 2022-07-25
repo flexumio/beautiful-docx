@@ -1,14 +1,14 @@
 import { Element, Node } from 'himalaya';
 import { ExternalHyperlink, IRunOptions, ParagraphChild, TextRun, UnderlineType } from 'docx';
 
-import { cleanTextContent } from './utils';
+import { cleanTextContent } from '../utils';
 
-import { InlineTextType, IText } from './TextBlock';
+import { InlineTextType, DocumentElement } from './DocumentElement';
 
 const supportedTextTypes: InlineTextType[] = ['br', 'text', 'strong', 'i', 'u', 's', 'a'];
-export class TextInline implements IText {
+export class TextInline implements DocumentElement {
   type: InlineTextType;
-  content: (string | IText)[];
+  content: (string | DocumentElement)[];
   isEmpty = false;
 
   constructor(private element: Node, public options: IRunOptions = {}, public children: Node[] = []) {

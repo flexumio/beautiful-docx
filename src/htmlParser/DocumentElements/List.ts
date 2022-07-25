@@ -1,15 +1,16 @@
 import { IParagraphOptions } from 'docx';
 import { Element, Node } from 'himalaya';
-import { DEFAULT_NUMBERING_REF } from '../DocumentBuilder';
+import { DEFAULT_NUMBERING_REF } from '../../DocumentBuilder';
+import { DocumentElement, DocumentElementType } from './DocumentElement';
 import { ListItem } from './ListItem';
-import { Paragraph } from './Paragraph';
-import { TextType, IText, TextBlock } from './TextBlock';
+
+import { TextBlock } from './TextBlock';
 import { TextInline } from './TextInline';
 
-export class List implements IText {
-  type: TextType = 'list';
-  content: IText[];
-  options: IParagraphOptions;
+export class List implements DocumentElement {
+  type: DocumentElementType = 'list';
+  private content: DocumentElement[];
+  private options: IParagraphOptions;
 
   constructor(element: Element, private level: number) {
     switch (element.tagName) {
@@ -33,8 +34,8 @@ export class List implements IText {
       if (child.type === 'element') {
         return new ListItem(child, this.options, this.level).getContent();
       }
-
-      return new TextBlock({}, new TextInline(child).getContent()).getContent();
+      const textContent = new TextInline(child).getContent();
+      return new TextBlock({}, textContent).getContent();
     });
   }
 
