@@ -1,4 +1,4 @@
-import { IImageOptions, IParagraphOptions, IRunOptions, Paragraph, ParagraphChild } from 'docx';
+import { IImageOptions, IParagraphOptions, IRunOptions, Paragraph, ParagraphChild, TableCell } from 'docx';
 import { TextInline } from './TextInline';
 
 // TODO: change naming
@@ -7,14 +7,14 @@ export interface IText {
   content: (string | IText)[];
   options?: IParagraphOptions | IRunOptions | IImageOptions;
   getContent(): IText[];
-  transformToDocx(): (Paragraph | ParagraphChild)[];
+  transformToDocx(): (Paragraph | ParagraphChild | TableCell)[];
 }
 
 export class TextBlock implements IText {
   type: TextType = 'paragraph';
   content: IText[];
 
-  constructor(public options: IParagraphOptions, public children: IText[]) {
+  constructor(public options: IParagraphOptions, public children: IText[] = []) {
     this.content = [this];
     this.children = children.filter(i => !(i instanceof TextInline && i.isEmpty));
     if (this.children.length === 0) {
@@ -37,5 +37,16 @@ export class TextBlock implements IText {
 }
 
 export type TextType = InlineTextType | BlockTextType;
-export type BlockTextType = 'paragraph' | 'text' | 'heading' | 'list' | 'list-item' | 'blockquote' | 'image' | 'figure';
+export type BlockTextType =
+  | 'paragraph'
+  | 'text'
+  | 'heading'
+  | 'list'
+  | 'list-item'
+  | 'blockquote'
+  | 'image'
+  | 'figure'
+  | 'table'
+  | 'table-row'
+  | 'table-cell';
 export type InlineTextType = 'br' | 'text' | 'strong' | 'i' | 'u' | 's' | 'a';

@@ -4,7 +4,6 @@ import { HtmlParser } from './htmlParser';
 
 import { DocxExportOptions, OptionsBuilder } from './options';
 import { DeepPartial } from './utils';
-
 export class HtmlToDocx {
   options: DocxExportOptions;
 
