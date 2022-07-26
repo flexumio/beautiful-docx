@@ -1,1 +1,1 @@
-export * from './docxHtmlParser';
+export * from './HtmlParser';

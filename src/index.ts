@@ -1,1 +1,1 @@
-export * from './docxBuilder';
+export * from './HtmlToDocx';

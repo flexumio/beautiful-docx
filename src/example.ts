@@ -1,8 +1,8 @@
-import { generateDocx } from './index';
+import { HtmlToDocx } from './index';
 import * as fs from 'fs';
 
 const main = async () => {
-  const buffer = await generateDocx('<p>Something</p>', {
+  const htmlToDocx = new HtmlToDocx({
     page: {
       size: {
         width: 5.5,
@@ -15,6 +15,7 @@ const main = async () => {
     },
     verticalSpaces: 0,
   });
+  const buffer = await htmlToDocx.generateDocx('<p>Something</p>');
 
   fs.writeFileSync('test-lib.docx', buffer);
 };
