@@ -9,19 +9,19 @@ import { TextInline } from './TextInline';
 
 export class List implements DocumentElement {
   type: DocumentElementType = 'list';
-  private content: DocumentElement[];
+  public children: DocumentElement[];
   private options: IParagraphOptions;
 
   constructor(element: Element, private level: number) {
     switch (element.tagName) {
       case 'ul': {
         this.options = { bullet: { level } };
-        this.content = this.getList(element.children);
+        this.children = this.getList(element.children);
         break;
       }
       case 'ol': {
         this.options = { numbering: { reference: DEFAULT_NUMBERING_REF, level } };
-        this.content = this.getList(element.children);
+        this.children = this.getList(element.children);
         break;
       }
       default:
@@ -40,10 +40,10 @@ export class List implements DocumentElement {
   }
 
   getContent() {
-    return this.content;
+    return this.children;
   }
 
   transformToDocx() {
-    return this.content.flatMap(i => i.transformToDocx());
+    return this.children.flatMap(i => i.transformToDocx());
   }
 }

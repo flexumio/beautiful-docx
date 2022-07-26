@@ -6,26 +6,40 @@ import { cleanTextContent } from '../utils';
 import { InlineTextType, DocumentElement } from './DocumentElement';
 
 const supportedTextTypes: InlineTextType[] = ['br', 'text', 'strong', 'i', 'u', 's', 'a'];
+
+const inlineTextOptionsDictionary: { [key in InlineTextType]: IRunOptions } = {
+  br: { break: 1 },
+  text: {},
+  strong: { bold: true },
+  i: { italics: true },
+  u: { underline: { type: UnderlineType.SINGLE } },
+  s: { strike: true },
+  a: {},
+};
+
 export class TextInline implements DocumentElement {
   type: InlineTextType;
-  content: (string | DocumentElement)[];
+  private content: (string | DocumentElement)[];
   isEmpty = false;
 
-  constructor(private element: Node, public options: IRunOptions = {}, public children: Node[] = []) {
+  constructor(private element: Node, private options: IRunOptions = {}, public children: Node[] = []) {
     if (this.element.type === 'text') {
       this.content = [this.element.content];
       this.type = 'text';
       this.isEmpty = this.element.content.trim() === '';
       return;
     }
+
     if (this.element.type !== 'element') {
       this.content = [];
       this.type = 'text';
       return;
     }
+
     if (!supportedTextTypes.includes(this.element.tagName as InlineTextType)) {
       throw new Error(`Unsupported ${this.element.tagName} tag`);
     }
+
     this.options = { ...this.options, ...inlineTextOptionsDictionary[this.element.tagName as InlineTextType] };
 
     this.content = this.element.children.flatMap(i => {
@@ -67,13 +81,3 @@ export class TextInline implements DocumentElement {
     });
   }
 }
-
-const inlineTextOptionsDictionary: { [key in InlineTextType]: IRunOptions } = {
-  br: { break: 1 },
-  text: {},
-  strong: { bold: true },
-  i: { italics: true },
-  u: { underline: { type: UnderlineType.SINGLE } },
-  s: { strike: true },
-  a: {},
-};

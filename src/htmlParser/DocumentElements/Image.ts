@@ -29,7 +29,6 @@ enum ImageOrientation {
 
 export class Image implements DocumentElement {
   type: DocumentElementType = 'image';
-  private content: DocumentElement[];
   private options: IImageOptions;
   private classes: string[];
 
@@ -48,8 +47,6 @@ export class Image implements DocumentElement {
 
     const imageBuffer = exportOptions.images[imageSourceUrl];
     this.options = this.createOptions(imageBuffer);
-
-    this.content = [this];
   }
 
   private createOptions(imageBuffer: Buffer) {
@@ -180,7 +177,7 @@ export class Image implements DocumentElement {
   }
 
   getContent() {
-    return this.content;
+    return [this];
   }
 
   transformToDocx() {
