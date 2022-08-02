@@ -1,4 +1,4 @@
-import { Paragraph, ParagraphChild, TableCell, TableRow as DocxTableRow } from 'docx';
+import { ITableRowOptions, Paragraph, ParagraphChild, TableCell, TableRow as DocxTableRow } from 'docx';
 import { Element } from 'himalaya';
 import { DocxExportOptions } from '../../../options';
 import { DocumentElement, DocumentElementType } from '../DocumentElement';
@@ -7,7 +7,8 @@ import { Cell } from './Cell';
 export class TableRow implements DocumentElement {
   type: DocumentElementType = 'table-row';
 
-  private children: DocumentElement[] = [];
+  public children: DocumentElement[] = [];
+  public options: ITableRowOptions;
 
   constructor(element: Element, private isHeader: boolean, exportOptions: DocxExportOptions) {
     this.children = [];
@@ -25,13 +26,14 @@ export class TableRow implements DocumentElement {
           throw new Error(`Unsupported row element: ${child.tagName}`);
       }
     }
+    this.options = { tableHeader: this.isHeader, children: [] };
   }
 
   transformToDocx(): (Paragraph | ParagraphChild)[] {
     return [
       new DocxTableRow({
+        ...this.options,
         children: this.children.flatMap(i => i.transformToDocx() as unknown as TableCell),
-        tableHeader: this.isHeader,
       }),
     ];
   }

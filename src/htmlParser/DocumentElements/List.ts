@@ -10,7 +10,7 @@ import { TextInline } from './TextInline';
 export class List implements DocumentElement {
   type: DocumentElementType = 'list';
   public children: DocumentElement[];
-  private options: IParagraphOptions;
+  public options: IParagraphOptions;
 
   constructor(element: Element, private level: number) {
     switch (element.tagName) {

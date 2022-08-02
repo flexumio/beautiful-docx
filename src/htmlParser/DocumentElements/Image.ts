@@ -29,7 +29,7 @@ enum ImageOrientation {
 
 export class Image implements DocumentElement {
   type: DocumentElementType = 'image';
-  private options: IImageOptions;
+  public options: IImageOptions;
   private classes: string[];
 
   constructor(private imageFigure: Element, private exportOptions: DocxExportOptions) {

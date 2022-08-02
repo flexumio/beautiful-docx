@@ -11,8 +11,8 @@ const BLOCKQUOTE_SPACE = 12;
 
 export class Blockquote implements DocumentElement {
   type: BlockTextType = 'blockquote';
+  public options: IParagraphOptions;
   private content: DocumentElement[];
-  private options: IParagraphOptions;
 
   constructor(private element: Element) {
     this.options = {

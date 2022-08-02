@@ -1,4 +1,4 @@
-import { AlignmentType, Table, TableLayoutType, WidthType, TableRow as DocxTableRow } from 'docx';
+import { AlignmentType, Table, TableLayoutType, WidthType, TableRow as DocxTableRow, ITableOptions } from 'docx';
 import { Element, Styles } from 'himalaya';
 import { DocxExportOptions } from '../../../options';
 import { AttributeMap, getAttributeMap, getPageWidth, parseStyles } from '../../utils';
@@ -9,9 +9,11 @@ import { DocumentElement, DocumentElementType } from '../DocumentElement';
 
 export class TableCreator implements DocumentElement {
   type: DocumentElementType = 'table';
+  public options: ITableOptions;
+  public children: TableRow[] = [];
+
   private attr: AttributeMap;
   private colGroup: Element | null = null;
-  private children: TableRow[] = [];
   private styles: Styles;
   private content: DocumentElement[];
 
@@ -22,25 +24,29 @@ export class TableCreator implements DocumentElement {
     this.createRows();
 
     this.content = [new TextBlock({ children: [] }), this, new TextBlock({ children: [] })];
+    this.options = {
+      layout: TableLayoutType.FIXED,
+      alignment: AlignmentType.CENTER,
+      borders: this.borders,
+      width: {
+        size: this.width,
+        type: WidthType.DXA,
+      },
+      indent: {
+        size: getTableIndent(),
+        type: WidthType.DXA,
+      },
+      columnWidths: this.columnWidth,
+      rows: [],
+    };
   }
 
   transformToDocx() {
     return this.content.flatMap(i => {
       if (i.type === 'table') {
         return new Table({
+          ...this.options,
           rows: this.children.flatMap(i => i.transformToDocx() as unknown as DocxTableRow),
-          layout: TableLayoutType.FIXED,
-          alignment: AlignmentType.CENTER,
-          borders: this.borders,
-          width: {
-            size: this.width,
-            type: WidthType.DXA,
-          },
-          indent: {
-            size: getTableIndent(),
-            type: WidthType.DXA,
-          },
-          columnWidths: this.columnWidth,
         });
       }
       return i.transformToDocx();

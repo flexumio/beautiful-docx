@@ -1,5 +1,5 @@
 import { ColorTranslator } from 'colortranslator';
-import { Paragraph, ShadingType, TableCell, VerticalAlign } from 'docx';
+import { ITableCellOptions, Paragraph, ShadingType, TableCell, VerticalAlign } from 'docx';
 import { Element, Styles } from 'himalaya';
 import { DocxExportOptions } from '../../../options';
 import { TextInline } from '../TextInline';
@@ -11,12 +11,22 @@ import { DocumentElement, DocumentElementType } from '../DocumentElement';
 
 export class Cell implements DocumentElement {
   type: DocumentElementType = 'table-cell';
+  public options: ITableCellOptions;
   private attributes: AttributeMap;
   private styles: Styles;
 
   constructor(private element: Element, private exportOptions: DocxExportOptions, private isHeader: boolean) {
     this.attributes = getAttributeMap(element.attributes);
     this.styles = parseStyles(this.attributes.styles);
+    this.options = {
+      margins: this.margins,
+      rowSpan: parseInt(this.attributes['rowspan'] || '1'),
+      columnSpan: parseInt(this.attributes['colspan'] || '1'),
+      shading: this.cellShading,
+      borders: this.borders,
+      verticalAlign: this.verticalAlign,
+      children: [],
+    };
   }
 
   getContent() {
@@ -26,18 +36,13 @@ export class Cell implements DocumentElement {
   transformToDocx() {
     return [
       new TableCell({
-        margins: this.margins,
-        rowSpan: parseInt(this.attributes['rowspan'] || '1'),
-        columnSpan: parseInt(this.attributes['colspan'] || '1'),
-        shading: this.cellShading,
-        borders: this.borders,
-        verticalAlign: this.verticalAlign,
+        ...this.options,
         children: this.tableCellChildren.flatMap(i => i.transformToDocx()) as Paragraph[],
       }),
     ];
   }
 
-  private get tableCellChildren() {
+  public get tableCellChildren() {
     const nodes = this.element.children;
     const firstNode = nodes[0];
 

@@ -22,7 +22,7 @@ export class TextInline implements DocumentElement {
   private content: (string | DocumentElement)[];
   isEmpty = false;
 
-  constructor(private element: Node, private options: IRunOptions = {}, public children: Node[] = []) {
+  constructor(private element: Node, public options: IRunOptions = {}, public children: Node[] = []) {
     if (this.element.type === 'text') {
       this.content = [this.element.content];
       this.type = 'text';
