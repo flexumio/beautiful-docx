@@ -1,6 +1,6 @@
 import { IParagraphOptions } from 'docx';
 import { Element, Node } from 'himalaya';
-import { DEFAULT_NUMBERING_REF } from '../../DocumentBuilder';
+import { DEFAULT_NUMBERING_REF } from './Document';
 import { DocumentElement, DocumentElementType } from './DocumentElement';
 import { ListItem } from './ListItem';
 

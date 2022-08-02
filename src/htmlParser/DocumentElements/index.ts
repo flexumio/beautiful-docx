@@ -9,3 +9,4 @@ export * from './Paragraph';
 export * from './TextInline';
 export * from './TextBlock';
 export * from './DocumentElement';
+export * from './Document';

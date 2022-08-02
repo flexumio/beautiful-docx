@@ -1,5 +1,5 @@
 import { Paragraph, TableOfContents } from 'docx';
-import { PAGE_TITLE_STYLE_ID } from './DocumentBuilder';
+import { PAGE_TITLE_STYLE_ID } from './htmlParser/DocumentElements';
 
 // TODO: Rework this
 export const constructTOCPage = (): (Paragraph | TableOfContents)[] => {

@@ -33,6 +33,7 @@ const exampleText = `
 <figure class='image'>
 <img src='https://upload.wikimedia.org/wikipedia/commons/thumb/a/a7/React-icon.svg/640px-React-icon.svg.png'/>
 </figure>
+<p>Paragraph</p>
 <figure class="table">
   <table>
     <colgroup>
