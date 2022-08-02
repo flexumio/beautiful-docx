@@ -3,16 +3,14 @@ import {
   convertInchesToTwip,
   convertMillimetersToTwip,
   Document as DocxDocument,
-  Footer,
   LevelFormat,
   LevelSuffix,
   NumberFormat,
-  PageNumber,
   Paragraph,
-  TextRun,
 } from 'docx';
 import { DocxExportOptions } from '../../options';
 import { DocumentElement } from './DocumentElement';
+import { DocumentFooter } from './DocumentFooter';
 
 export const FONT_TO_LINE_RATIO = 10;
 export const PAGE_TITLE_STYLE_ID = 'PageTitle';
@@ -30,7 +28,7 @@ export class Document {
         {
           properties: this.getDefaultSectionsProperties(),
           footers: {
-            default: this.getFooter(),
+            default: this.footer.transformToDocx(),
           },
           children: this.children.flatMap(i => i.transformToDocx()) as Paragraph[],
         },
@@ -171,15 +169,8 @@ export class Document {
       },
     };
   };
-  // TODO: create separate class
-  private getFooter() {
-    return new Footer({
-      children: [
-        new Paragraph({
-          alignment: AlignmentType.CENTER,
-          children: [new TextRun({ children: [PageNumber.CURRENT] })],
-        }),
-      ],
-    });
+
+  public get footer() {
+    return new DocumentFooter();
   }
 }
