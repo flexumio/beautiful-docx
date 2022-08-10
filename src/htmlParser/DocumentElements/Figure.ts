@@ -1,12 +1,16 @@
+import { Paragraph, ParagraphChild } from 'docx';
 import { Element } from 'himalaya';
-import { DocxExportOptions } from '../options';
-import { DocxFragment } from './DocxFragment';
+import { DocxExportOptions } from '../../options';
+
 import { Image } from './Image';
 import { TableCreator } from './Table';
-import { getAttributeMap, ParseResult } from './utils';
+import { DocumentElement, DocumentElementType } from './DocumentElement';
+import { getAttributeMap } from '../utils';
 
-export class Figure implements DocxFragment<ParseResult> {
-  content: ParseResult[];
+export class Figure implements DocumentElement {
+  type: DocumentElementType = 'figure';
+
+  private content: DocumentElement[];
   constructor(element: Element, docxExportOptions: DocxExportOptions) {
     const attributesMap = getAttributeMap(element.attributes);
     // TODO: rework with tagName
@@ -21,13 +25,20 @@ export class Figure implements DocxFragment<ParseResult> {
       }
 
       this.content = new TableCreator(tableNode, docxExportOptions).getContent();
-    } else if (classes.includes('image')) {
+    }
+    // TODO: remove dependency on class
+    else if (classes.includes('image')) {
       this.content = new Image(element, docxExportOptions).getContent();
     } else {
       throw new Error(`Unsupported figure with class ${attributesMap['class']}`);
     }
   }
+
   getContent() {
     return this.content;
+  }
+
+  transformToDocx(): (Paragraph | ParagraphChild)[] {
+    return this.content.flatMap(i => i.transformToDocx());
   }
 }

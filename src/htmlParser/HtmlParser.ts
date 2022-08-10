@@ -1,16 +1,10 @@
-import { HeadingLevel, Paragraph as IParagraph, ImageRun, Table } from 'docx';
+import { HeadingLevel } from 'docx';
 import { Element, Node, parse } from 'himalaya';
 import { DocxExportOptions } from '../options';
-import { Blockquote } from './Blockquote';
-import { ParseResult } from './utils';
-
-import { Header } from './Header';
+import { Figure, Header, List, Paragraph, TextBlock, TextInline } from './DocumentElements';
+import { Blockquote } from './DocumentElements/Blockquote';
+import { DocumentElement } from './DocumentElements/DocumentElement';
 import { ImagesAdapter } from './ImagesAdapter';
-import { Paragraph } from './Paragraph';
-import { TextBlock } from './TextBlock';
-import { List } from './List';
-import { TextInline } from './TextInline';
-import { Figure } from './Figure';
 
 export class HtmlParser {
   constructor(public options: DocxExportOptions) {}
@@ -22,7 +16,7 @@ export class HtmlParser {
 
     const docxTree = this.parseHtmlTree(parsedContent);
 
-    return this.postProcess(docxTree);
+    return docxTree;
   }
 
   async setImages(content: Node[]) {
@@ -31,7 +25,7 @@ export class HtmlParser {
   }
 
   parseHtmlTree(root: Node[]) {
-    const paragraphs: ParseResult[] = [];
+    const paragraphs: DocumentElement[] = [];
     let pCounts = 0;
 
     for (const child of root) {
@@ -50,7 +44,7 @@ export class HtmlParser {
     return paragraphs;
   }
 
-  parseTopLevelElement = (element: Element, pIndex: number): ParseResult[] => {
+  parseTopLevelElement = (element: Element, pIndex: number) => {
     switch (element.tagName) {
       case 'p':
         return new Paragraph(element, pIndex, this.options).getContent();
@@ -58,7 +52,8 @@ export class HtmlParser {
       case 'i':
       case 'u':
       case 's':
-        return new TextBlock({ children: new TextInline(element).getContent() }).getContent();
+      case 'br':
+        return new TextBlock({}, new TextInline(element).getContent()).getContent();
       case 'h1':
         return new Header(element, HeadingLevel.HEADING_1).getContent();
       case 'h2':
@@ -70,6 +65,7 @@ export class HtmlParser {
       case 'ul':
       case 'ol':
         return new List(element, 0).getContent();
+      // TODO: added image | table support without figure tag
       case 'figure':
         return new Figure(element, this.options).getContent();
       case 'blockquote':
@@ -78,36 +74,4 @@ export class HtmlParser {
         throw new Error(`Unsupported top tag ${element.tagName}`);
     }
   };
-
-  postProcess(docxTree: ParseResult[]) {
-    const results: (Paragraph | Table)[] = [];
-
-    let iterator = 0;
-
-    while (iterator < docxTree.length) {
-      const currentItem = docxTree[iterator];
-      const nextItem = docxTree[iterator + 1];
-
-      const isCurrentItemImage = currentItem instanceof ImageRun;
-      const isNextItemParagraph = nextItem instanceof Paragraph;
-
-      if (isCurrentItemImage && isNextItemParagraph) {
-        nextItem.addChildElement(currentItem);
-        results.push(nextItem);
-        iterator += 2;
-        continue;
-      }
-
-      if (isCurrentItemImage && !isNextItemParagraph) {
-        results.push(new IParagraph({ children: [currentItem] }));
-        iterator += 1;
-        continue;
-      }
-
-      results.push(currentItem);
-      iterator += 1;
-    }
-
-    return results;
-  }
 }

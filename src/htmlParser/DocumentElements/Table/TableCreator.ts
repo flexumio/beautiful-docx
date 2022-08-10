@@ -1,29 +1,30 @@
-import { AlignmentType, Table, TableLayoutType, TableRow, WidthType } from 'docx';
+import { AlignmentType, Table, TableLayoutType, WidthType, TableRow as DocxTableRow, ITableOptions } from 'docx';
 import { Element, Styles } from 'himalaya';
-import { DocxExportOptions } from '../../options';
-import { TableCell } from 'docx';
-import { AttributeMap, getAttributeMap, getPageWidth, parseStyles } from '../utils';
+import { DocxExportOptions } from '../../../options';
+import { AttributeMap, getAttributeMap, getPageWidth, parseStyles } from '../../utils';
 import { getTableIndent, parseBorderOptions } from './utils';
 import { TextBlock } from '../TextBlock';
-import { Cell } from './Cell';
-import { DocxFragment } from '../DocxFragment';
+import { TableRow } from './TableRow';
+import { DocumentElement, DocumentElementType } from '../DocumentElement';
 
-export class TableCreator implements DocxFragment<TextBlock | Table> {
+export class TableCreator implements DocumentElement {
+  type: DocumentElementType = 'table';
+  public options: ITableOptions;
+  public children: TableRow[] = [];
+
   private attr: AttributeMap;
-  private table: Table;
   private colGroup: Element | null = null;
-  private rows: TableRow[] = [];
   private styles: Styles;
-  content: (TextBlock | Table)[];
+  private content: DocumentElement[];
 
-  constructor(private element: Element, public exportOptions: DocxExportOptions) {
+  constructor(private element: Element, private exportOptions: DocxExportOptions) {
     this.attr = getAttributeMap(element.attributes);
     this.styles = parseStyles(this.attr['style']);
 
-    const rows = this.createRows();
+    this.createRows();
 
-    this.table = new Table({
-      rows: rows,
+    this.content = [new TextBlock({ children: [] }), this, new TextBlock({ children: [] })];
+    this.options = {
       layout: TableLayoutType.FIXED,
       alignment: AlignmentType.CENTER,
       borders: this.borders,
@@ -36,17 +37,24 @@ export class TableCreator implements DocxFragment<TextBlock | Table> {
         type: WidthType.DXA,
       },
       columnWidths: this.columnWidth,
-    });
-
-    this.content = this.create();
+      rows: [],
+    };
   }
 
-  private create() {
-    return [new TextBlock({ children: [] }), this.table, new TextBlock({ children: [] })];
+  transformToDocx() {
+    return this.content.flatMap(i => {
+      if (i.type === 'table') {
+        return new Table({
+          ...this.options,
+          rows: this.children.flatMap(i => i.transformToDocx() as unknown as DocxTableRow),
+        });
+      }
+      return i.transformToDocx();
+    });
   }
 
   private createRows() {
-    this.rows = [];
+    this.children = [];
     for (const tableChild of this.element.children) {
       if (tableChild.type !== 'element') {
         continue;
@@ -54,10 +62,10 @@ export class TableCreator implements DocxFragment<TextBlock | Table> {
       // TODO: add support for tr, tfoot,
       switch (tableChild.tagName) {
         case 'thead':
-          this.rows.push(...this.parseTableRowsFragment(tableChild, true));
+          this.children.push(...this.parseTableRowsFragment(tableChild, true));
           break;
         case 'tbody':
-          this.rows.push(...this.parseTableRowsFragment(tableChild, false));
+          this.children.push(...this.parseTableRowsFragment(tableChild, false));
           break;
         case 'colgroup':
           this.setColGroup(tableChild);
@@ -66,7 +74,7 @@ export class TableCreator implements DocxFragment<TextBlock | Table> {
           throw new Error(`Unsupported table element: ${tableChild.tagName}`);
       }
     }
-    return this.rows;
+    return this.children;
   }
 
   private parseTableRowsFragment(element: Element, isHeader: boolean) {
@@ -79,7 +87,7 @@ export class TableCreator implements DocxFragment<TextBlock | Table> {
 
       switch (child.tagName) {
         case 'tr':
-          rows.push(this.parseTableRow(child, isHeader));
+          rows.push(...new TableRow(child, isHeader, this.exportOptions).getContent());
           break;
         default:
           throw new Error(`Unsupported table fragment element: ${child.tagName}`);
@@ -87,27 +95,6 @@ export class TableCreator implements DocxFragment<TextBlock | Table> {
     }
 
     return rows;
-  }
-
-  private parseTableRow(element: Element, isHeader: boolean): TableRow {
-    const children: TableCell[] = [];
-
-    for (const child of element.children) {
-      if (child.type !== 'element') {
-        continue;
-      }
-
-      switch (child.tagName) {
-        case 'th':
-        case 'td':
-          children.push(...new Cell(child, this.exportOptions, isHeader).getContent());
-          break;
-        default:
-          throw new Error(`Unsupported row element: ${child.tagName}`);
-      }
-    }
-
-    return new TableRow({ children, tableHeader: isHeader });
   }
 
   private setColGroup(colGroup: Element) {
@@ -119,7 +106,7 @@ export class TableCreator implements DocxFragment<TextBlock | Table> {
   }
 
   private get columnsCount() {
-    return Math.max(...this.rows.map(row => row.CellCount));
+    return Math.max(...this.children.map(row => row.cellCount));
   }
 
   private get width() {

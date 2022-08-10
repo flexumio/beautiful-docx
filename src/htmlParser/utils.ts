@@ -1,18 +1,8 @@
-import {
-  AlignmentType,
-  convertInchesToTwip,
-  convertMillimetersToTwip,
-  ImageRun,
-  Paragraph,
-  Table,
-  TableOfContents,
-} from 'docx';
+import { AlignmentType, convertInchesToTwip, convertMillimetersToTwip } from 'docx';
 import { Attribute, Styles } from 'himalaya';
 import { DocxExportOptions } from '../options';
 
 const FIRST_LINE_INDENT_MILLIMETERS = 6;
-
-export type ParseResult = Paragraph | Table | TableOfContents | ImageRun;
 
 export type AttributeMap = {
   [k: string]: string;
@@ -86,7 +76,7 @@ export const parseTextAlignment = (attribs: Attribute[]): AlignmentType => {
   }
 };
 
-export const cleanTextContent = (content: string) => {
+export const cleanTextContent = (content: string): string => {
   // replace &nbsp; characters
   return content.replace(/&nbsp;/g, ' ').trim();
 };

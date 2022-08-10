@@ -4,7 +4,6 @@ import { HtmlParser } from './htmlParser';
 
 import { DocxExportOptions, OptionsBuilder } from './options';
 import { DeepPartial } from './utils';
-
 export class HtmlToDocx {
   options: DocxExportOptions;
 
@@ -17,7 +16,6 @@ export class HtmlToDocx {
   public async generateDocx(html: string): Promise<Buffer> {
     const documentContent = await new HtmlParser(this.options).parse(html);
     const doc = new DocumentBuilder(this.options).build(documentContent);
-
     return await Packer.toBuffer(doc);
   }
 }

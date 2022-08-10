@@ -1,7 +1,7 @@
 import { ColorTranslator } from 'colortranslator';
 import { BorderStyle, convertInchesToTwip, IBorderOptions } from 'docx';
 import { Node, Styles } from 'himalaya';
-import { covertPixelsToPoints } from '../utils';
+import { covertPixelsToPoints } from '../../utils';
 
 const INLINE_TEXT_ELEMENTS = ['strong', 'i', 'u', 's', 'a'];
 const TABLE_LEFT_INDENT = 0.06;

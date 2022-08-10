@@ -1,44 +1,58 @@
 import { ColorTranslator } from 'colortranslator';
-import { ShadingType, TableCell, VerticalAlign } from 'docx';
+import { ITableCellOptions, Paragraph, ShadingType, TableCell, VerticalAlign } from 'docx';
 import { Element, Styles } from 'himalaya';
-import { DocxExportOptions } from '../../options';
+import { DocxExportOptions } from '../../../options';
 import { TextInline } from '../TextInline';
-import { HtmlParser } from '../HtmlParser';
+import { HtmlParser } from '../../HtmlParser';
 import { TextBlock } from '../TextBlock';
-import { AttributeMap, getAttributeMap, parseStyles } from '../utils';
+import { AttributeMap, getAttributeMap, parseStyles } from '../../utils';
 import { isInlineTextElement, parseBorderOptions } from './utils';
-import { DocxFragment } from '../DocxFragment';
+import { DocumentElement, DocumentElementType } from '../DocumentElement';
 
-export class Cell implements DocxFragment<TableCell> {
-  attributes: AttributeMap;
-  styles: Styles;
-  content: TableCell[];
+export class Cell implements DocumentElement {
+  type: DocumentElementType = 'table-cell';
+  public options: ITableCellOptions;
+  private attributes: AttributeMap;
+  private styles: Styles;
 
-  constructor(private element: Element, public exportOptions: DocxExportOptions, public isHeader: boolean) {
+  constructor(private element: Element, private exportOptions: DocxExportOptions, private isHeader: boolean) {
     this.attributes = getAttributeMap(element.attributes);
     this.styles = parseStyles(this.attributes.styles);
-
-    this.content = [this.create()];
-  }
-
-  private create() {
-    return new TableCell({
+    this.options = {
       margins: this.margins,
       rowSpan: parseInt(this.attributes['rowspan'] || '1'),
       columnSpan: parseInt(this.attributes['colspan'] || '1'),
       shading: this.cellShading,
       borders: this.borders,
       verticalAlign: this.verticalAlign,
-      children: this.parseTableCellChildren(),
-    });
+      children: [],
+    };
   }
 
-  private parseTableCellChildren() {
+  getContent() {
+    return [this];
+  }
+
+  transformToDocx() {
+    return [
+      new TableCell({
+        ...this.options,
+        children: this.tableCellChildren.flatMap(i => i.transformToDocx()) as Paragraph[],
+      }),
+    ];
+  }
+
+  public get tableCellChildren() {
     const nodes = this.element.children;
     const firstNode = nodes[0];
 
     if (isInlineTextElement(firstNode)) {
-      return [new TextBlock({ children: nodes.flatMap(node => new TextInline(node).getContent()) })];
+      return [
+        new TextBlock(
+          {},
+          nodes.flatMap(node => new TextInline(node).getContent())
+        ),
+      ];
     }
 
     return nodes.flatMap((node, index) => {
@@ -50,11 +64,7 @@ export class Cell implements DocxFragment<TableCell> {
     });
   }
 
-  getContent(): TableCell[] {
-    return this.content;
-  }
-
-  get cellShading() {
+  private get cellShading() {
     const color = this.styles['background-color'];
     if (color) {
       const cellColorTranslator = new ColorTranslator(color);
@@ -75,7 +85,7 @@ export class Cell implements DocxFragment<TableCell> {
 
     return undefined;
   }
-  get borders() {
+  private get borders() {
     const borderOptions = parseBorderOptions(this.styles);
 
     return {
@@ -85,7 +95,7 @@ export class Cell implements DocxFragment<TableCell> {
       right: borderOptions,
     };
   }
-  get verticalAlign(): VerticalAlign {
+  private get verticalAlign(): VerticalAlign {
     switch (this.styles['vertical-align']) {
       case 'top':
         return VerticalAlign.TOP;
@@ -96,7 +106,7 @@ export class Cell implements DocxFragment<TableCell> {
     }
   }
 
-  get margins() {
+  private get margins() {
     // TODO: make configurable
     return {
       left: 100,

@@ -5,16 +5,16 @@ import {
   IImageOptions,
   ImageRun,
   IMediaTransformation,
-  ITextWrapping,
   TextWrappingSide,
   TextWrappingType,
   VerticalPositionAlign,
   VerticalPositionRelativeFrom,
+  ITextWrapping,
 } from 'docx';
 import { Element } from 'himalaya';
-import { DocxExportOptions } from '../options';
-import { convertTwipToPixels, getAttributeMap, getPageWidth, parseStyles } from './utils';
-import { DocxFragment } from './DocxFragment';
+import { DocxExportOptions } from '../../options';
+import { convertTwipToPixels, getAttributeMap, getPageWidth, parseStyles } from '../utils';
+import { DocumentElement, DocumentElementType } from './DocumentElement';
 
 enum ImageOrientation {
   Horizontal = 1,
@@ -27,10 +27,10 @@ enum ImageOrientation {
   Rotate270 = 6,
 }
 
-export class Image implements DocxFragment<ImageRun> {
-  content: ImageRun[];
-  options: IImageOptions;
-  classes: string[];
+export class Image implements DocumentElement {
+  type: DocumentElementType = 'image';
+  public options: IImageOptions;
+  private classes: string[];
 
   constructor(private imageFigure: Element, private exportOptions: DocxExportOptions) {
     const figureAttr = getAttributeMap(imageFigure.attributes);
@@ -47,8 +47,6 @@ export class Image implements DocxFragment<ImageRun> {
 
     const imageBuffer = exportOptions.images[imageSourceUrl];
     this.options = this.createOptions(imageBuffer);
-
-    this.content = [new ImageRun(this.options)];
   }
 
   private createOptions(imageBuffer: Buffer) {
@@ -178,7 +176,11 @@ export class Image implements DocxFragment<ImageRun> {
     };
   }
 
-  getContent(): ImageRun[] {
-    return this.content;
+  getContent() {
+    return [this];
+  }
+
+  transformToDocx() {
+    return [new ImageRun(this.options)];
   }
 }
