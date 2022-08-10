@@ -3,7 +3,7 @@ import { DocumentElement, DocumentElementType } from './DocumentElement';
 import { TextInline } from './TextInline';
 
 export class TextBlock implements DocumentElement {
-  type: DocumentElementType = 'paragraph';
+  type: DocumentElementType = 'text';
 
   constructor(public options: IParagraphOptions, public children: DocumentElement[] = []) {
     this.children = children.filter(i => !(i instanceof TextInline && i.isEmpty));
@@ -17,6 +17,9 @@ export class TextBlock implements DocumentElement {
   }
 
   transformToDocx() {
+    if (this.children.length === 0) {
+      return [];
+    }
     return [
       new Paragraph({
         ...this.options,
