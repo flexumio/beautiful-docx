@@ -2,7 +2,7 @@ import { AlignmentType, convertInchesToTwip, convertMillimetersToTwip } from 'do
 import { Attribute, Styles } from 'himalaya';
 import { DocxExportOptions } from '../options';
 
-const FIRST_LINE_INDENT_MILLIMETERS = 6;
+export const FIRST_LINE_INDENT_MILLIMETERS = 6;
 
 export type AttributeMap = {
   [k: string]: string;
@@ -62,7 +62,7 @@ export const parseTextAlignment = (attribs: Attribute[]): AlignmentType => {
   const cellAttributes = getAttributeMap(attribs);
   const style = parseStyles(cellAttributes['style']);
 
-  switch (style['text-align']) {
+  switch (style['text-align']?.trim()) {
     case 'justify':
       return AlignmentType.JUSTIFIED;
     case 'left':

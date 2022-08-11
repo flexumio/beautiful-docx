@@ -1,8 +1,6 @@
 import { AlignmentType, Paragraph as DocxParagraph, IParagraphOptions } from 'docx';
 import { parse } from 'himalaya';
-import { DocumentElement } from './DocumentElement';
-import { TextBlock } from './TextBlock';
-import { TextInline } from './TextInline';
+import { DocumentElement, TextBlock, TextInline } from '.';
 
 describe('TextBlock', () => {
   const defaultOptions: IParagraphOptions = {
