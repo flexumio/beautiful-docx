@@ -102,6 +102,7 @@ describe('Paragraph', () => {
   });
 
   describe('options', () => {
+    // TODO: move this tests to parseTextAlignment function tests
     describe('alignment calculated from style attribute', () => {
       test('should be "left" by default', () => {
         const expectedAlignment = AlignmentType.LEFT;

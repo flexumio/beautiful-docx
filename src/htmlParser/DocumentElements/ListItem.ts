@@ -21,16 +21,24 @@ export class ListItem extends TextBlock {
     };
 
     const children: DocumentElement[] = [];
-
+    const nestedLists: DocumentElement[] = [];
+    // TODO: add support for else child elements
+    // TODO: add support for structure:
+    // <li>
+    //  text
+    //  <ul></ul>
+    //  text
+    // </li>
     element.children.forEach(child => {
       if (child.type === 'element' && isListTag(child.tagName)) {
-        this.nestedLists.push(...new List(child, level + 1).getContent());
+        nestedLists.push(...new List(child, level + 1).getContent());
       } else {
         children.push(...new TextInline(child).getContent());
       }
     });
 
     super(liOptions, children);
+    this.nestedLists = nestedLists;
   }
 
   getContent(): DocumentElement[] {
