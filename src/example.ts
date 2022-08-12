@@ -18,7 +18,14 @@ const exampleText = `
 <p>Something</p>
 <strong>bold</strong>
 <ul>
-  <li>List Item</li>
+  <li>List Item
+   <ul>
+    <li>list item</li>
+    <li>list item</li>
+    <li>list item</li>
+   </ul>
+   list item2
+  </li>
   <li>List Item</li>
   <li>List Item</li>
 </ul>
