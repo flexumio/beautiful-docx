@@ -1,6 +1,6 @@
 import { IParagraphOptions } from 'docx';
 import { Element, parse } from 'himalaya';
-import { ListItem, TextInline, List } from '.';
+import { ListItem, TextInline } from '.';
 
 describe('ListItem', () => {
   const bulletListItemOptions: IParagraphOptions = {
