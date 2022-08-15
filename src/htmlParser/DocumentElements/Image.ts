@@ -24,7 +24,7 @@ enum ImageOrientation {
   MirrorHorizontalAndRotate270 = 5,
   Rotate90 = 6,
   MirrorHorizontalAndRotate90 = 7,
-  Rotate270 = 6,
+  Rotate270 = 8,
 }
 
 export class Image implements DocumentElement {
@@ -95,7 +95,8 @@ export class Image implements DocumentElement {
 
     const imageAttr = getAttributeMap(this.imageFigure.attributes);
     const imageStyles = parseStyles(imageAttr['style']);
-    const imageWidthPercent = imageStyles['width'];
+    //TODO: add px, vw etc support
+    const imageWidthPercent = imageStyles['width']?.trim();
 
     const imageRotation = this.getImageRotation(imageDimensions.orientation);
 
@@ -130,7 +131,7 @@ export class Image implements DocumentElement {
     };
   }
 
-  private getImageRotation(orientation?: ImageOrientation): Partial<IMediaTransformation> {
+  public getImageRotation(orientation?: ImageOrientation): Partial<IMediaTransformation> {
     // types of image orientations can be found here
     // https://exiftool.org/TagNames/EXIF.html#:~:text=0x0112,8%20=%20Rotate%20270%20CW
 
