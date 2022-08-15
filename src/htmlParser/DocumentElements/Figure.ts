@@ -8,7 +8,7 @@ import { DocumentElement, DocumentElementType } from './DocumentElement';
 import { getAttributeMap } from '../utils';
 
 export class Figure implements DocumentElement {
-  type: DocumentElementType = 'figure';
+  public type: DocumentElementType = 'figure';
 
   private content: DocumentElement[];
   constructor(element: Element, docxExportOptions: DocxExportOptions) {
