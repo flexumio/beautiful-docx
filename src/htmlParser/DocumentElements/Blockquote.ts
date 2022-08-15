@@ -10,7 +10,7 @@ const BLOCKQUOTE_COLOR = '#cccccc';
 const BLOCKQUOTE_SPACE = 12;
 
 export class Blockquote implements DocumentElement {
-  type: BlockTextType = 'blockquote';
+  public type: BlockTextType = 'blockquote';
   public options: IParagraphOptions;
   private content: DocumentElement[];
 
