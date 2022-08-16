@@ -17,7 +17,7 @@ export class Cell implements DocumentElement {
 
   constructor(private element: Element, private exportOptions: DocxExportOptions, private isHeader: boolean) {
     this.attributes = getAttributeMap(element.attributes);
-    this.styles = parseStyles(this.attributes.styles);
+    this.styles = parseStyles(this.attributes.style);
     this.options = {
       margins: this.margins,
       rowSpan: parseInt(this.attributes['rowspan'] || '1'),
