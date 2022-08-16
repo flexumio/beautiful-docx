@@ -17,6 +17,7 @@ const exampleText = `
 <br/>
 <p>Something</p>
 <strong>bold</strong>
+<p><a href='https://github.com/'>link</a></p>
 <ul>
   <li>List Item
    <ul>
