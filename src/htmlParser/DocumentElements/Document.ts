@@ -170,7 +170,7 @@ export class Document {
     };
   };
 
-  public get footer() {
+  private get footer() {
     return new DocumentFooter();
   }
 }
