@@ -1,7 +1,7 @@
 import { ColorTranslator } from 'colortranslator';
 import { BorderStyle, convertInchesToTwip, IBorderOptions } from 'docx';
 import { Node, Styles } from 'himalaya';
-import { covertPixelsToPoints } from '../../utils';
+import { convertPixelsToPoints } from '../../utils';
 
 const INLINE_TEXT_ELEMENTS = ['strong', 'i', 'u', 's', 'a'];
 const TABLE_LEFT_INDENT = 0.06;
@@ -56,7 +56,7 @@ export const parseBorderOptions = (styles: Styles): IBorderOptions => {
     return {
       style: parseBorderStyle(style),
       color: cellColorTranslator.HEX,
-      size: covertPixelsToPoints(width),
+      size: convertPixelsToPoints(width),
     };
   } else {
     const width = styles['border-width'];
@@ -66,7 +66,7 @@ export const parseBorderOptions = (styles: Styles): IBorderOptions => {
     return {
       style: style ? parseBorderStyle(style) : defaultStyle,
       color: color ? new ColorTranslator(color).HEX : defaultColor,
-      size: width ? covertPixelsToPoints(width) : defaultSize,
+      size: width ? convertPixelsToPoints(width) : defaultSize,
     };
   }
 };

@@ -3,7 +3,7 @@ import { Attribute, Styles } from 'himalaya';
 import { DocxExportOptions } from '../options';
 
 export const FIRST_LINE_INDENT_MILLIMETERS = 6;
-
+export const PIXELS_TO_POINT_RATIO = 1 / 4;
 export type AttributeMap = {
   [k: string]: string;
 };
@@ -32,8 +32,7 @@ export const parseStyles = (stylesString: string | undefined): Styles => {
   return styles;
 };
 
-export const covertPixelsToPoints = (pixels: string | number) => {
-  const PIXELS_TO_POINT_RATIO = 1 / 4;
+export const convertPixelsToPoints = (pixels: string | number) => {
   if (typeof pixels === 'string') {
     const regex = new RegExp(/(\d+)px/);
     const matched = pixels.match(regex);
