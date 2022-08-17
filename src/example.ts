@@ -1,3 +1,4 @@
+/* istanbul ignore file */
 import { HtmlToDocx } from './index';
 import * as fs from 'fs';
 
