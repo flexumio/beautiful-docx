@@ -125,7 +125,8 @@ export class TableCreator implements DocumentElement {
   }
 
   private get columnWidth() {
-    if (this.colGroup?.children?.length === this.columnsCount) {
+    const colGroupCount = this.colGroup?.children.filter(i => i.type === 'element').length;
+    if (this.colGroup && colGroupCount === this.columnsCount) {
       return this.colGroup.children.map(item => {
         if (item.type === 'element' && item.tagName === 'col') {
           const colAttr = getAttributeMap(item.attributes);
