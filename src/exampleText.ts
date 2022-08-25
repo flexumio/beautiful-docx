@@ -38,6 +38,7 @@ export const exampleText = `
 <figure class='image'>
   <img src='https://upload.wikimedia.org/wikipedia/commons/thumb/a/a7/React-icon.svg/640px-React-icon.svg.png'/>
 </figure>
+<img src='https://upload.wikimedia.org/wikipedia/commons/thumb/a/a7/React-icon.svg/640px-React-icon.svg.png'/>
 <p>Paragraph</p>
 <figure class='image'>
   <img src='https://upload.wikimedia.org/wikipedia/commons/thumb/a/a7/React-icon.svg/640px-React-icon.svg.png'/>
@@ -75,4 +76,14 @@ export const exampleText = `
     </tbody>
   </table>
 </figure>
+<table>
+    <colgroup>
+      <col style="width:100%;">
+    </colgroup>
+    <tbody>
+      <tr>
+        <td>Example</td>
+        </tr>
+    </tbody>
+  </table>
 `;
