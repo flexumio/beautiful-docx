@@ -108,4 +108,20 @@ describe('TableCreator', () => {
     expect(instance.options.width).toBeDefined();
     expect(instance.options.width?.size).toBe(expectedWidthInTwip);
   });
+
+  test('table without tbody should create without errors', () => {
+    const html = `
+       <table>
+        <caption>New Table</caption>
+        <tr>
+          <td>First</td>
+          <td>Second</td>
+        </tr>     
+      </table>
+      `;
+
+    const element = parse(html).find(i => i.type === 'element' && i.tagName === 'table') as Element;
+    const instance = new TableCreator(element, defaultExportOptions);
+    expect(instance.type).toBe('table');
+  });
 });
