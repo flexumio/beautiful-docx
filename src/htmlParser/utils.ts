@@ -99,3 +99,5 @@ export const getPageWidth = (exportOptions: DocxExportOptions): number => {
     convertMillimetersToTwip(exportOptions.page.margins.left)
   );
 };
+
+export type Mutable<T> = { -readonly [P in keyof T]: T[P] };

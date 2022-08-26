@@ -1,4 +1,4 @@
-import { IParagraphOptions } from 'docx';
+import { IParagraphOptions } from '../../options/docxOptions';
 import { Node } from 'himalaya';
 import { TextInline } from './TextInline';
 import { List } from './List';

@@ -1,11 +1,13 @@
-import { IParagraphOptions, Paragraph } from 'docx';
+import { Paragraph } from 'docx';
+import { IParagraphOptions } from '../../options/docxOptions';
 import { DocumentElement, DocumentElementType } from './DocumentElement';
 import { TextInline } from './TextInline';
+import { Mutable } from '../utils';
 
 export class TextBlock implements DocumentElement {
   type: DocumentElementType = 'text';
 
-  constructor(public options: IParagraphOptions, public children: DocumentElement[] = []) {
+  constructor(public options: Mutable<IParagraphOptions>, public children: DocumentElement[] = []) {
     this.children = children.filter(i => !(i instanceof TextInline && i.isEmpty));
   }
 
