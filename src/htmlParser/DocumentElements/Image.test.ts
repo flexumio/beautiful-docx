@@ -11,7 +11,7 @@ const bigImageSourceUrl =
   'https://upload.wikimedia.org/wikipedia/commons/thumb/a/a7/React-icon.svg/2300px-React-icon.svg.png';
 
 const defaultHtml = `
-    <figure class='image'>
+    <figure>
       <img src='${imageSourceUrl}'/>
     </figure>`;
 
@@ -86,8 +86,8 @@ describe('Image', () => {
 
       test('should be changed for width percent', async () => {
         const html = `
-          <figure style="width: 10%" class='image'>
-            <img src='${imageSourceUrl}'/>
+          <figure class='image'>
+            <img style="width: 10%" src='${imageSourceUrl}'/>
           </figure>;
         `;
 
@@ -122,11 +122,11 @@ describe('Image', () => {
         expect(instance.options.floating?.horizontalPosition.align).toBe(expectedAlign);
       });
 
-      describe('depend on classes', () => {
+      describe('depend on styles', () => {
         test('should be left aligned', async () => {
           const html = `
-            <figure class='image image-style-block-align-left'>
-              <img src='${imageSourceUrl}'/>
+            <figure>
+              <img style="float: left" src='${imageSourceUrl}'/>
             </figure>`;
           const element = parse(html).find(i => i.type === 'element' && i.tagName === 'figure') as Element;
 
@@ -150,8 +150,8 @@ describe('Image', () => {
 
         test('should be right aligned', async () => {
           const html = `
-            <figure class='image image-style-block-align-right'>
-              <img src='${imageSourceUrl}'/>
+            <figure>
+              <img style="float: right" src='${imageSourceUrl}'/>
             </figure>`;
           const element = parse(html).find(i => i.type === 'element' && i.tagName === 'figure') as Element;
 
@@ -186,11 +186,11 @@ describe('Image', () => {
         expect(instance.options.floating?.wrap).toStrictEqual(expectedWrapping);
       });
 
-      describe('depend on classes', () => {
+      describe('depend on styles', () => {
         test('should be right-side wrapped', async () => {
           const html = `
-            <figure class='image image-style-align-left'>
-              <img src='${imageSourceUrl}'/>
+            <figure>
+              <img style="float: left" src='${imageSourceUrl}'/>
             </figure>`;
           const element = parse(html).find(i => i.type === 'element' && i.tagName === 'figure') as Element;
 
@@ -217,8 +217,8 @@ describe('Image', () => {
 
         test('should be left-side wrapped', async () => {
           const html = `
-            <figure class='image image-style-align-right'>
-              <img src='${imageSourceUrl}'/>
+            <figure>
+              <img style="float: right" src='${imageSourceUrl}'/>
             </figure>`;
           const element = parse(html).find(i => i.type === 'element' && i.tagName === 'figure') as Element;
 
