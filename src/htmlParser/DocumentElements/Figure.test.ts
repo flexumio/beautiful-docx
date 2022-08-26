@@ -5,7 +5,7 @@ import { Figure, TextBlock, TableCreator, Image } from '.';
 import { defaultExportOptions, DocxExportOptions } from '../../options';
 
 const tableHtml = `
-<figure class="table">
+<figure>
   <table>
     <colgroup>
       <col style="width:100%">
@@ -22,13 +22,13 @@ const imageSourceUrl =
   'https://upload.wikimedia.org/wikipedia/commons/thumb/a/a7/React-icon.svg/640px-React-icon.svg.png';
 
 export const imageHtml = `
-    <figure class='image'>
+    <figure>
       <img src='${imageSourceUrl}'/>
     </figure>`;
 
 describe('Figure', () => {
   test('unknown element name should throw an error', () => {
-    const html = `<figure class="foo"></figure>`;
+    const html = `<figure><p>something</p></figure>`;
     const element = parse(html).find(i => i.type === 'element' && i.tagName === 'figure') as Element;
 
     try {
@@ -36,7 +36,7 @@ describe('Figure', () => {
 
       expect(true).toBe(false);
     } catch (e) {
-      expect((e as Error).message).toContain('Unsupported figure with class');
+      expect((e as Error).message).toContain('Unsupported figure ');
     }
   });
 
@@ -49,18 +49,6 @@ describe('Figure', () => {
 
     test('type should be "figure"', () => {
       expect(instance.type).toBe('figure');
-    });
-
-    test('should throw an error if has no table element', () => {
-      const html = `<figure class='table'><p></p></figure>`;
-
-      const element = parse(html).find(i => i.type === 'element' && i.tagName === 'figure') as Element;
-      try {
-        new Figure(element, defaultExportOptions);
-        expect(true).toBe(false);
-      } catch (e) {
-        expect((e as Error).message).toBe('No table element found');
-      }
     });
 
     test('getContent should return array from TextBlock and TableCreator elements', () => {
