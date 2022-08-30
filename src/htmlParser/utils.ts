@@ -118,13 +118,13 @@ export const parsePaddings = (styles: Styles) => {
     paddings.left = convertPixelsToTwip(pixelsToNumber(styles['padding-left']));
   }
   if (styles['padding-right']) {
-    paddings.left = convertPixelsToTwip(pixelsToNumber(styles['padding-right']));
+    paddings.right = convertPixelsToTwip(pixelsToNumber(styles['padding-right']));
   }
 
   return paddings;
 };
 
-const parsePaddingsMergedValue = (padding: string) => {
+export const parsePaddingsMergedValue = (padding: string) => {
   const paddings = padding.split(' ').map(i => convertPixelsToTwip(pixelsToNumber(i)));
 
   switch (paddings.length) {
