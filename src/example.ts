@@ -17,6 +17,7 @@ const main = async () => {
       headersFontFamily: 'Calibri',
     },
     verticalSpaces: 0,
+    table: { cellMargins: { top: 200 } },
   });
   const buffer = await htmlToDocx.generateDocx(exampleText);
   console.timeEnd('Loading');
