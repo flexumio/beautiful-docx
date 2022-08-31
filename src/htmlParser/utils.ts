@@ -99,6 +99,9 @@ export const getPageWidth = (exportOptions: DocxExportOptions): number => {
     convertMillimetersToTwip(exportOptions.page.margins.left)
   );
 };
+
+export type Mutable<T> = { -readonly [P in keyof T]: T[P] };
+
 type PaddingsStyle = { left: number; right: number; top: number; bottom: number };
 
 export const parsePaddings = (styles: Styles) => {
@@ -182,3 +185,4 @@ export const parsePaddingsMergedValue = (padding: string) => {
 const pixelsToNumber = (string: string): number => {
   return Number(string.replace(/px$/, ''));
 };
+

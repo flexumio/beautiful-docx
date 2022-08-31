@@ -1,4 +1,5 @@
-import { IParagraphOptions } from 'docx';
+import { IParagraphOptions } from '../../options/docxOptions';
+
 import { Element, Node } from 'himalaya';
 import { DEFAULT_NUMBERING_REF } from './Document';
 import { DocumentElement, DocumentElementType } from './DocumentElement';

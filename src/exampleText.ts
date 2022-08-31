@@ -47,6 +47,7 @@ export const exampleText = `
 </figure>
 <figure>
   <table>
+    <caption>New Table</caption>
     <colgroup>
       <col style="width:14.29%;">
       <col style="width:14.29%;">
