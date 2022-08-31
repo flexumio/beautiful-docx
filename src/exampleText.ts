@@ -55,19 +55,19 @@ export const exampleText = `
     </colgroup>
     <tbody>
       <tr>
-        <td>das</td><td>sad</td><td>ss</td><td>d</td><td>&nbsp;</td><td>sda</td><td>dasdad</td>
+        <td style="padding: 50px;">das</td><td>sad</td><td>ss</td><td>d</td><td>&nbsp;</td><td>sda</td><td>dasdad</td>
         </tr>
       <tr>
-        <td>&nbsp;</td><td>asdas</td><td>ds</td><td>asd</td><td>sdsad</td><td>asd</td><td>sad</td>
+        <td>&nbsp;</td><td>asdas</td><td>ds</td><td style="padding: 50px 0;">asd</td><td>sdsad</td><td>asd</td><td>sad</td>
       </tr>
       <tr>
-        <td>sd</td><td>sd</td><td>sd</td><td>sdsd</td><td>sd</td><td>sd</td><td>sd</td>
+        <td>sd</td><td>sd</td><td>sd</td><td>sdsd</td><td>sd</td><td>sd</td><td style="padding: 50px 0 20px;">sd</td>
       </tr>
       <tr>
-        <td>d</td><td>sd</td><td>sd</td><td>sd</td><td>sd</td><td>sd</td><td>sd</td>
+        <td style="padding-top: 100px;">d</td><td>sd</td><td>sd</td><td>sd</td><td>sd</td><td>sd</td><td>sd</td>
       </tr>
       <tr>
-        <td>sd</td><td>sd</td><td>sd</td><td>d</td><td>sd</td><td>sdsd</td><td>a</td>
+        <td>sd</td><td style="padding-left: 100px">sd</td><td>sd</td><td>d</td><td style="padding-bottom: 100px">sd</td><td>sdsd</td><td>a</td>
       </tr>
       <tr>
         <td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td>

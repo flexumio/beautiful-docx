@@ -5,15 +5,15 @@ import { DocxExportOptions } from '../../../options';
 import { TextInline } from '../TextInline';
 import { HtmlParser } from '../../HtmlParser';
 import { TextBlock } from '../TextBlock';
-import { AttributeMap, getAttributeMap, parseStyles } from '../../utils';
+import { AttributeMap, getAttributeMap, parsePaddings, parseStyles } from '../../utils';
 import { isInlineTextElement, parseBorderOptions } from './utils';
 import { DocumentElement, DocumentElementType } from '../DocumentElement';
 
 export class Cell implements DocumentElement {
   type: DocumentElementType = 'table-cell';
   public options: ITableCellOptions;
-  private attributes: AttributeMap;
-  private styles: Styles;
+  private readonly attributes: AttributeMap;
+  private readonly styles: Styles;
 
   constructor(private element: Element, private exportOptions: DocxExportOptions, private isHeader: boolean) {
     this.attributes = getAttributeMap(element.attributes);
@@ -107,12 +107,17 @@ export class Cell implements DocumentElement {
   }
 
   private get margins() {
-    // TODO: make configurable
-    return {
+    const defaultTableCellMargins = {
       left: 100,
       right: 100,
       top: 100,
       bottom: 100,
     };
+
+    const stylesPaddings = parsePaddings(this.styles);
+
+    const optionsMargins = this.exportOptions.table?.cellMargins ? this.exportOptions.table.cellMargins : {};
+
+    return { ...defaultTableCellMargins, ...optionsMargins, ...stylesPaddings };
   }
 }
