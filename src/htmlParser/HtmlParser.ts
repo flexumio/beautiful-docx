@@ -1,9 +1,17 @@
 import { HeadingLevel } from 'docx';
 import { Element, Node, parse } from 'himalaya';
 import { DocxExportOptions } from '../options';
-import { Figure, Header, List, Paragraph, TextBlock, TextInline } from './DocumentElements';
-import { Blockquote } from './DocumentElements/Blockquote';
-import { DocumentElement } from './DocumentElements/DocumentElement';
+import {
+  Blockquote,
+  DocumentElement,
+  Figure,
+  Header,
+  List,
+  Paragraph,
+  TextBlock,
+  TextInline,
+} from './DocumentElements';
+
 import { ImagesAdapter } from './ImagesAdapter';
 
 export class HtmlParser {
@@ -14,9 +22,7 @@ export class HtmlParser {
 
     await this.setImages(parsedContent);
 
-    const docxTree = this.parseHtmlTree(parsedContent);
-
-    return docxTree;
+    return this.parseHtmlTree(parsedContent);
   }
 
   async setImages(content: Node[]) {
@@ -74,6 +80,10 @@ export class HtmlParser {
         return new Figure(element, this.options).getContent();
       case 'blockquote':
         return new Blockquote(element).getContent();
+      case 'div':
+      case 'article':
+      case 'section':
+        return this.parseHtmlTree(element.children);
       default:
         throw new Error(`Unsupported top tag ${element.tagName}`);
     }
