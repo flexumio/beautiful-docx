@@ -1,4 +1,4 @@
-import { AlignmentType, Table, TableLayoutType, WidthType, TableRow as DocxTableRow, ITableOptions } from 'docx';
+import { AlignmentType, ITableOptions, Table, TableLayoutType, TableRow as DocxTableRow, WidthType } from 'docx';
 import { Element, Styles } from 'himalaya';
 import { DocxExportOptions } from '../../../options';
 import { AttributeMap, getAttributeMap, getPageWidth, parseStyles } from '../../utils';
@@ -6,24 +6,28 @@ import { getTableIndent, parseBorderOptions } from './utils';
 import { TextBlock } from '../TextBlock';
 import { TableRow } from './TableRow';
 import { DocumentElement, DocumentElementType } from '../DocumentElement';
+import { HtmlParser } from '../../HtmlParser';
 
 export class TableCreator implements DocumentElement {
   type: DocumentElementType = 'table';
   public options: ITableOptions;
   public children: TableRow[] = [];
 
-  private attr: AttributeMap;
+  private readonly attr: AttributeMap;
   private colGroup: Element | null = null;
-  private styles: Styles;
-  private content: DocumentElement[];
+  private readonly styles: Styles;
+  private readonly content: DocumentElement[];
+  private caption?: DocumentElement[];
 
   constructor(private element: Element, private exportOptions: DocxExportOptions) {
     this.attr = getAttributeMap(element.attributes);
     this.styles = parseStyles(this.attr['style']);
 
     this.createRows();
+    const beforeTableContent = this.caption ? this.caption : [new TextBlock({ children: [] })];
 
-    this.content = [new TextBlock({ children: [] }), this, new TextBlock({ children: [] })];
+    this.content = [...beforeTableContent, this, new TextBlock({ children: [] })];
+
     this.options = {
       layout: TableLayoutType.FIXED,
       alignment: AlignmentType.CENTER,
@@ -49,7 +53,7 @@ export class TableCreator implements DocumentElement {
           rows: this.children.flatMap(i => i.transformToDocx() as unknown as DocxTableRow),
         });
       }
-      return i.transformToDocx();
+      return [];
     });
   }
 
@@ -59,16 +63,22 @@ export class TableCreator implements DocumentElement {
       if (tableChild.type !== 'element') {
         continue;
       }
-      // TODO: add support for tr, tfoot,
       switch (tableChild.tagName) {
         case 'thead':
           this.children.push(...this.parseTableRowsFragment(tableChild, true));
           break;
         case 'tbody':
+        case 'tfoot':
           this.children.push(...this.parseTableRowsFragment(tableChild, false));
+          break;
+        case 'tr':
+          this.children.push(...new TableRow(tableChild, false, this.exportOptions).getContent());
           break;
         case 'colgroup':
           this.setColGroup(tableChild);
+          break;
+        case 'caption':
+          this.caption = this.parseCaption(tableChild);
           break;
         default:
           throw new Error(`Unsupported table element: ${tableChild.tagName}`);
@@ -125,7 +135,8 @@ export class TableCreator implements DocumentElement {
   }
 
   private get columnWidth() {
-    if (this.colGroup?.children?.length === this.columnsCount) {
+    const colGroupCount = this.colGroup?.children.filter(i => i.type === 'element').length;
+    if (this.colGroup && colGroupCount === this.columnsCount) {
       return this.colGroup.children.map(item => {
         if (item.type === 'element' && item.tagName === 'col') {
           const colAttr = getAttributeMap(item.attributes);
@@ -139,9 +150,7 @@ export class TableCreator implements DocumentElement {
       });
     } else {
       const columnWidth = Math.floor(this.width / this.columnsCount);
-      const columnWidths = new Array<number>(this.columnsCount).fill(columnWidth);
-
-      return columnWidths;
+      return new Array<number>(this.columnsCount).fill(columnWidth);
     }
   }
 
@@ -154,5 +163,14 @@ export class TableCreator implements DocumentElement {
       left: borderOptions,
       right: borderOptions,
     };
+  }
+
+  private parseCaption(element: Element) {
+    return new HtmlParser(this.exportOptions).parseHtmlTree(element.children).map(i => {
+      if (i instanceof TextBlock) {
+        i.options.alignment = AlignmentType.CENTER;
+      }
+      return i;
+    });
   }
 }

@@ -22,7 +22,7 @@ export class TextInline implements DocumentElement {
   private content: (string | DocumentElement)[];
   isEmpty = false;
 
-  constructor(private element: Node, public options: IRunOptions = {}, public children: Node[] = []) {
+  constructor(private element: Node, public options: IRunOptions = {}) {
     if (this.element.type === 'text') {
       this.content = [this.element.content];
       this.type = 'text';
@@ -43,7 +43,7 @@ export class TextInline implements DocumentElement {
     this.options = { ...this.options, ...inlineTextOptionsDictionary[this.element.tagName as InlineTextType] };
 
     this.content = this.element.children.flatMap(i => {
-      return new TextInline(i, this.options, (i.type === 'element' && i.children) || []).getContent();
+      return new TextInline(i, this.options).getContent();
     });
 
     this.type = this.element.tagName as InlineTextType;
@@ -60,6 +60,8 @@ export class TextInline implements DocumentElement {
 
     return this.content.flatMap(content => {
       if (typeof content === 'string') {
+        return [new TextRun({ text: cleanTextContent(content), ...this.options })];
+      } else {
         if (this.type === 'a') {
           const element = this.element as Element;
           return [
@@ -73,9 +75,6 @@ export class TextInline implements DocumentElement {
             }),
           ];
         }
-
-        return [new TextRun({ text: cleanTextContent(content), ...this.options })];
-      } else {
         return content.transformToDocx();
       }
     });

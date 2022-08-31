@@ -7,7 +7,8 @@ import { parseTextAlignment } from '../utils';
 import { DocumentElementType } from './DocumentElement';
 
 export class Header extends TextBlock {
-  type: DocumentElementType = 'heading';
+  public type: DocumentElementType = 'heading';
+
   constructor(element: Element, level: HeadingLevel) {
     const options = {
       heading: level,

@@ -60,6 +60,16 @@ export type DocxExportOptions = {
   verticalSpaces: number;
   ignoreIndentation?: boolean;
   images?: ImageMap;
+  table?: TableOptions;
+};
+
+export type TableOptions = {
+  cellMargins?: {
+    left?: number;
+    right?: number;
+    top?: number;
+    bottom?: number;
+  };
 };
 
 const TOP_MARGIN_DEFAULT = 19;

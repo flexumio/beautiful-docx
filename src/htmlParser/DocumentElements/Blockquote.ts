@@ -1,4 +1,5 @@
-import { BorderStyle, convertMillimetersToTwip, IParagraphOptions, Paragraph, ParagraphChild } from 'docx';
+import { BorderStyle, convertMillimetersToTwip, Paragraph, ParagraphChild } from 'docx';
+import { IParagraphOptions } from '../../options/docxOptions';
 import { Element, Node } from 'himalaya';
 import { TextInline } from './TextInline';
 import { parseTextAlignment } from '../utils';
@@ -10,7 +11,7 @@ const BLOCKQUOTE_COLOR = '#cccccc';
 const BLOCKQUOTE_SPACE = 12;
 
 export class Blockquote implements DocumentElement {
-  type: BlockTextType = 'blockquote';
+  public type: BlockTextType = 'blockquote';
   public options: IParagraphOptions;
   private content: DocumentElement[];
 
