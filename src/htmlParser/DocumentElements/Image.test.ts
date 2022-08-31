@@ -84,33 +84,91 @@ describe('Image', () => {
         expect(instance.options.transformation.width).toBe(expectedSize);
       });
 
-      test('should be changed for width percent', async () => {
-        const html = `
+      describe('should be changed for width style', () => {
+        test('with percentage value', async () => {
+          const html = `
           <figure class='image'>
             <img style="width: 10%" src='${imageSourceUrl}'/>
           </figure>;
         `;
 
-        const element = parse(html).find(i => i.type === 'element' && i.tagName === 'figure') as Element;
+          const element = parse(html).find(i => i.type === 'element' && i.tagName === 'figure') as Element;
 
-        const imageBuffer = await axios
-          .get(imageSourceUrl, { responseType: 'arraybuffer' })
-          .then(response => Buffer.from(response.data, 'binary'));
+          const imageBuffer = await axios
+            .get(imageSourceUrl, { responseType: 'arraybuffer' })
+            .then(response => Buffer.from(response.data, 'binary'));
 
-        const exportOptions: DocxExportOptions = {
-          ...defaultExportOptions,
-          images: {
-            [imageSourceUrl]: imageBuffer,
-          },
-        };
+          const exportOptions: DocxExportOptions = {
+            ...defaultExportOptions,
+            images: {
+              [imageSourceUrl]: imageBuffer,
+            },
+          };
 
-        const expectedWidth = '68';
-        const expectedHeight = '59';
+          const expectedWidth = '68';
+          const expectedHeight = '59';
 
-        const instance = new Image(element, exportOptions);
+          const instance = new Image(element, exportOptions);
 
-        expect(instance.options.transformation.width.toFixed()).toBe(expectedWidth);
-        expect(instance.options.transformation.height.toFixed()).toBe(expectedHeight);
+          expect(instance.options.transformation.width.toFixed()).toBe(expectedWidth);
+          expect(instance.options.transformation.height.toFixed()).toBe(expectedHeight);
+        });
+        test('with vw value', async () => {
+          const html = `
+          <figure class='image'>
+            <img style="width: 10vw" src='${imageSourceUrl}'/>
+          </figure>;
+        `;
+
+          const element = parse(html).find(i => i.type === 'element' && i.tagName === 'figure') as Element;
+
+          const imageBuffer = await axios
+            .get(imageSourceUrl, { responseType: 'arraybuffer' })
+            .then(response => Buffer.from(response.data, 'binary'));
+
+          const exportOptions: DocxExportOptions = {
+            ...defaultExportOptions,
+            images: {
+              [imageSourceUrl]: imageBuffer,
+            },
+          };
+
+          const expectedWidth = '68';
+          const expectedHeight = '59';
+
+          const instance = new Image(element, exportOptions);
+
+          expect(instance.options.transformation.width.toFixed()).toBe(expectedWidth);
+          expect(instance.options.transformation.height.toFixed()).toBe(expectedHeight);
+        });
+        test('with pixels value', async () => {
+          const html = `
+          <figure class='image'>
+            <img style="width: 100px" src='${imageSourceUrl}'/>
+          </figure>;
+        `;
+
+          const element = parse(html).find(i => i.type === 'element' && i.tagName === 'figure') as Element;
+
+          const imageBuffer = await axios
+            .get(imageSourceUrl, { responseType: 'arraybuffer' })
+            .then(response => Buffer.from(response.data, 'binary'));
+
+          const exportOptions: DocxExportOptions = {
+            ...defaultExportOptions,
+            images: {
+              [imageSourceUrl]: imageBuffer,
+            },
+          };
+
+          const expectedWidth = '100';
+          const expectedHeight = '87';
+
+          const instance = new Image(element, exportOptions);
+
+          expect(instance.options.transformation.width.toFixed()).toBe(expectedWidth);
+          expect(instance.options.transformation.height.toFixed()).toBe(expectedHeight);
+        });
       });
     });
 

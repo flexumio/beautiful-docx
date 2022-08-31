@@ -91,22 +91,37 @@ export class Image implements DocumentElement {
 
     const originWidth = imageDimensions.width || 0;
     const originHeight = imageDimensions.height || 0;
-
-    //TODO: add px, vw etc support
-    const imageWidthPercent = this.style['width']?.trim();
-
     const imageRotation = this.getImageRotation(imageDimensions.orientation);
 
-    if (imageWidthPercent) {
-      const widthPercent = parseFloat(imageWidthPercent.slice(0, -1));
-      const widthPixels = (pageWidthPixels * widthPercent) / 100;
-      const resizeRatio = widthPixels / originWidth;
+    const imageWidth = this.style['width']?.trim();
+    if (imageWidth) {
+      const isPercentWidth = imageWidth.endsWith('%');
+      const isPixelsWidth = imageWidth.endsWith('px');
+      const isVwWidth = imageWidth.endsWith('vw');
 
-      return {
-        width: widthPixels,
-        height: originHeight * resizeRatio,
-        ...imageRotation,
-      };
+      if (isPercentWidth || isVwWidth) {
+        const widthPercent = parseFloat(imageWidth.slice(0, -1));
+        const widthPixels = (pageWidthPixels * widthPercent) / 100;
+        const resizeRatio = widthPixels / originWidth;
+
+        return {
+          width: widthPixels,
+          height: originHeight * resizeRatio,
+          ...imageRotation,
+        };
+      }
+
+      if (isPixelsWidth) {
+        const widthNumber = parseFloat(imageWidth.slice(0, -1));
+        const widthPixels = widthNumber >= pageWidth ? pageWidth : widthNumber;
+        const resizeRatio = widthPixels / originWidth;
+
+        return {
+          width: widthPixels,
+          height: originHeight * resizeRatio,
+          ...imageRotation,
+        };
+      }
     }
 
     const maxImageWidth = pageWidthPixels;
