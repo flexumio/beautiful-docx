@@ -26,7 +26,7 @@ export const parseStyles = (stylesString: string | undefined): Styles => {
 
   for (const rule of rules) {
     const [key, value] = rule.split(':');
-    styles[key] = value?.trim();
+    styles[key.trim()] = value?.trim();
   }
 
   return styles;
@@ -101,3 +101,88 @@ export const getPageWidth = (exportOptions: DocxExportOptions): number => {
 };
 
 export type Mutable<T> = { -readonly [P in keyof T]: T[P] };
+
+type PaddingsStyle = { left: number; right: number; top: number; bottom: number };
+
+export const parsePaddings = (styles: Styles) => {
+  let paddings: Partial<PaddingsStyle> = {};
+
+  if (styles.padding) {
+    paddings = parsePaddingsMergedValue(styles.padding);
+  }
+
+  if (styles['padding-top']) {
+    paddings.top = convertPixelsToTwip(pixelsToNumber(styles['padding-top']));
+  }
+  if (styles['padding-bottom']) {
+    paddings.bottom = convertPixelsToTwip(pixelsToNumber(styles['padding-bottom']));
+  }
+  if (styles['padding-left']) {
+    paddings.left = convertPixelsToTwip(pixelsToNumber(styles['padding-left']));
+  }
+  if (styles['padding-right']) {
+    paddings.right = convertPixelsToTwip(pixelsToNumber(styles['padding-right']));
+  }
+
+  return paddings;
+};
+
+export const parsePaddingsMergedValue = (padding: string) => {
+  const paddings = padding.split(' ').map(i => convertPixelsToTwip(pixelsToNumber(i)));
+
+  switch (paddings.length) {
+    case 1: {
+      const value = paddings[0];
+      return {
+        left: value,
+        right: value,
+        top: value,
+        bottom: value,
+      };
+    }
+    case 2: {
+      const verticalPaddings = paddings[0];
+      const horizontalPaddings = paddings[1];
+      return {
+        top: verticalPaddings,
+        bottom: verticalPaddings,
+        left: horizontalPaddings,
+        right: horizontalPaddings,
+      };
+    }
+    case 3: {
+      const top = paddings[0];
+      const horizontalPaddings = paddings[1];
+      const bottom = paddings[2];
+
+      return {
+        top,
+        bottom,
+        left: horizontalPaddings,
+        right: horizontalPaddings,
+      };
+    }
+    case 4: {
+      const top = paddings[0];
+      const right = paddings[1];
+      const bottom = paddings[2];
+      const left = paddings[3];
+
+      return {
+        top,
+        bottom,
+        left,
+        right,
+      };
+    }
+
+    default: {
+      throw new Error(`Unsupported padding value: ${padding}`);
+    }
+  }
+};
+
+const pixelsToNumber = (string: string): number => {
+  return Number(string.replace(/px$/, ''));
+};
+

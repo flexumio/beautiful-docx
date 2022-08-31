@@ -5,32 +5,22 @@ import { DocxExportOptions } from '../../options';
 import { Image } from './Image';
 import { TableCreator } from './Table';
 import { DocumentElement, DocumentElementType } from './DocumentElement';
-import { getAttributeMap } from '../utils';
 
 export class Figure implements DocumentElement {
   public type: DocumentElementType = 'figure';
 
-  private content: DocumentElement[];
+  private readonly content: DocumentElement[];
   constructor(element: Element, docxExportOptions: DocxExportOptions) {
-    const attributesMap = getAttributeMap(element.attributes);
-    // TODO: rework with tagName
-    const classString = attributesMap['class'] || '';
-    const classes = classString.split(' ');
+    const tableNode = element.children.find(i => i.type === 'element' && i.tagName === 'table');
+    const imageNode = element.children.find(i => i.type === 'element' && i.tagName === 'img');
 
-    if (classes.includes('table')) {
-      const tableNode = element.children.find(i => i.type === 'element' && i.tagName === 'table') as Element;
-
-      if (!tableNode) {
-        throw new Error('No table element found');
-      }
-
-      this.content = new TableCreator(tableNode, docxExportOptions).getContent();
-    }
-    // TODO: remove dependency on class
-    else if (classes.includes('image')) {
+    if (tableNode) {
+      this.content = new TableCreator(tableNode as Element, docxExportOptions).getContent();
+    } else if (imageNode) {
       this.content = new Image(element, docxExportOptions).getContent();
     } else {
-      throw new Error(`Unsupported figure with class ${attributesMap['class']}`);
+      const tagsNames = element.children.map(i => (i.type === 'element' ? i.tagName : i.type)).join(', ');
+      throw new Error(`Unsupported figure with content: ${tagsNames}`);
     }
   }
 
