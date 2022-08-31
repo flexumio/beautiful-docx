@@ -28,6 +28,14 @@ export const optionsSchema = z.object({
     }),
   }),
   verticalSpaces: z.number().nonnegative(),
+  table: z.object({
+    cellMargins: z.object({
+      left: z.number().positive(),
+      right: z.number().positive(),
+      top: z.number().positive(),
+      bottom: z.number().positive(),
+    }),
+  }),
 });
 
 export const userOptionsSchema = optionsSchema.deepPartial().strict();

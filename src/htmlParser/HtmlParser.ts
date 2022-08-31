@@ -35,6 +35,10 @@ export class HtmlParser {
     let pCounts = 0;
 
     for (const child of root) {
+      if (child.type === 'text') {
+        paragraphs.push(...new TextBlock({}, new TextInline(child).getContent()).getContent());
+      }
+
       if (child.type !== 'element') {
         continue;
       }

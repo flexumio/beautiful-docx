@@ -1,5 +1,12 @@
 import { AlignmentType } from 'docx';
-import { convertPixelsToPoints, convertPixelsToTwip, parseTextAlignment, PIXELS_TO_POINT_RATIO } from './utils';
+import {
+  convertPixelsToPoints,
+  convertPixelsToTwip,
+  parsePaddings,
+  parsePaddingsMergedValue,
+  parseTextAlignment,
+  PIXELS_TO_POINT_RATIO,
+} from './utils';
 
 describe('convertPixelsToPoints', () => {
   test('convert string pixels', () => {
@@ -79,4 +86,116 @@ describe('convertPixelsToTwip', () => {
   const expectedResult = 15;
 
   expect(convertPixelsToTwip(1)).toBe(expectedResult);
+});
+
+describe('parsePaddingsMergedValue', () => {
+  describe('with 1 property', () => {
+    test('should return object with same values', () => {
+      const string = '1px';
+      const expectedResult = {
+        top: 15,
+        left: 15,
+        right: 15,
+        bottom: 15,
+      };
+
+      const result = parsePaddingsMergedValue(string);
+
+      expect(result).toEqual(expectedResult);
+    });
+  });
+  describe('with 2 properties', () => {
+    test('should return object with same vertical and horizontal values', () => {
+      const string = '1px 2px';
+      const expectedResult = {
+        top: 15,
+        left: 30,
+        right: 30,
+        bottom: 15,
+      };
+
+      const result = parsePaddingsMergedValue(string);
+
+      expect(result).toEqual(expectedResult);
+    });
+  });
+  describe('with 3 property', () => {
+    test('should return object with top value, bottom value and same horizontal values', () => {
+      const string = '1px 2px 3px';
+      const expectedResult = {
+        top: 15,
+        left: 30,
+        right: 30,
+        bottom: 45,
+      };
+
+      const result = parsePaddingsMergedValue(string);
+
+      expect(result).toEqual(expectedResult);
+    });
+  });
+  describe('with 4 property', () => {
+    test('should return object with all values', () => {
+      const string = '1px 2px 3px 4px';
+      const expectedResult = {
+        top: 15,
+        left: 60,
+        right: 30,
+        bottom: 45,
+      };
+
+      const result = parsePaddingsMergedValue(string);
+
+      expect(result).toEqual(expectedResult);
+    });
+  });
+  describe('with unexpected properties', () => {
+    test('should throw error', () => {
+      const string = '1px 2px 3px 4px 5px';
+
+      try {
+        parsePaddingsMergedValue(string);
+
+        expect(true).toBe(false);
+      } catch (e) {
+        expect((e as Error).message).toContain('Unsupported padding value:');
+      }
+    });
+  });
+});
+
+describe('parsePaddings', () => {
+  describe('padding-top', () => {
+    test('should return object with top value', () => {
+      const expectedResult = {
+        top: 15,
+      };
+
+      expect(parsePaddings({ 'padding-top': '1px' })).toEqual(expectedResult);
+    });
+
+    test('should return object with left value', () => {
+      const expectedResult = {
+        left: 15,
+      };
+
+      expect(parsePaddings({ 'padding-left': '1px' })).toEqual(expectedResult);
+    });
+
+    test('should return object with right value', () => {
+      const expectedResult = {
+        right: 15,
+      };
+
+      expect(parsePaddings({ 'padding-right': '1px' })).toEqual(expectedResult);
+    });
+
+    test('should return object with bottom value', () => {
+      const expectedResult = {
+        bottom: 15,
+      };
+
+      expect(parsePaddings({ 'padding-bottom': '1px' })).toEqual(expectedResult);
+    });
+  });
 });
