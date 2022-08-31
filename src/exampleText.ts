@@ -1,38 +1,41 @@
 export const exampleText = `
-<h1>H1 <strong>Example</strong></h1>
-<h2>H2 Example</h2>
-<h3>H3 Example</h3>
-<h4>H4 Example</h4>
-<p>
+ <div>
+  <h1>H1 <strong>Example</strong></h1>
+  <h2>H2 Example</h2>
+  <h3>H3 Example</h3>
+  <h4>H4 Example</h4>
+  <p>
   <s>Something</s>
   <br/>
   <i>sometimes</i>
   <u>sometimes</u>
   <strong>sometimes</strong>
-</p>
-<br/>
-<br/>
-<p>Something</p>
-<strong>bold</strong>
-<p><a href='https://github.com/'>link</a></p>
-<ul>
-  <li>List Item
-   <ul>
-    <li>list item</li>
-    <li>list item</li>
-    <li>list item</li>
-   </ul>
-   list item2
-  </li>
-  <li>List Item</li>
-  <li>List Item</li>
-</ul>
-<ol>
-  <li>List Item</li>
-  <li>List Item</li>
-  <li>List Item</li>
-</ol>
-<blockquote>
+  </p>
+  <br/>
+  <br/>
+  <p>Something</p>
+  <strong>bold</strong>
+  <p><a href='https://github.com/'>link</a></p>
+  <article>
+    <ul>
+      <li>List Item
+        <ul>
+          <li>list item</li>
+          <li>list item</li>
+          <li>list item</li>
+        </ul>
+          list item2
+      </li>
+      <li>List Item</li>
+      <li>List Item</li>
+    </ul>
+    <ol>
+      <li>List Item</li>
+      <li>List Item</li>
+      <li>List Item</li>
+    </ol>
+  </article>
+  <blockquote>
   <p>Blockquote</p> and just text
 </blockquote>
 <figure class='image'>
@@ -85,5 +88,6 @@ export const exampleText = `
         <td>Example</td>
         </tr>
     </tbody>
-  </table>
+  </table>  
+</div>
 `;

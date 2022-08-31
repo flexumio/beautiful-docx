@@ -1,4 +1,4 @@
-import { IParagraphOptions } from 'docx';
+import { IParagraphOptions } from '../../options/docxOptions';
 import { Element, parse } from 'himalaya';
 import { ListItem, TextInline } from '.';
 
@@ -61,7 +61,7 @@ describe('ListItem', () => {
        <li>
           List item
           <ul>
-          <li>List Item2</li>
+            <li>List Item2</li>
           </ul>
        </li>`;
       const element = parse(html).find(i => i.type === 'element' && i.tagName === 'li') as Element;

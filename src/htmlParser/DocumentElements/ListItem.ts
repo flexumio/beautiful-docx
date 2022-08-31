@@ -1,14 +1,21 @@
-import { IParagraphOptions } from 'docx';
+
+import { IParagraphOptions } from '../../options/docxOptions';
+
+import { Paragraph } from 'docx';
+
 import { Node } from 'himalaya';
 import { TextInline } from './TextInline';
 import { List } from './List';
 import { TextBlock } from './TextBlock';
 import { isListTag, parseTextAlignment } from '../utils';
 import { DocumentElement, DocumentElementType } from './DocumentElement';
+import { isInlineTextElement } from './Table/utils';
+import { HtmlParser } from '../HtmlParser';
+import { defaultExportOptions } from '../../options';
 
 export class ListItem extends TextBlock {
   type: DocumentElementType = 'list-item';
-  private nestedLists: DocumentElement[] = [];
+  private readonly nestedElements: DocumentElement[] = [];
 
   constructor(element: Node, options: IParagraphOptions, level: number) {
     if (!(element.type === 'element' && element.tagName === 'li')) {
@@ -21,27 +28,37 @@ export class ListItem extends TextBlock {
     };
 
     const children: DocumentElement[] = [];
-    const nestedLists: DocumentElement[] = [];
-    // TODO: add support for else child elements
-    // TODO: add support for structure:
-    // <li>
-    //  text
-    //  <ul></ul>
-    //  text
-    // </li>
+    const nestedElements: DocumentElement[] = [];
+
     element.children.forEach(child => {
-      if (child.type === 'element' && isListTag(child.tagName)) {
-        nestedLists.push(...new List(child, level + 1).getContent());
-      } else {
+      if (isInlineTextElement(child)) {
         children.push(...new TextInline(child).getContent());
+        return;
       }
+
+      if (child.type === 'element' && isListTag(child.tagName)) {
+        nestedElements.push(...new List(child, level + 1).getContent());
+        return;
+      }
+
+      nestedElements.push(...new HtmlParser(defaultExportOptions).parseHtmlTree([child]));
     });
 
     super(liOptions, children);
-    this.nestedLists = nestedLists;
+    this.nestedElements = nestedElements;
   }
 
   getContent(): DocumentElement[] {
-    return [this, ...this.nestedLists];
+    return [this];
+  }
+
+  transformToDocx() {
+    return [
+      new Paragraph({
+        ...this.options,
+        children: this.children.flatMap(i => i.transformToDocx()),
+      }),
+      ...this.nestedElements.flatMap(i => i.transformToDocx() as Paragraph[]),
+    ];
   }
 }
