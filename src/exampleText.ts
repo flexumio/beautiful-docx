@@ -40,7 +40,7 @@ export const exampleText = `
 </figure>
 <p>Paragraph</p>
 <figure>
-  <img src='https://upload.wikimedia.org/wikipedia/commons/thumb/a/a7/React-icon.svg/640px-React-icon.svg.png'/>
+  <img style="width:50vw; float: left" src='https://upload.wikimedia.org/wikipedia/commons/thumb/a/a7/React-icon.svg/640px-React-icon.svg.png'/>
 </figure>
 <figure>
   <table>

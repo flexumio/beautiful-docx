@@ -26,7 +26,7 @@ export const parseStyles = (stylesString: string | undefined): Styles => {
 
   for (const rule of rules) {
     const [key, value] = rule.split(':');
-    styles[key] = value?.trim();
+    styles[key.trim()] = value?.trim();
   }
 
   return styles;
