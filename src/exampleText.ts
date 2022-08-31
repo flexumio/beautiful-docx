@@ -16,13 +16,16 @@ export const exampleText = `
 <strong>bold</strong>
 <p><a href='https://github.com/'>link</a></p>
 <ul>
-  <li>List Item
-   <ul>
-    <li>list item</li>
-    <li>list item</li>
-    <li>list item</li>
-   </ul>
-   list item2
+  <li>
+    <p>
+      List <strong>Item</strong>
+    </p>
+    <ul>
+      <li>list item</li>
+      <li>list item</li>
+      <li>list item</li>
+    </ul>
+    list
   </li>
   <li>List Item</li>
   <li>List Item</li>
