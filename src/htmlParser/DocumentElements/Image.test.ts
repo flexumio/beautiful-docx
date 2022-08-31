@@ -11,7 +11,7 @@ const bigImageSourceUrl =
   'https://upload.wikimedia.org/wikipedia/commons/thumb/a/a7/React-icon.svg/2300px-React-icon.svg.png';
 
 const defaultHtml = `
-    <figure class='image'>
+    <figure>
       <img src='${imageSourceUrl}'/>
     </figure>`;
 
@@ -84,33 +84,91 @@ describe('Image', () => {
         expect(instance.options.transformation.width).toBe(expectedSize);
       });
 
-      test('should be changed for width percent', async () => {
-        const html = `
-          <figure style="width: 10%" class='image'>
-            <img src='${imageSourceUrl}'/>
+      describe('should be changed for width style', () => {
+        test('with percentage value', async () => {
+          const html = `
+          <figure class='image'>
+            <img style="width: 10%" src='${imageSourceUrl}'/>
           </figure>;
         `;
 
-        const element = parse(html).find(i => i.type === 'element' && i.tagName === 'figure') as Element;
+          const element = parse(html).find(i => i.type === 'element' && i.tagName === 'figure') as Element;
 
-        const imageBuffer = await axios
-          .get(imageSourceUrl, { responseType: 'arraybuffer' })
-          .then(response => Buffer.from(response.data, 'binary'));
+          const imageBuffer = await axios
+            .get(imageSourceUrl, { responseType: 'arraybuffer' })
+            .then(response => Buffer.from(response.data, 'binary'));
 
-        const exportOptions: DocxExportOptions = {
-          ...defaultExportOptions,
-          images: {
-            [imageSourceUrl]: imageBuffer,
-          },
-        };
+          const exportOptions: DocxExportOptions = {
+            ...defaultExportOptions,
+            images: {
+              [imageSourceUrl]: imageBuffer,
+            },
+          };
 
-        const expectedWidth = '68';
-        const expectedHeight = '59';
+          const expectedWidth = '68';
+          const expectedHeight = '59';
 
-        const instance = new Image(element, exportOptions);
+          const instance = new Image(element, exportOptions);
 
-        expect(instance.options.transformation.width.toFixed()).toBe(expectedWidth);
-        expect(instance.options.transformation.height.toFixed()).toBe(expectedHeight);
+          expect(instance.options.transformation.width.toFixed()).toBe(expectedWidth);
+          expect(instance.options.transformation.height.toFixed()).toBe(expectedHeight);
+        });
+        test('with vw value', async () => {
+          const html = `
+          <figure class='image'>
+            <img style="width: 10vw" src='${imageSourceUrl}'/>
+          </figure>;
+        `;
+
+          const element = parse(html).find(i => i.type === 'element' && i.tagName === 'figure') as Element;
+
+          const imageBuffer = await axios
+            .get(imageSourceUrl, { responseType: 'arraybuffer' })
+            .then(response => Buffer.from(response.data, 'binary'));
+
+          const exportOptions: DocxExportOptions = {
+            ...defaultExportOptions,
+            images: {
+              [imageSourceUrl]: imageBuffer,
+            },
+          };
+
+          const expectedWidth = '68';
+          const expectedHeight = '59';
+
+          const instance = new Image(element, exportOptions);
+
+          expect(instance.options.transformation.width.toFixed()).toBe(expectedWidth);
+          expect(instance.options.transformation.height.toFixed()).toBe(expectedHeight);
+        });
+        test('with pixels value', async () => {
+          const html = `
+          <figure class='image'>
+            <img style="width: 100px" src='${imageSourceUrl}'/>
+          </figure>;
+        `;
+
+          const element = parse(html).find(i => i.type === 'element' && i.tagName === 'figure') as Element;
+
+          const imageBuffer = await axios
+            .get(imageSourceUrl, { responseType: 'arraybuffer' })
+            .then(response => Buffer.from(response.data, 'binary'));
+
+          const exportOptions: DocxExportOptions = {
+            ...defaultExportOptions,
+            images: {
+              [imageSourceUrl]: imageBuffer,
+            },
+          };
+
+          const expectedWidth = '100';
+          const expectedHeight = '87';
+
+          const instance = new Image(element, exportOptions);
+
+          expect(instance.options.transformation.width.toFixed()).toBe(expectedWidth);
+          expect(instance.options.transformation.height.toFixed()).toBe(expectedHeight);
+        });
       });
     });
 
@@ -122,11 +180,11 @@ describe('Image', () => {
         expect(instance.options.floating?.horizontalPosition.align).toBe(expectedAlign);
       });
 
-      describe('depend on classes', () => {
+      describe('depend on styles', () => {
         test('should be left aligned', async () => {
           const html = `
-            <figure class='image image-style-block-align-left'>
-              <img src='${imageSourceUrl}'/>
+            <figure>
+              <img style="float: left" src='${imageSourceUrl}'/>
             </figure>`;
           const element = parse(html).find(i => i.type === 'element' && i.tagName === 'figure') as Element;
 
@@ -150,8 +208,8 @@ describe('Image', () => {
 
         test('should be right aligned', async () => {
           const html = `
-            <figure class='image image-style-block-align-right'>
-              <img src='${imageSourceUrl}'/>
+            <figure>
+              <img style="float: right" src='${imageSourceUrl}'/>
             </figure>`;
           const element = parse(html).find(i => i.type === 'element' && i.tagName === 'figure') as Element;
 
@@ -186,11 +244,11 @@ describe('Image', () => {
         expect(instance.options.floating?.wrap).toStrictEqual(expectedWrapping);
       });
 
-      describe('depend on classes', () => {
+      describe('depend on styles', () => {
         test('should be right-side wrapped', async () => {
           const html = `
-            <figure class='image image-style-align-left'>
-              <img src='${imageSourceUrl}'/>
+            <figure>
+              <img style="float: left" src='${imageSourceUrl}'/>
             </figure>`;
           const element = parse(html).find(i => i.type === 'element' && i.tagName === 'figure') as Element;
 
@@ -217,8 +275,8 @@ describe('Image', () => {
 
         test('should be left-side wrapped', async () => {
           const html = `
-            <figure class='image image-style-align-right'>
-              <img src='${imageSourceUrl}'/>
+            <figure>
+              <img style="float: right" src='${imageSourceUrl}'/>
             </figure>`;
           const element = parse(html).find(i => i.type === 'element' && i.tagName === 'figure') as Element;
 

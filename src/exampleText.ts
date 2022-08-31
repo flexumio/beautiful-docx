@@ -38,14 +38,14 @@ export const exampleText = `
 <blockquote>
   <p>Blockquote</p> and just text
 </blockquote>
-<figure class='image'>
+<figure>
   <img src='https://upload.wikimedia.org/wikipedia/commons/thumb/a/a7/React-icon.svg/640px-React-icon.svg.png'/>
 </figure>
 <p>Paragraph</p>
-<figure class='image'>
-  <img src='https://upload.wikimedia.org/wikipedia/commons/thumb/a/a7/React-icon.svg/640px-React-icon.svg.png'/>
+<figure>
+  <img style="width:50vw; float: left" src='https://upload.wikimedia.org/wikipedia/commons/thumb/a/a7/React-icon.svg/640px-React-icon.svg.png'/>
 </figure>
-<figure class="table">
+<figure>
   <table>
     <colgroup>
       <col style="width:14.29%;">

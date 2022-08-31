@@ -11,7 +11,7 @@ import {
   VerticalPositionRelativeFrom,
   ITextWrapping,
 } from 'docx';
-import { Element } from 'himalaya';
+import { Element, Styles } from 'himalaya';
 import { DocxExportOptions } from '../../options';
 import { convertTwipToPixels, getAttributeMap, getPageWidth, parseStyles } from '../utils';
 import { DocumentElement, DocumentElementType } from './DocumentElement';
@@ -30,16 +30,15 @@ enum ImageOrientation {
 export class Image implements DocumentElement {
   type: DocumentElementType = 'image';
   public options: IImageOptions;
-  private classes: string[];
+  private readonly style: Styles;
 
   constructor(private imageFigure: Element, private exportOptions: DocxExportOptions) {
-    const figureAttr = getAttributeMap(imageFigure.attributes);
-    const classString = figureAttr['class'] || '';
-    this.classes = classString.split(' ');
-
+    // TODO: Update Figure and parseTopLevelElement after merge
     const image = imageFigure.children.find(item => item.type === 'element' && item.tagName === 'img') as Element;
     const imageAttr = getAttributeMap(image.attributes);
     const imageSourceUrl = imageAttr['src'];
+
+    this.style = parseStyles(imageAttr['style']);
 
     if (!exportOptions.images) {
       throw new Error('Cannot handle image insertion');
@@ -74,11 +73,11 @@ export class Image implements DocumentElement {
   }
 
   private getHorizontalPositionAlign(): HorizontalPositionAlign {
-    const classes = this.classes;
-    // TODO: remove or rework dependency on classes
-    if (classes.includes('image-style-block-align-left') || classes.includes('image-style-align-left')) {
+    if (this.style['float'] === 'left') {
       return HorizontalPositionAlign.LEFT;
-    } else if (classes.includes('image-style-block-align-right') || classes.includes('image-style-align-right')) {
+    }
+
+    if (this.style['float'] === 'right') {
       return HorizontalPositionAlign.RIGHT;
     }
 
@@ -92,24 +91,37 @@ export class Image implements DocumentElement {
 
     const originWidth = imageDimensions.width || 0;
     const originHeight = imageDimensions.height || 0;
-
-    const imageAttr = getAttributeMap(this.imageFigure.attributes);
-    const imageStyles = parseStyles(imageAttr['style']);
-    //TODO: add px, vw etc support
-    const imageWidthPercent = imageStyles['width']?.trim();
-
     const imageRotation = this.getImageRotation(imageDimensions.orientation);
 
-    if (imageWidthPercent) {
-      const widthPercent = parseFloat(imageWidthPercent.slice(0, -1));
-      const widthPixels = (pageWidthPixels * widthPercent) / 100;
-      const resizeRatio = widthPixels / originWidth;
+    const imageWidth = this.style['width']?.trim();
+    if (imageWidth) {
+      const isPercentWidth = imageWidth.endsWith('%');
+      const isPixelsWidth = imageWidth.endsWith('px');
+      const isVwWidth = imageWidth.endsWith('vw');
 
-      return {
-        width: widthPixels,
-        height: originHeight * resizeRatio,
-        ...imageRotation,
-      };
+      if (isPercentWidth || isVwWidth) {
+        const widthPercent = parseFloat(imageWidth.slice(0, -1));
+        const widthPixels = (pageWidthPixels * widthPercent) / 100;
+        const resizeRatio = widthPixels / originWidth;
+
+        return {
+          width: widthPixels,
+          height: originHeight * resizeRatio,
+          ...imageRotation,
+        };
+      }
+
+      if (isPixelsWidth) {
+        const widthNumber = parseFloat(imageWidth.slice(0, -1));
+        const widthPixels = widthNumber >= pageWidth ? pageWidth : widthNumber;
+        const resizeRatio = widthPixels / originWidth;
+
+        return {
+          width: widthPixels,
+          height: originHeight * resizeRatio,
+          ...imageRotation,
+        };
+      }
     }
 
     const maxImageWidth = pageWidthPixels;
@@ -158,13 +170,14 @@ export class Image implements DocumentElement {
   }
 
   private getWrapping(): ITextWrapping {
-    // TODO: remove or rework dependency on classes
-    if (this.classes.includes('image-style-align-left')) {
+    if (this.style.float === 'left') {
       return {
         type: TextWrappingType.SQUARE,
         side: TextWrappingSide.RIGHT,
       };
-    } else if (this.classes.includes('image-style-align-right')) {
+    }
+
+    if (this.style.float === 'right') {
       return {
         type: TextWrappingType.SQUARE,
         side: TextWrappingSide.LEFT,
