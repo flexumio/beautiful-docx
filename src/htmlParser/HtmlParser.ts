@@ -6,13 +6,16 @@ import {
   DocumentElement,
   Figure,
   Header,
+  Image,
   List,
   Paragraph,
+  TableCreator,
   TextBlock,
   TextInline,
 } from './DocumentElements';
 
 import { ImagesAdapter } from './ImagesAdapter';
+import { TableOfContents } from './DocumentElements/TableOfContents';
 
 export class HtmlParser {
   constructor(public options: DocxExportOptions) {}
@@ -87,6 +90,8 @@ export class HtmlParser {
       case 'article':
       case 'section':
         return this.parseHtmlTree(element.children);
+      case 'table-of-contents':
+        return new TableOfContents().getContent();
       default:
         throw new Error(`Unsupported top tag ${element.tagName}`);
     }
