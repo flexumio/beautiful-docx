@@ -1,4 +1,3 @@
-
 import { IParagraphOptions } from '../../options/docxOptions';
 
 import { Paragraph } from 'docx';

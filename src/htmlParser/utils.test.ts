@@ -1,12 +1,14 @@
 import { AlignmentType } from 'docx';
-import {
+
+import * as utils from './utils';
+const {
   convertPixelsToPoints,
   convertPixelsToTwip,
   parsePaddings,
   parsePaddingsMergedValue,
   parseTextAlignment,
   PIXELS_TO_POINT_RATIO,
-} from './utils';
+} = utils;
 
 describe('convertPixelsToPoints', () => {
   test('convert string pixels', () => {
@@ -173,7 +175,9 @@ describe('parsePaddings', () => {
 
       expect(parsePaddings({ 'padding-top': '1px' })).toEqual(expectedResult);
     });
+  });
 
+  describe('padding-left', () => {
     test('should return object with left value', () => {
       const expectedResult = {
         left: 15,
@@ -181,7 +185,8 @@ describe('parsePaddings', () => {
 
       expect(parsePaddings({ 'padding-left': '1px' })).toEqual(expectedResult);
     });
-
+  });
+  describe('padding-right', () => {
     test('should return object with right value', () => {
       const expectedResult = {
         right: 15,
@@ -189,13 +194,24 @@ describe('parsePaddings', () => {
 
       expect(parsePaddings({ 'padding-right': '1px' })).toEqual(expectedResult);
     });
-
+  });
+  describe('padding-bottom', () => {
     test('should return object with bottom value', () => {
       const expectedResult = {
         bottom: 15,
       };
 
       expect(parsePaddings({ 'padding-bottom': '1px' })).toEqual(expectedResult);
+    });
+  });
+
+  describe('padding', () => {
+    test('should call parsePaddingsMergedValue', () => {
+      const fn = jest.spyOn(utils, 'parsePaddingsMergedValue');
+
+      parsePaddings({ padding: '1px' });
+
+      expect(fn).toBeCalled();
     });
   });
 });

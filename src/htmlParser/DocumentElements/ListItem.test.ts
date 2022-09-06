@@ -53,37 +53,74 @@ describe('ListItem', () => {
     });
   });
 
-  describe('Created from list item with nested list', () => {
-    let instance: ListItem;
+  describe('Created from list item with nested elements', () => {
+    describe('nested list', () => {
+      let instance: ListItem;
 
-    beforeAll(() => {
-      const html = `
+      beforeAll(() => {
+        const html = `
        <li>
           List item
           <ul>
             <li>List Item2</li>
           </ul>
        </li>`;
-      const element = parse(html).find(i => i.type === 'element' && i.tagName === 'li') as Element;
+        const element = parse(html).find(i => i.type === 'element' && i.tagName === 'li') as Element;
 
-      instance = new ListItem(element, bulletListItemOptions, 1);
+        instance = new ListItem(element, bulletListItemOptions, 1);
+      });
+
+      test('content should be array with ListItem elements', () => {
+        const content = instance.getContent();
+
+        const isContentListItems = content.every(i => i instanceof ListItem);
+
+        expect(content).toBeInstanceOf(Array);
+        expect(isContentListItems).toBeTruthy();
+      });
+
+      test('children should be array with TextInline elements', () => {
+        const children = instance.children;
+        const isChildrenTextInline = children.every(child => child instanceof TextInline);
+
+        expect(children).toBeInstanceOf(Array);
+        expect(isChildrenTextInline).toBe(true);
+      });
     });
 
-    test('content should be array with ListItem elements', () => {
-      const content = instance.getContent();
+    describe('nested elements', () => {
+      let instance: ListItem;
 
-      const isContentListItems = content.every(i => i instanceof ListItem);
+      beforeAll(() => {
+        const html = `
+           <li>
+              List item
+              <p>
+                paragraph
+              </p>
+           </li>
+        `;
+        const element = parse(html).find(i => i.type === 'element' && i.tagName === 'li') as Element;
 
-      expect(content).toBeInstanceOf(Array);
-      expect(isContentListItems).toBeTruthy();
-    });
+        instance = new ListItem(element, bulletListItemOptions, 1);
+      });
 
-    test('children should be array with TextInline elements', () => {
-      const children = instance.children;
-      const isChildrenTextInline = children.every(child => child instanceof TextInline);
+      test('content should be array with ListItem elements', () => {
+        const content = instance.getContent();
 
-      expect(children).toBeInstanceOf(Array);
-      expect(isChildrenTextInline).toBe(true);
+        const isContentListItems = content.every(i => i instanceof ListItem);
+
+        expect(content).toBeInstanceOf(Array);
+        expect(isContentListItems).toBeTruthy();
+      });
+
+      test('children should be array with TextInline elements', () => {
+        const children = instance.children;
+        const isChildrenTextInline = children.every(child => child instanceof TextInline);
+
+        expect(children).toBeInstanceOf(Array);
+        expect(isChildrenTextInline).toBe(true);
+      });
     });
   });
 });
