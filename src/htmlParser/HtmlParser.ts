@@ -6,8 +6,11 @@ import {
   DocumentElement,
   Figure,
   Header,
+  Image,
   List,
+  PageBreak,
   Paragraph,
+  TableCreator,
   TextBlock,
   TextInline,
 } from './DocumentElements';
@@ -87,6 +90,8 @@ export class HtmlParser {
       case 'article':
       case 'section':
         return this.parseHtmlTree(element.children);
+      case 'page-break':
+        return new PageBreak().getContent();
       default:
         throw new Error(`Unsupported top tag ${element.tagName}`);
     }
