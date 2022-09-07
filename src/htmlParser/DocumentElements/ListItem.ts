@@ -1,5 +1,3 @@
-import { IParagraphOptions } from '../../options/docxOptions';
-
 import { Paragraph } from 'docx';
 
 import { Node } from 'himalaya';
@@ -10,13 +8,18 @@ import { isListTag, parseTextAlignment } from '../utils';
 import { DocumentElement, DocumentElementType } from './DocumentElement';
 import { isInlineTextElement } from './Table/utils';
 import { HtmlParser } from '../HtmlParser';
-import { defaultExportOptions } from '../../options';
+import { DocxExportOptions, IParagraphOptions } from '../../options';
 
 export class ListItem extends TextBlock {
   type: DocumentElementType = 'list-item';
   private readonly nestedElements: DocumentElement[] = [];
 
-  constructor(element: Node, options: IParagraphOptions, level: number) {
+  constructor(
+    element: Node,
+    options: IParagraphOptions,
+    level: number,
+    private readonly exportOptions: DocxExportOptions
+  ) {
     if (!(element.type === 'element' && element.tagName === 'li')) {
       throw new Error('The child of list should be list item');
     }
@@ -36,11 +39,11 @@ export class ListItem extends TextBlock {
       }
 
       if (child.type === 'element' && isListTag(child.tagName)) {
-        nestedElements.push(...new List(child, level + 1).getContent());
+        nestedElements.push(...new List(child, level + 1, exportOptions).getContent());
         return;
       }
 
-      nestedElements.push(...new HtmlParser(defaultExportOptions).parseHtmlTree([child]));
+      nestedElements.push(...new HtmlParser(exportOptions).parseHtmlTree([child]));
     });
 
     super(liOptions, children);

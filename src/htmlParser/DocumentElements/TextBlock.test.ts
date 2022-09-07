@@ -1,5 +1,5 @@
 import { AlignmentType, Paragraph as DocxParagraph } from 'docx';
-import { IParagraphOptions } from '../../options/docxOptions';
+import { IParagraphOptions } from '../../options';
 import { parse } from 'himalaya';
 import { DocumentElement, TextBlock, TextInline } from '.';
 

@@ -11,11 +11,7 @@ export const isInlineTextElement = (node: Node): boolean => {
     return true;
   }
 
-  if (node.type === 'element' && INLINE_TEXT_ELEMENTS.includes(node.tagName)) {
-    return true;
-  }
-
-  return false;
+  return node.type === 'element' && INLINE_TEXT_ELEMENTS.includes(node.tagName);
 };
 
 export const parseBorderStyle = (style: string | undefined): BorderStyle => {

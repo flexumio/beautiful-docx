@@ -1,4 +1,4 @@
-import { IParagraphOptions } from '../../options/docxOptions';
+import { DocxExportOptions, IParagraphOptions } from '../../options';
 
 import { Element, Node } from 'himalaya';
 import { DEFAULT_NUMBERING_REF } from './Document';
@@ -13,7 +13,7 @@ export class List implements DocumentElement {
   public children: DocumentElement[];
   public childrenOptions: IParagraphOptions;
 
-  constructor(element: Element, private level: number) {
+  constructor(element: Element, private level: number, private readonly exportOptions: DocxExportOptions) {
     switch (element.tagName) {
       case 'ul': {
         this.childrenOptions = { bullet: { level } };
@@ -33,7 +33,7 @@ export class List implements DocumentElement {
   private getList(children: Node[]) {
     return children.flatMap(child => {
       if (child.type === 'element') {
-        return new ListItem(child, this.childrenOptions, this.level).getContent();
+        return new ListItem(child, this.childrenOptions, this.level, this.exportOptions).getContent();
       }
       const textContent = new TextInline(child).getContent();
       return new TextBlock({}, textContent).getContent();

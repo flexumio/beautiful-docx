@@ -1,5 +1,5 @@
 import { BorderStyle, convertMillimetersToTwip, Paragraph, ParagraphChild } from 'docx';
-import { IParagraphOptions } from '../../options/docxOptions';
+import { IParagraphOptions } from '../../options';
 import { Element, Node } from 'himalaya';
 import { TextInline } from './TextInline';
 import { parseTextAlignment } from '../utils';
@@ -13,7 +13,7 @@ const BLOCKQUOTE_SPACE = 12;
 export class Blockquote implements DocumentElement {
   public type: BlockTextType = 'blockquote';
   public options: IParagraphOptions;
-  private content: DocumentElement[];
+  private readonly content: DocumentElement[];
 
   constructor(private element: Element) {
     this.options = {
@@ -30,12 +30,10 @@ export class Blockquote implements DocumentElement {
     return this.element.children.flatMap(node => {
       const isElement = node.type === 'element';
 
-      const block = new TextBlock(
+      return new TextBlock(
         this.options,
         isElement ? node.children.flatMap(this.createInlineChild) : this.createInlineChild(node)
       ).getContent();
-
-      return block;
     });
   }
 

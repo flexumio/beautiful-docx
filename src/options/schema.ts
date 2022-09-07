@@ -1,7 +1,7 @@
 import { z } from 'zod';
-import { PageOrientation } from './optionsConfig';
+import { PageOrientation } from './types';
 
-export const optionsSchema = z.object({
+const optionsSchema = z.object({
   page: z.object({
     orientation: z.nativeEnum(PageOrientation),
     size: z.object({

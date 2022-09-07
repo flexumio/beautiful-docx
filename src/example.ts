@@ -24,4 +24,4 @@ const main = async () => {
   fs.writeFileSync('test-lib.docx', buffer);
 };
 
-main();
+void main();

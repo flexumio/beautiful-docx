@@ -1,13 +1,14 @@
 import { Paragraph as DocxParagraph } from 'docx';
 import { Element, parse } from 'himalaya';
 import { List, DEFAULT_NUMBERING_REF, ListItem } from '.';
+import { defaultExportOptions } from '../../options';
 
 describe('List', () => {
   test('type should be "list"', () => {
     const html = `
       <ul></ul>`;
     const element = parse(html).find(i => i.type === 'element' && i.tagName === 'ul') as Element;
-    const instance = new List(element, 1);
+    const instance = new List(element, 1, defaultExportOptions);
 
     expect(instance.type).toBe('list');
   });
@@ -22,7 +23,7 @@ describe('List', () => {
         <li>List Item</li>
       </ul>`;
       const element = parse(html).find(i => i.type === 'element' && i.tagName === 'ul') as Element;
-      instance = new List(element, 1);
+      instance = new List(element, 1, defaultExportOptions);
     });
 
     test('children should have bullet option', () => {
@@ -58,7 +59,7 @@ describe('List', () => {
         <li>List Item</li>
       </ol>`;
       const element = parse(html).find(i => i.type === 'element' && i.tagName === 'ol') as Element;
-      instance = new List(element, 1);
+      instance = new List(element, 1, defaultExportOptions);
     });
 
     test('children should have numbering option', () => {
@@ -93,7 +94,7 @@ describe('List', () => {
       </p>`;
       const element = parse(html).find(i => i.type === 'element' && i.tagName === 'p') as Element;
 
-      const createList = () => new List(element, 1);
+      const createList = () => new List(element, 1, defaultExportOptions);
       try {
         createList();
         expect(true).toBe(false);

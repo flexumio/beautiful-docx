@@ -1,5 +1,5 @@
 import { Paragraph } from 'docx';
-import { IParagraphOptions } from '../../options/docxOptions';
+import { IParagraphOptions } from '../../options';
 import { DocumentElement, DocumentElementType } from './DocumentElement';
 import { TextInline } from './TextInline';
 import { Mutable } from '../utils';

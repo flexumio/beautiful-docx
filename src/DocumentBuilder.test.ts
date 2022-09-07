@@ -6,8 +6,7 @@ import { defaultExportOptions } from './options';
 
 describe('DocumentBuilder', () => {
   test('should return File', async () => {
-    const html = exampleText;
-    const content = await new HtmlParser(defaultExportOptions).parse(html);
+    const content = await new HtmlParser(defaultExportOptions).parse(exampleText);
 
     const instance = new DocumentBuilder(defaultExportOptions);
 

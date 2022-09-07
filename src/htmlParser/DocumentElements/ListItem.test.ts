@@ -1,4 +1,4 @@
-import { IParagraphOptions } from '../../options/docxOptions';
+import { defaultExportOptions, IParagraphOptions } from '../../options';
 import { Element, parse } from 'himalaya';
 import { ListItem, TextInline } from '.';
 
@@ -12,7 +12,7 @@ describe('ListItem', () => {
     const html = '<li>List item</li>';
     const element = parse(html).find(i => i.type === 'element' && i.tagName === 'li') as Element;
 
-    const instance = new ListItem(element, bulletListItemOptions, 1);
+    const instance = new ListItem(element, bulletListItemOptions, 1, defaultExportOptions);
 
     expect(instance.type).toBe(expectedType);
   });
@@ -21,7 +21,7 @@ describe('ListItem', () => {
     const html = '<p>paragraph</p>';
     const element = parse(html).find(i => i.type === 'element' && i.tagName === 'p') as Element;
 
-    const createListItem = () => new ListItem(element, bulletListItemOptions, 1);
+    const createListItem = () => new ListItem(element, bulletListItemOptions, 1, defaultExportOptions);
 
     expect(createListItem).toThrowError();
   });
@@ -33,7 +33,7 @@ describe('ListItem', () => {
       const html = '<li>List item</li>';
       const element = parse(html).find(i => i.type === 'element' && i.tagName === 'li') as Element;
 
-      instance = new ListItem(element, bulletListItemOptions, 1);
+      instance = new ListItem(element, bulletListItemOptions, 1, defaultExportOptions);
     });
 
     test('content should be array with 1 ListItem element', () => {
@@ -67,7 +67,7 @@ describe('ListItem', () => {
        </li>`;
         const element = parse(html).find(i => i.type === 'element' && i.tagName === 'li') as Element;
 
-        instance = new ListItem(element, bulletListItemOptions, 1);
+        instance = new ListItem(element, bulletListItemOptions, 1, defaultExportOptions);
       });
 
       test('content should be array with ListItem elements', () => {
@@ -102,7 +102,7 @@ describe('ListItem', () => {
         `;
         const element = parse(html).find(i => i.type === 'element' && i.tagName === 'li') as Element;
 
-        instance = new ListItem(element, bulletListItemOptions, 1);
+        instance = new ListItem(element, bulletListItemOptions, 1, defaultExportOptions);
       });
 
       test('content should be array with ListItem elements', () => {
