@@ -1,5 +1,5 @@
 import { HtmlToDocx } from '.';
-import { exampleText } from './exampleText';
+import { exampleText } from '../example/exampleText';
 import { defaultExportOptions } from './options';
 
 describe('HtmlToDocx', () => {

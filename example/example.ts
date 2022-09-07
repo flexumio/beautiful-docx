@@ -1,5 +1,5 @@
 /* istanbul ignore file */
-import { HtmlToDocx } from './index';
+import { HtmlToDocx } from '../src';
 import * as fs from 'fs';
 import { exampleText } from './exampleText';
 

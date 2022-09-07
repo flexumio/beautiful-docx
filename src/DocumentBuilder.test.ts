@@ -1,6 +1,6 @@
 import { File } from 'docx';
 import { DocumentBuilder } from './DocumentBuilder';
-import { exampleText } from './exampleText';
+import { exampleText } from '../example/exampleText';
 import { HtmlParser } from './htmlParser';
 import { defaultExportOptions } from './options';
 
