@@ -8,6 +8,7 @@ import {
   Header,
   Image,
   List,
+  PageBreak,
   Paragraph,
   TableCreator,
   TextBlock,
@@ -92,6 +93,8 @@ export class HtmlParser {
       case 'article':
       case 'section':
         return this.parseHtmlTree(element.children);
+      case 'page-break':
+        return new PageBreak().getContent();
       case 'table-of-contents':
         return new TableOfContents().getContent();
       default:
