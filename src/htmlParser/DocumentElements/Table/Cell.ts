@@ -5,7 +5,7 @@ import { DocxExportOptions } from '../../../options';
 import { TextInline } from '../TextInline';
 import { HtmlParser } from '../../HtmlParser';
 import { TextBlock } from '../TextBlock';
-import { AttributeMap, getAttributeMap, parsePaddings, parseStyles } from '../../utils';
+import { AttributeMap, convertPixelsToTwip, getAttributeMap, parsePaddings, parseStyles } from '../../utils';
 import { isInlineTextElement, parseBorderOptions } from './utils';
 import { DocumentElement, DocumentElementType } from '../DocumentElement';
 
@@ -107,17 +107,16 @@ export class Cell implements DocumentElement {
   }
 
   private get margins() {
-    const defaultTableCellMargins = {
-      left: 100,
-      right: 100,
-      top: 100,
-      bottom: 100,
-    };
-
     const stylesPaddings = parsePaddings(this.styles);
 
-    const optionsMargins = this.exportOptions.table?.cellMargins ? this.exportOptions.table.cellMargins : {};
+    const { top, bottom, left, right } = this.exportOptions.table.cellPaddings;
+    const optionsPaddings = {
+      top: convertPixelsToTwip(top),
+      left: convertPixelsToTwip(left),
+      right: convertPixelsToTwip(right),
+      bottom: convertPixelsToTwip(bottom),
+    };
 
-    return { ...defaultTableCellMargins, ...optionsMargins, ...stylesPaddings };
+    return { ...optionsPaddings, ...stylesPaddings };
   }
 }

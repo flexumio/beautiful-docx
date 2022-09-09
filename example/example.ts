@@ -11,13 +11,13 @@ const main = async () => {
         width: 5.5,
         height: 8,
       },
+      numbering: false,
     },
     font: {
       baseFontFamily: 'Calibri',
       headersFontFamily: 'Calibri',
     },
-    verticalSpaces: 0,
-    table: { cellMargins: { top: 200 } },
+    verticalSpaces: 10,
   });
   const buffer = await htmlToDocx.generateDocx(exampleText);
   console.timeEnd('Loading');

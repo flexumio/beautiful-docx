@@ -12,7 +12,8 @@ import { DocxExportOptions } from '../../options';
 import { DocumentElement } from './DocumentElement';
 import { DocumentFooter } from './DocumentFooter';
 
-export const FONT_TO_LINE_RATIO = 10;
+const FONT_RATIO = 2;
+export const FONT_TO_LINE_RATIO = 10 * FONT_RATIO;
 export const PAGE_TITLE_STYLE_ID = 'PageTitle';
 export const DEFAULT_NUMBERING_REF = 'default-numbering';
 
@@ -47,7 +48,7 @@ export class Document {
           quickFormat: true,
           run: {
             font: this.exportOptions.font.headersFontFamily,
-            size: this.exportOptions.font.headersSizes.h1,
+            size: this.exportOptions.font.headersSizes.h1 * FONT_RATIO,
             bold: true,
           },
           paragraph: {
@@ -60,14 +61,14 @@ export class Document {
         document: {
           run: {
             font: this.exportOptions.font.baseFontFamily,
-            size: this.exportOptions.font.baseSize,
+            size: this.exportOptions.font.baseSize * FONT_RATIO,
             bold: false,
           },
         },
         heading1: {
           run: {
             font: this.exportOptions.font.headersFontFamily,
-            size: this.exportOptions.font.headersSizes.h1,
+            size: this.exportOptions.font.headersSizes.h1 * FONT_RATIO,
             bold: true,
           },
           paragraph: {
@@ -77,7 +78,7 @@ export class Document {
         heading2: {
           run: {
             font: this.exportOptions.font.headersFontFamily,
-            size: this.exportOptions.font.headersSizes.h2,
+            size: this.exportOptions.font.headersSizes.h2 * FONT_RATIO,
             bold: true,
           },
           paragraph: {
@@ -87,7 +88,7 @@ export class Document {
         heading3: {
           run: {
             font: this.exportOptions.font.headersFontFamily,
-            size: this.exportOptions.font.headersSizes.h3,
+            size: this.exportOptions.font.headersSizes.h3 * FONT_RATIO,
             bold: true,
           },
           paragraph: {
@@ -97,7 +98,7 @@ export class Document {
         heading4: {
           run: {
             font: this.exportOptions.font.headersFontFamily,
-            size: this.exportOptions.font.headersSizes.h4,
+            size: this.exportOptions.font.headersSizes.h4 * FONT_RATIO,
             bold: true,
           },
           paragraph: {
@@ -171,6 +172,6 @@ export class Document {
   };
 
   private get footer() {
-    return new DocumentFooter();
+    return new DocumentFooter(this.exportOptions);
   }
 }

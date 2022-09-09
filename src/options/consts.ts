@@ -12,11 +12,18 @@ const RIGHT_MARGIN_DEFAULT = 12.7;
 const BOTTOM_MARGIN_DEFAULT = 19;
 const LEFT_MARGIN_DEFAULT = 19;
 
-const PARAGRAPH_FONT_SIZE = 24;
-const HEADING_1_FONT_SIZE = 39;
-const HEADING_2_FONT_SIZE = 33;
-const HEADING_3_FONT_SIZE = 30;
-const HEADING_4_FONT_SIZE = 27;
+const PARAGRAPH_FONT_SIZE = 12;
+const HEADING_1_FONT_SIZE = 19.5;
+const HEADING_2_FONT_SIZE = 16.5;
+const HEADING_3_FONT_SIZE = 15;
+const HEADING_4_FONT_SIZE = 13.5;
+
+const defaultTableCellPaddings = {
+  left: 5,
+  right: 5,
+  top: 5,
+  bottom: 5,
+};
 
 export const defaultExportOptions: DocxExportOptions = {
   page: {
@@ -28,7 +35,7 @@ export const defaultExportOptions: DocxExportOptions = {
       left: LEFT_MARGIN_DEFAULT,
     },
     size: PageFormat.A4,
-    number: true,
+    numbering: true,
   },
   font: {
     baseSize: PARAGRAPH_FONT_SIZE,
@@ -42,4 +49,5 @@ export const defaultExportOptions: DocxExportOptions = {
     },
   },
   verticalSpaces: 0,
+  table: { cellPaddings: defaultTableCellPaddings },
 };

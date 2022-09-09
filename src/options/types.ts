@@ -34,7 +34,7 @@ export type PageOptions = {
     bottom: LengthUnit;
     left: LengthUnit;
   };
-  number: boolean;
+  numbering: boolean;
 };
 
 export type FontOptions = {
@@ -55,15 +55,15 @@ export type DocxExportOptions = {
   verticalSpaces: number;
   ignoreIndentation?: boolean;
   images?: ImageMap;
-  table?: TableOptions;
+  table: TableOptions;
 };
 
 export type TableOptions = {
-  cellMargins?: {
-    left?: number;
-    right?: number;
-    top?: number;
-    bottom?: number;
+  cellPaddings: {
+    left: number;
+    right: number;
+    top: number;
+    bottom: number;
   };
 };
 
