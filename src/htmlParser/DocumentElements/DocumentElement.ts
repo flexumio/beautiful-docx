@@ -6,10 +6,17 @@ export interface DocumentElement {
   transformToDocx(): (Paragraph | ParagraphChild | TableCell)[];
 }
 
-export type DocumentElementType = InlineTextType | BlockTextType | TableElementType | ContainerElementType | ImageType;
+export type DocumentElementType =
+  | InlineTextType
+  | BlockTextType
+  | TableElementType
+  | ContainerElementType
+  | ImageType
+  | TableOfContentsType;
 
 export type BlockTextType = 'paragraph' | 'text' | 'heading' | 'list' | 'list-item' | 'blockquote';
 export type InlineTextType = 'br' | 'text' | 'strong' | 'i' | 'u' | 's' | 'a';
 export type TableElementType = 'table' | 'table-row' | 'table-cell';
 export type ContainerElementType = 'figure';
 export type ImageType = 'image';
+export type TableOfContentsType = 'table-of-contents';

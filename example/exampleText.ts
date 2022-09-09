@@ -1,5 +1,6 @@
 export const exampleText = `
  <div>
+ <table-of-contents></table-of-contents>
   <h1>H1 <strong>Example</strong></h1>
   <h2>H2 Example</h2>
   <h3>H3 Example</h3>

@@ -6,13 +6,16 @@ import {
   DocumentElement,
   Figure,
   Header,
+  Image,
   List,
   Paragraph,
+  TableCreator,
   TextBlock,
   TextInline,
 } from './DocumentElements';
 
 import { ImagesAdapter } from './ImagesAdapter';
+import { TableOfContents } from './DocumentElements/TableOfContents';
 
 export class HtmlParser {
   constructor(public options: DocxExportOptions) {}
@@ -26,8 +29,9 @@ export class HtmlParser {
   }
 
   async setImages(content: Node[]) {
-    const images = await new ImagesAdapter().downloadImages(content);
-    this.options = { ...this.options, images: images };
+    const images = await new ImagesAdapter(this.options.images).downloadImages(content);
+
+    this.options = { ...this.options, images };
   }
 
   parseHtmlTree(root: Node[]) {
@@ -35,19 +39,20 @@ export class HtmlParser {
     let pCounts = 0;
 
     for (const child of root) {
-      if (child.type === 'text') {
-        paragraphs.push(...new TextBlock({}, new TextInline(child).getContent()).getContent());
-      }
+      switch (child.type) {
+        case 'text': {
+          paragraphs.push(...new TextBlock({}, new TextInline(child).getContent()).getContent());
+          break;
+        }
+        case 'element': {
+          const topLevelElement = this.parseTopLevelElement(child, pCounts);
+          paragraphs.push(...topLevelElement);
 
-      if (child.type !== 'element') {
-        continue;
-      }
-
-      const topLevelElement = this.parseTopLevelElement(child, pCounts);
-      paragraphs.push(...topLevelElement);
-
-      if (child.tagName === 'p') {
-        pCounts++;
+          if (child.tagName === 'p') {
+            pCounts++;
+          }
+          break;
+        }
       }
     }
 
@@ -74,7 +79,7 @@ export class HtmlParser {
         return new Header(element, HeadingLevel.HEADING_4).getContent();
       case 'ul':
       case 'ol':
-        return new List(element, 0).getContent();
+        return new List(element, 0, this.options).getContent();
       case 'figure':
         return new Figure(element, this.options).getContent();
       case 'table':
@@ -87,6 +92,8 @@ export class HtmlParser {
       case 'article':
       case 'section':
         return this.parseHtmlTree(element.children);
+      case 'table-of-contents':
+        return new TableOfContents().getContent();
       default:
         throw new Error(`Unsupported top tag ${element.tagName}`);
     }

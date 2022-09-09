@@ -185,4 +185,3 @@ export const parsePaddingsMergedValue = (padding: string) => {
 const pixelsToNumber = (string: string): number => {
   return Number(string.replace(/px$/, ''));
 };
-

@@ -4,9 +4,25 @@ import { ImageMap } from '../options';
 import { getAttributeMap } from './utils';
 
 export class ImagesAdapter {
-  private imagesMap: ImageMap = {};
+  private readonly imagesMap: ImageMap = {};
+  private imagesUrls: string[] = [];
+
+  constructor(currentImages?: ImageMap) {
+    if (currentImages) {
+      this.imagesMap = currentImages;
+    }
+  }
 
   async downloadImages(root: Node[]) {
+    this.parseImagesUrls(root);
+
+    // TODO: configure downloading in pack with 5-10 images
+    await Promise.all(this.imagesUrls.map(i => this.addImageToMap(i)));
+
+    return this.imagesMap;
+  }
+
+  private parseImagesUrls(root: Node[]) {
     for (const child of root) {
       if (child.type !== 'element') {
         continue;
@@ -15,14 +31,13 @@ export class ImagesAdapter {
       if (child.tagName === 'img') {
         const imageAttr = getAttributeMap(child.attributes);
 
-        await this.addImageToMap(imageAttr['src']);
+        this.imagesUrls.push(imageAttr['src']);
       }
 
       if (child.children.length) {
-        await this.downloadImages(child.children);
+        this.parseImagesUrls(child.children);
       }
     }
-    return this.imagesMap;
   }
 
   private async addImageToMap(url: string) {
@@ -31,7 +46,8 @@ export class ImagesAdapter {
     }
   }
 
-  private async downloadImage(url: string): Promise<Buffer> {
-    return axios.get(url, { responseType: 'arraybuffer' }).then(response => Buffer.from(response.data, 'binary'));
+  async downloadImage(url: string): Promise<Buffer> {
+    const res = await axios.get(url, { responseType: 'arraybuffer' });
+    return Buffer.from(res.data, 'binary');
   }
 }

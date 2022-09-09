@@ -1,5 +1,6 @@
 import { HtmlToDocx } from '.';
-import { exampleText } from './exampleText';
+import { exampleText } from '../example/exampleText';
+import { defaultExportOptions } from './options';
 
 describe('HtmlToDocx', () => {
   test('should return buffer', async () => {
@@ -19,5 +20,12 @@ describe('HtmlToDocx', () => {
     const buffer = await htmlToDocx.generateDocx(exampleText);
 
     expect(buffer).toBeInstanceOf(Buffer);
+  });
+
+  test('should be created with default options without users options', () => {
+    const instance = new HtmlToDocx();
+
+    expect(instance.options).toBeDefined();
+    expect(instance.options).toStrictEqual(defaultExportOptions);
   });
 });

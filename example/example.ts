@@ -1,5 +1,5 @@
 /* istanbul ignore file */
-import { HtmlToDocx } from './index';
+import { HtmlToDocx } from '../src';
 import * as fs from 'fs';
 import { exampleText } from './exampleText';
 
@@ -24,4 +24,4 @@ const main = async () => {
   fs.writeFileSync('test-lib.docx', buffer);
 };
 
-main();
+void main();
