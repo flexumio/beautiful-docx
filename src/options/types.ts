@@ -53,7 +53,7 @@ export type DocxExportOptions = {
   page: PageOptions;
   font: FontOptions;
   verticalSpaces: number;
-  ignoreIndentation?: boolean;
+  ignoreIndentation: boolean;
   images?: ImageMap;
   table: TableOptions;
 };

@@ -1,7 +1,6 @@
 import { ColorTranslator } from 'colortranslator';
 import { BorderStyle, convertInchesToTwip, IBorderOptions } from 'docx';
 import { Node, Styles } from 'himalaya';
-import { convertPixelsToPoints } from '../../utils';
 
 const INLINE_TEXT_ELEMENTS = ['strong', 'i', 'u', 's', 'a'];
 const TABLE_LEFT_INDENT = 0.06;
@@ -37,6 +36,11 @@ export const parseBorderOptions = (styles: Styles): IBorderOptions => {
   const defaultStyle = BorderStyle.SINGLE;
   const defaultColor = 'bfbfbf';
   const defaultSize = 4;
+  let border: { size: number; color: string; style: BorderStyle } = {
+    size: defaultSize,
+    color: defaultColor,
+    style: defaultStyle,
+  };
 
   if (styles['border']) {
     const regex = new RegExp(/(\S+)\s(\S+)\s(.+)/);
@@ -49,22 +53,29 @@ export const parseBorderOptions = (styles: Styles): IBorderOptions => {
     const [, width, style, color] = matched;
 
     const cellColorTranslator = new ColorTranslator(color);
-    return {
+    border = {
       style: parseBorderStyle(style),
       color: cellColorTranslator.HEX,
-      size: convertPixelsToPoints(width),
-    };
-  } else {
-    const width = styles['border-width'];
-    const style = styles['border-style'];
-    const color = styles['border-color'];
-
-    return {
-      style: style ? parseBorderStyle(style) : defaultStyle,
-      color: color ? new ColorTranslator(color).HEX : defaultColor,
-      size: width ? convertPixelsToPoints(width) : defaultSize,
+      size: parseInt(width),
     };
   }
+  const width = styles['border-width'];
+  const style = styles['border-style'];
+  const color = styles['border-color'];
+
+  if (width) {
+    border.size = parseInt(width);
+  }
+
+  if (style) {
+    border.style = parseBorderStyle(style);
+  }
+
+  if (color) {
+    border.color = new ColorTranslator(color).HEX;
+  }
+
+  return border;
 };
 
 export const getTableIndent = (): number => {

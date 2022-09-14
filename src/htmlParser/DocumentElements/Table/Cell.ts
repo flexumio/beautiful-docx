@@ -2,11 +2,9 @@ import { ColorTranslator } from 'colortranslator';
 import { ITableCellOptions, Paragraph, ShadingType, TableCell, VerticalAlign } from 'docx';
 import { Element, Styles } from 'himalaya';
 import { DocxExportOptions } from '../../../options';
-import { TextInline } from '../TextInline';
 import { HtmlParser } from '../../HtmlParser';
-import { TextBlock } from '../TextBlock';
 import { AttributeMap, convertPixelsToTwip, getAttributeMap, parsePaddings, parseStyles } from '../../utils';
-import { isInlineTextElement, parseBorderOptions } from './utils';
+import { parseBorderOptions } from './utils';
 import { DocumentElement, DocumentElementType } from '../DocumentElement';
 
 export class Cell implements DocumentElement {
@@ -43,25 +41,7 @@ export class Cell implements DocumentElement {
   }
 
   public get tableCellChildren() {
-    const nodes = this.element.children;
-    const firstNode = nodes[0];
-
-    if (isInlineTextElement(firstNode)) {
-      return [
-        new TextBlock(
-          {},
-          nodes.flatMap(node => new TextInline(node).getContent())
-        ),
-      ];
-    }
-
-    return nodes.flatMap((node, index) => {
-      if (node.type !== 'element') {
-        return [];
-      }
-
-      return new HtmlParser(this.exportOptions).parseTopLevelElement(node, index);
-    });
+    return new HtmlParser(this.exportOptions).parseHtmlTree(this.element.children);
   }
 
   private get cellShading() {
