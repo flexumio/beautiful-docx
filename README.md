@@ -529,13 +529,13 @@ Block tags cannot be nested in other block tags, except for the cases provided f
 
 ```tsx
 const html = `
-	<h1>H1 Example</h1>
+  <h1>H1 Example</h1>
   <h2>H2 Example</h2>
   <h3>H3 Example</h3>
   <h4>H4 Example</h4>
-	<p>paragraph with <i>italic</i> text</p>
-	<ol>
-	  <li>List Item</li>
+  <p>paragraph with <i>italic</i> text</p>
+  <ol>
+    <li>List Item</li>
     <li>List Item</li>
     <li>List Item</li>
   </ol>
@@ -572,11 +572,11 @@ Tags containers.
 ```tsx
 const html = `
 <section>
-	<article>
-		<div> 
-			<p>Paragraph</p>
-		</div>
-	</article>
+  <article>
+    <div>
+      <p>Paragraph</p>
+    </div>
+  </article>
 </section>
 `;
 ```
@@ -623,9 +623,9 @@ const html = `
 <p style='text-align: center'>Paragraph 1</p>
 <p>Paragraph 2</p>
 <ul>
-	<li>
-		<p>List item</p>
-	</li>
+  <li>
+    <p>List item</p>
+  </li>
 </ul>
 `;
 ```
@@ -666,8 +666,8 @@ For headings, you can set the `font size` and `font-family`. To do this, you nee
 
 ```tsx
 const html = `
-	<h1 style='text-align: center'>Page Title</h1>
-	<h2><i>Page subtitle</i></h2>
+  <h1 style='text-align: center'>Page Title</h1>
+  <h2><i>Page subtitle</i></h2>
 `;
 ```
 
@@ -696,16 +696,16 @@ Block tags. Convert to lists.
 
 ```tsx
 const html = `
-	<ul>
-		<li>List item
-				<ol>
-				  <li>List Item</li>
-			    <li>List Item</li>
-			    <li>List Item</li>
-			  </ol>
-		</li>
-		<li>List item</li>
-	<ul>
+<ul>
+  <li>List item
+      <ol>
+        <li>List Item</li>
+        <li>List Item</li>
+        <li>List Item</li>
+      </ol>
+  </li>
+  <li>List item</li>
+<ul>
 `;
 ```
 
@@ -737,16 +737,16 @@ Block tag. Tag container. Displayed as a list item
 
 ```tsx
 const html = `
-	<ul>
-		<li>List item
-				<ol>
-				  <li>List Item</li>
-			    <li>List Item</li>
-			    <li>List Item</li>
-			  </ol>
-		</li>
-		<li>List item</li>
-	<ul>
+<ul>
+  <li>List item
+      <ol>
+        <li>List Item</li>
+        <li>List Item</li>
+        <li>List Item</li>
+      </ol>
+  </li>
+  <li>List item</li>
+<ul>
 `;
 ```
 
@@ -776,10 +776,10 @@ Block tag
 ```tsx
 const html = `
 <figure>
-	<img src='https://example.com/image.png'/>
+  <img src='https://example.com/image.png'/>
 </figure>
 <figure>
-	<table>
+  <table>
     <tbody>
       <tr>
         <td>Example</td>
@@ -847,11 +847,11 @@ If a paragraph is found after the image, the image will be "linked" to this para
 ```tsx
 const url = 'https://example.com/image.png';
 const html = `
-	<figure>
-		<img src='${url}'/>
-	</figure>
-	<img style='width: 100px; float: right' src='${url}'/>
-	<img style='width: 50%; float: left' src='${url}'/>	
+<figure>
+  <img src='${url}'/>
+</figure>
+<img style='width: 100px; float: right' src='${url}'/>
+<img style='width: 50%; float: left' src='${url}'/>	
 `;
 ```
 
@@ -888,21 +888,21 @@ Block tag. Responsible for displaying tables.
 
 ```tsx
 const html = `
-<table> 
-	<caption>Table</caption>
-	<colgroup>
-	  <col style="width:30%;">
+<table>
+  <caption>Table</caption>
+  <colgroup>
+    <col style="width:30%;">
     <col style="width:70%;">
   </colgroup>
   <tbody>
-	  <tr>
-		  <td>First</td>
-			<td>Second</td>
+    <tr>
+  	  <td>First</td>
+  	  <td>Second</td>
     </tr>
-	  <tr>
-		  <td>First</td>
-			<td>Second</td>
-    </tr>      
+    <tr>
+  	  <td>First</td>
+  	  <td>Second</td>
+    </tr>
   </tbody>
 </table>
 `;
@@ -928,12 +928,12 @@ Block tag. Container tag. Responsible for displaying the table header.
 
 ```tsx
 const html = `
-<table> 
-	<caption>Table</caption>
+<table>
+  <caption>Table</caption>
   <tbody>
-	  <tr>
-		  <td>Cell</td>
-		</tr>      
+    <tr>
+      <td>Cell</td>
+    </tr>
   </tbody>
 </table>
 `;
@@ -959,12 +959,12 @@ Responsible for displaying rows of the table with a header.
 
 ```tsx
 const html = `
-<table> 
-	<thead>
-		<tr>
-		  <td>Cell</td>
-		</tr>
-	</thead>      
+<table>
+  <thead>
+    <tr>
+      <td>Cell</td>
+    </tr>
+  </thead>
 </table>
 `;
 ```
@@ -989,12 +989,12 @@ Responsible for displaying the body of the table
 
 ```tsx
 const html = `
-<table> 
-	<tbody>
-	  <tr>
-		  <td>Cell</td>
-		</tr>
-	</tbody>      
+<table>
+  <tbody>
+    <tr>
+      <td>Cell</td>
+    </tr>
+  </tbody>
 </table>
 `;
 ```
@@ -1019,12 +1019,12 @@ Responsible for displaying the footer of the table
 
 ```tsx
 const html = `
-<table> 
+<table>
   <tfoot>
-		 <tr>
-		  <td>Cell</td>
-		</tr>
-	</tfoot>      
+    <tr>
+      <td>Cell</td>
+    </tr>
+  </tfoot>
 </table>
 `;
 ```
@@ -1053,12 +1053,12 @@ Responsible for displaying table rows
 
 ```tsx
 const html = `
-<table> 
+<table>
   <tbody>
-		 <tr>
-		  <td>Cell</td>
-		</tr>
-	</tbody>      
+    <tr>
+      <td>Cell</td>
+    </tr>
+  </tbody>
 </table>
 `;
 ```
@@ -1083,20 +1083,20 @@ Responsible for setting column widths and styles for those columns
 
 ```tsx
 const html = `
-<table> 
-	<colgroup>
-	  <col style="width:30%;">
+<table>
+  <colgroup>
+    <col style="width:30%;">
     <col style="width:70%;">
   </colgroup>
   <tbody>
-	  <tr>
-		  <td>First</td>
-			<td>Second</td>
+    <tr>
+      <td>First</td>
+      <td>Second</td>
     </tr>
-	  <tr>
-		  <td>First</td>
-			<td>Second</td>
-    </tr>      
+    <tr>
+      <td>First</td>
+      <td>Second</td>
+    </tr>
   </tbody>
 </table>
 `;
@@ -1194,19 +1194,19 @@ Values specific to each side of the cell have greater specificity than padding v
 
 ```tsx
 const html = `
-<table> 
-	<colgroup>
-	  <col style="width:30%;">
+<table>
+  <colgroup>
+    <col style="width:30%;">
     <col style="width:70%;">
   </colgroup>
   <tbody>
-	  <tr>
-		  <td style="border: 5px solid #000; padding: 10px">First</td>
-			<td rowspan="2">Second</td>
+    <tr>
+      <td style="border: 5px solid #000; padding: 10px">First</td>
+      <td rowspan="2">Second</td>
     </tr>
-	  <tr>
-		  <td>First</td>
-    </tr>      
+    <tr>
+      <td>First</td>
+    </tr>
   </tbody>
 </table>
 `;
@@ -1236,20 +1236,20 @@ Responsible for setting the width of the column.
 
 ```tsx
 const html = `
-<table> 
-	<colgroup>
-	  <col style="width:30%;">
+<table>
+  <colgroup>
+    <col style="width:30%;">
     <col style="width:70%;">
   </colgroup>
   <tbody>
-	  <tr>
-		  <td>First</td>
-			<td>Second</td>
+    <tr>
+      <td>First</td>
+      <td>Second</td>
     </tr>
-	  <tr>
-		  <td>First</td>
-			<td>Second</td>
-    </tr>      
+    <tr>
+      <td>First</td>
+      <td>Second</td>
+    </tr>
   </tbody>
 </table>
 `;
@@ -1512,11 +1512,11 @@ Adds a table of contents to the document, automatically generated based on the h
 
 ```tsx
 const html = `
-	<table-of-contents/>
-	<h1>H1 Example</h1>
-	<h2>H2 Example</h2>
-	<h3>H3 Example</h3>
-	<h4>H4 Example</h4>
+<table-of-contents/>
+<h1>H1 Example</h1>
+<h2>H2 Example</h2>
+<h3>H3 Example</h3>
+<h4>H4 Example</h4>
 `;
 ```
 
