@@ -52,7 +52,7 @@ describe('parseBorderOptions', () => {
     const expectedOptions = {
       style: BorderStyle.SINGLE,
       color: styles['border-color'],
-      size: 0.25,
+      size: 1,
     };
 
     expect(parseBorderOptions(styles)).toStrictEqual(expectedOptions);
@@ -60,7 +60,7 @@ describe('parseBorderOptions', () => {
 
   test('with border style', () => {
     const styles = { border: '1px solid #fff' };
-    const expectedOptions = { style: BorderStyle.SINGLE, size: 0.25, color: '#FFFFFF' };
+    const expectedOptions = { style: BorderStyle.SINGLE, size: 1, color: '#FFFFFF' };
 
     expect(parseBorderOptions(styles)).toStrictEqual(expectedOptions);
   });
