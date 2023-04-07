@@ -214,7 +214,11 @@ export const parseSizeValue = (value: string | number): [number, SizeUnit] => {
     return [value, 'px'];
   }
 
-  const match = value.match(/^(-?\d*\.?\d+)(px|pt|em|rem|vh|vw|%|auto)$/i);
+  if (value === 'auto') {
+    return [0, 'auto'];
+  }
+
+  const match = value.match(/^(-?\d*\.?\d+)(px|pt|em|rem|vh|vw|%)$/i);
 
   if (match) {
     const [, numberValue, unit] = match;

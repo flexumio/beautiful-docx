@@ -91,22 +91,146 @@ describe('TableCreator', () => {
     });
   });
 
-  test('table width should calculates by defined "width" style attribute', () => {
-    const html = `
+  describe('table width should calculates by defined "width" style attribute', () => {
+    test('should support percentage value', () => {
+      const html = `
       <table style="width: 50%">
         <tbody>
           <tr><td>First</td></tr>
         </tbody>
       </table>
       `;
-    const expectedWidthInTwip = 5077.5;
+      const expectedWidthInTwip = 5077.5;
 
-    const element = parse(html).find(i => i.type === 'element' && i.tagName === 'table') as Element;
+      const element = parse(html).find(i => i.type === 'element' && i.tagName === 'table') as Element;
 
-    const instance = new TableCreator(element, defaultExportOptions);
+      const instance = new TableCreator(element, defaultExportOptions);
 
-    expect(instance.options.width).toBeDefined();
-    expect(instance.options.width?.size).toBe(expectedWidthInTwip);
+      expect(instance.options.width).toBeDefined();
+      expect(instance.options.width?.size).toBe(expectedWidthInTwip);
+    });
+    test('should support vw value', () => {
+      const html = `
+      <table style="width: 50vw">
+        <tbody>
+          <tr><td>First</td></tr>
+        </tbody>
+      </table>
+      `;
+      const expectedWidthInTwip = 5077.5;
+
+      const element = parse(html).find(i => i.type === 'element' && i.tagName === 'table') as Element;
+
+      const instance = new TableCreator(element, defaultExportOptions);
+
+      expect(instance.options.width).toBeDefined();
+      expect(instance.options.width?.size).toBe(expectedWidthInTwip);
+    });
+    test('should support vh value', () => {
+      const html = `
+      <table style="width: 50vh">
+        <tbody>
+          <tr><td>First</td></tr>
+        </tbody>
+      </table>
+      `;
+      const expectedWidthInTwip = 10155;
+
+      const element = parse(html).find(i => i.type === 'element' && i.tagName === 'table') as Element;
+
+      const instance = new TableCreator(element, defaultExportOptions);
+
+      expect(instance.options.width).toBeDefined();
+      expect(instance.options.width?.size).toBe(expectedWidthInTwip);
+    });
+
+    test('should support "auto" value', () => {
+      const html = `
+      <table style="width: auto">
+        <tbody>
+          <tr><td>First</td></tr>
+        </tbody>
+      </table>
+      `;
+      const expectedWidthInTwip = 10155;
+
+      const element = parse(html).find(i => i.type === 'element' && i.tagName === 'table') as Element;
+
+      const instance = new TableCreator(element, defaultExportOptions);
+
+      expect(instance.options.width).toBeDefined();
+      expect(instance.options.width?.size).toBe(expectedWidthInTwip);
+    });
+
+    test('should support pt value', () => {
+      const html = `
+      <table style="width: 10pt">
+        <tbody>
+          <tr><td>First</td></tr>
+        </tbody>
+      </table>
+      `;
+      const expectedWidthInTwip = 200;
+
+      const element = parse(html).find(i => i.type === 'element' && i.tagName === 'table') as Element;
+
+      const instance = new TableCreator(element, defaultExportOptions);
+      expect(instance.options.width).toBeDefined();
+      expect(instance.options.width?.size).toBe(expectedWidthInTwip);
+    });
+    test('should support px value', () => {
+      const html = `
+      <table style="width: 10px">
+        <tbody>
+          <tr><td>First</td></tr>
+        </tbody>
+      </table>
+      `;
+      const expectedWidthInTwip = 150;
+
+      const element = parse(html).find(i => i.type === 'element' && i.tagName === 'table') as Element;
+
+      const instance = new TableCreator(element, defaultExportOptions);
+
+      expect(instance.options.width).toBeDefined();
+      expect(instance.options.width?.size).toBe(expectedWidthInTwip);
+    });
+
+    test('should support em value', () => {
+      const html = `
+      <table style="width: 10em">
+        <tbody>
+          <tr><td>First</td></tr>
+        </tbody>
+      </table>
+      `;
+      const expectedWidthInTwip = 2400;
+
+      const element = parse(html).find(i => i.type === 'element' && i.tagName === 'table') as Element;
+
+      const instance = new TableCreator(element, defaultExportOptions);
+
+      expect(instance.options.width).toBeDefined();
+      expect(instance.options.width?.size).toBe(expectedWidthInTwip);
+    });
+
+    test('should support rem value', () => {
+      const html = `
+      <table style="width: 10rem">
+        <tbody>
+          <tr><td>First</td></tr>
+        </tbody>
+      </table>
+      `;
+      const expectedWidthInTwip = 2400;
+
+      const element = parse(html).find(i => i.type === 'element' && i.tagName === 'table') as Element;
+
+      const instance = new TableCreator(element, defaultExportOptions);
+
+      expect(instance.options.width).toBeDefined();
+      expect(instance.options.width?.size).toBe(expectedWidthInTwip);
+    });
   });
 
   test('table without tbody should create without errors', () => {
