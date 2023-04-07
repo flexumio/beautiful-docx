@@ -882,7 +882,13 @@ Block tag. Responsible for displaying tables.
 
 - `width`
 
-  Currently, only percentage values are supported. Sets the width of the table relative to the page size. Without the attribute - the table will stretch to the entire width of the page
+  Supported units: `%`, `px`, `pt`, `vw`, `auto`, `em`, `rem`
+
+  Without the attribute or with `auto` value - the table will stretch to the entire width of the page
+
+  `vh` value ignored.
+
+  `em`, `rem` sets table width relative to `options.font.baseSize` value
 
 **Example:**
 
