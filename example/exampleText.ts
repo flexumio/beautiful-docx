@@ -41,16 +41,11 @@ export const exampleText = `
   <blockquote>
     <p>Blockquote</p> and just text
   </blockquote>
-  <figure class='image'>
-    <img src='https://upload.wikimedia.org/wikipedia/commons/thumb/a/a7/React-icon.svg/640px-React-icon.svg.png'/>
-  </figure>
-  <img src='https://upload.wikimedia.org/wikipedia/commons/thumb/a/a7/React-icon.svg/640px-React-icon.svg.png'/>
+  
   <p>Paragraph</p>
-  <figure class='image'>
-    <img src='https://upload.wikimedia.org/wikipedia/commons/thumb/a/a7/React-icon.svg/640px-React-icon.svg.png'/>
-  </figure>
+  
   <figure class="table">
-    <table>
+    <table style="width:20rem">
       <colgroup>
         <col style="width:14.29%;">
         <col style="width:14.29%;">

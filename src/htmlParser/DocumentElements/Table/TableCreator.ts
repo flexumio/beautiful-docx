@@ -1,7 +1,15 @@
 import { AlignmentType, ITableOptions, Table, TableLayoutType, TableRow as DocxTableRow, WidthType } from 'docx';
 import { Element, Styles } from 'himalaya';
 import { DocxExportOptions } from '../../../options';
-import { AttributeMap, getAttributeMap, getPageWidth, parseStyles } from '../../utils';
+import {
+  AttributeMap,
+  convertPixelsToTwip,
+  convertPointsToTwip,
+  getAttributeMap,
+  getPageWidth,
+  parseSizeValue,
+  parseStyles,
+} from '../../utils';
 import { getTableIndent, parseBorderOptions } from './utils';
 import { TextBlock } from '../TextBlock';
 import { TableRow } from './TableRow';
@@ -120,18 +128,40 @@ export class TableCreator implements DocumentElement {
   }
 
   private get width() {
-    const tableWidthTwip = getPageWidth(this.exportOptions);
+    const pageWidthTwip = getPageWidth(this.exportOptions);
     const tableAttr = getAttributeMap(this.element.attributes);
     const tableStyles = parseStyles(tableAttr['style']);
     const tableWidth = tableStyles['width'];
 
     if (tableWidth) {
-      const widthPercent = parseFloat(tableWidth.slice(0, -1));
-
-      return (tableWidthTwip * widthPercent) / 100;
+      const [value, unitType] = parseSizeValue(tableWidth);
+      switch (unitType) {
+        case 'vw':
+        case '%': {
+          return (pageWidthTwip * value) / 100;
+        }
+        case 'vh':
+        case 'auto': {
+          return pageWidthTwip;
+        }
+        case 'pt': {
+          const width = convertPointsToTwip(value);
+          return width > pageWidthTwip ? pageWidthTwip : width;
+        }
+        case 'px': {
+          const width = convertPixelsToTwip(value);
+          return width > pageWidthTwip ? pageWidthTwip : width;
+        }
+        case 'em':
+        case 'rem': {
+          const fontSizeInTwip = convertPointsToTwip(this.exportOptions.font.baseSize);
+          const width = fontSizeInTwip * value;
+          return width > pageWidthTwip ? pageWidthTwip : width;
+        }
+      }
     }
 
-    return tableWidthTwip;
+    return pageWidthTwip;
   }
 
   private get columnWidth() {
