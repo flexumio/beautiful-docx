@@ -1270,7 +1270,7 @@ Inline tag. Adds line break.
 - `p`
 - `h1-h4`
 
-When present in the root of the document or container tags, it is wrapped in a paragraph, which visually adds 2 line breaks.
+When present in the root of the document or container tags, it will add empty line to previous text block.
 
 **Supported content:** not supported
 
