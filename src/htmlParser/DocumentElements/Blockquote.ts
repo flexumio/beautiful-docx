@@ -23,21 +23,25 @@ export class Blockquote implements DocumentElement {
       },
       indent: { left: convertMillimetersToTwip(6) },
     };
-    this.content = this.createContent();
+    this.content = this.createContent(this.element);
   }
 
-  private createContent() {
-    return this.element.children.flatMap(node => {
-      const isElement = node.type === 'element';
+  private createContent(element: Element) {
+    const children = this.parseChildren(element);
 
-      return new TextBlock(
-        this.options,
-        isElement ? node.children.flatMap(this.createInlineChild) : this.createInlineChild(node)
-      ).getContent();
+    return children.flatMap(node => {
+      return new TextBlock(this.options, this.createInlineChild(node)).getContent();
     });
   }
 
-  private createInlineChild(node: Node) {
+  private parseChildren(element: Element): Node[] {
+    return element.children.flatMap(i => {
+      const isElement = i.type === 'element';
+      return isElement ? this.parseChildren(i) : i;
+    }, this);
+  }
+
+  private createInlineChild(node: Node): TextInline[] {
     return new TextInline(node, {
       italics: true,
     }).getContent();
