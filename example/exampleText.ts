@@ -4,6 +4,7 @@ export const exampleText = `
   <h1>H1 <strong>Example</strong></h1>
   <h2>H2 Example</h2>
   <h3>H3 Example</h3>
+  <br/>
   <h4>H4 Example</h4>
   <p>
     <s>Something</s>
@@ -12,7 +13,6 @@ export const exampleText = `
     <u>sometimes</u>
     <strong>sometimes</strong>
   </p>
-  <br/>
   <br/>
   <p>Something</p>
   <strong>bold</strong>
