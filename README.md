@@ -855,6 +855,43 @@ const html = `
 `;
 ```
 
+## `li`
+
+Block tag. Tag container. Displayed as italic text with left border
+
+**Can be nested in:**
+
+- document root
+- container tag
+- `li` (partial support - displayed from a new line)
+- `caption`
+- `td`
+
+**Supported content:**
+
+- plain text
+- root content - is displayed from a new line as plain text
+
+**Attributes**: not supported
+
+**Inline-styles**:
+
+- `text-align` - horizontal text position
+
+  **Available values:** `justify`, `left`, `center`, `right`
+
+  **Default**: `left`
+
+**Example:**
+
+```tsx
+const html = `
+<blockquote>
+  Premature Optimization Is the Root of All Evil
+<blockquote>
+`;
+```
+
 ## `table`
 
 Block tag. Responsible for displaying tables.
