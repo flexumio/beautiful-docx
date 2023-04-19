@@ -23,6 +23,8 @@ export const exampleText = `
               <i>sometimes</i>
               <u>sometimes</u>
               <strong>sometimes</strong>
+              <sub>sub</sub>
+              <sup>sup</sup>
             </span>
           </p>
         </article>

@@ -16,7 +16,7 @@ export type DocumentElementType =
   | TableOfContentsType;
 
 export type BlockTextType = 'paragraph' | 'text' | 'heading' | 'list' | 'list-item' | 'blockquote';
-export type InlineTextType = 'br' | 'text' | 'strong' | 'i' | 'u' | 's' | 'a' | 'b' | 'em' | 'span';
+export type InlineTextType = 'br' | 'text' | 'strong' | 'i' | 'u' | 's' | 'a' | 'b' | 'em' | 'span' | 'sup' | 'sub';
 export type TableElementType = 'table' | 'table-row' | 'table-cell';
 export type ContainerElementType = 'figure';
 export type ImageType = 'image';
