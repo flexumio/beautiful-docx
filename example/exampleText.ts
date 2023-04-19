@@ -28,6 +28,21 @@ export const exampleText = `
             </span>
           </p>
         </article>
+        <pre>
+        <article>
+          <p>
+            <span>
+              <s>Something</s>
+              <br/>
+              <i>sometimes</i>
+              <u>sometimes</u>
+              <strong>sometimes</strong>
+              <sub>sub</sub>
+              <sup>sup</sup>
+            </span>
+          </p>
+        </article>
+        <pre>
       </section>   
       <br/>
       <br/>

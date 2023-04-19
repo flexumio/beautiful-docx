@@ -72,6 +72,7 @@ export class HtmlParser {
       case 'div':
       case 'article':
       case 'section':
+      case 'pre':
         return this.parseHtmlTree(element.children);
       case 'p':
         return new Paragraph(element, pIndex, this.options).getContent();
