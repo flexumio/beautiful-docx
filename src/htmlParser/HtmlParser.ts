@@ -80,6 +80,10 @@ export class HtmlParser {
         return new Header(element, HeadingLevel.HEADING_3).getContent();
       case 'h4':
         return new Header(element, HeadingLevel.HEADING_4).getContent();
+      case 'h5':
+        return new Header(element, HeadingLevel.HEADING_5).getContent();
+      case 'h6':
+        return new Header(element, HeadingLevel.HEADING_6).getContent();
       case 'ul':
       case 'ol':
         return new List(element, 0, this.options).getContent();

@@ -46,6 +46,8 @@ export type FontOptions = {
     h2: FontSize;
     h3: FontSize;
     h4: FontSize;
+    h5: FontSize;
+    h6: FontSize;
   };
 };
 

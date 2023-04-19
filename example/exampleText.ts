@@ -5,6 +5,8 @@ export const exampleText = `
   <h2>H2 Example</h2>
   <h3>H3 Example</h3>
   <h4>H4 Example</h4>
+  <h5>H5 Example</h5>
+  <h6>H6 Example</h6>
   <p>
     <s>Something</s>
     <br/>

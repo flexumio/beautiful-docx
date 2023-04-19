@@ -12,7 +12,7 @@ export class TableOfContents implements DocumentElement {
     return [
       new DocxTableOfContents('Table of Contents', {
         hyperlink: true,
-        headingStyleRange: '1-4',
+        headingStyleRange: '1-6',
       }),
     ];
   }

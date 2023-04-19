@@ -65,46 +65,12 @@ export class Document {
             bold: false,
           },
         },
-        heading1: {
-          run: {
-            font: this.exportOptions.font.headersFontFamily,
-            size: this.exportOptions.font.headersSizes.h1 * FONT_RATIO,
-            bold: true,
-          },
-          paragraph: {
-            spacing: { line: this.exportOptions.font.headersSizes.h1 * FONT_TO_LINE_RATIO },
-          },
-        },
-        heading2: {
-          run: {
-            font: this.exportOptions.font.headersFontFamily,
-            size: this.exportOptions.font.headersSizes.h2 * FONT_RATIO,
-            bold: true,
-          },
-          paragraph: {
-            spacing: { line: this.exportOptions.font.headersSizes.h2 * FONT_TO_LINE_RATIO },
-          },
-        },
-        heading3: {
-          run: {
-            font: this.exportOptions.font.headersFontFamily,
-            size: this.exportOptions.font.headersSizes.h3 * FONT_RATIO,
-            bold: true,
-          },
-          paragraph: {
-            spacing: { line: this.exportOptions.font.headersSizes.h3 * FONT_TO_LINE_RATIO },
-          },
-        },
-        heading4: {
-          run: {
-            font: this.exportOptions.font.headersFontFamily,
-            size: this.exportOptions.font.headersSizes.h4 * FONT_RATIO,
-            bold: true,
-          },
-          paragraph: {
-            spacing: { line: this.exportOptions.font.headersSizes.h4 * FONT_TO_LINE_RATIO },
-          },
-        },
+        heading1: this.getHeadingFontSettings('h1'),
+        heading2: this.getHeadingFontSettings('h2'),
+        heading3: this.getHeadingFontSettings('h3'),
+        heading4: this.getHeadingFontSettings('h4'),
+        heading5: this.getHeadingFontSettings('h5'),
+        heading6: this.getHeadingFontSettings('h6'),
       },
     };
   }
@@ -173,5 +139,18 @@ export class Document {
 
   private get footer() {
     return new DocumentFooter(this.exportOptions);
+  }
+
+  private getHeadingFontSettings(level: keyof DocxExportOptions['font']['headersSizes']) {
+    return {
+      run: {
+        font: this.exportOptions.font.headersFontFamily,
+        size: this.exportOptions.font.headersSizes[level] * FONT_RATIO,
+        bold: true,
+      },
+      paragraph: {
+        spacing: { line: this.exportOptions.font.headersSizes[level] * FONT_TO_LINE_RATIO },
+      },
+    };
   }
 }

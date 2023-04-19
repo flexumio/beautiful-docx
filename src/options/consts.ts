@@ -17,6 +17,8 @@ const HEADING_1_FONT_SIZE = 19.5;
 const HEADING_2_FONT_SIZE = 16.5;
 const HEADING_3_FONT_SIZE = 15;
 const HEADING_4_FONT_SIZE = 13.5;
+const HEADING_5_FONT_SIZE = 12;
+const HEADING_6_FONT_SIZE = 10.5;
 
 const defaultTableCellPaddings = {
   left: 5,
@@ -46,6 +48,8 @@ export const defaultExportOptions: DocxExportOptions = {
       h2: HEADING_2_FONT_SIZE,
       h3: HEADING_3_FONT_SIZE,
       h4: HEADING_4_FONT_SIZE,
+      h5: HEADING_5_FONT_SIZE,
+      h6: HEADING_6_FONT_SIZE,
     },
   },
   verticalSpaces: 0,
