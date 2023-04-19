@@ -62,6 +62,17 @@ export class HtmlParser {
 
   parseTopLevelElement = (element: Element, pIndex: number) => {
     switch (element.tagName) {
+      case 'html':
+      case 'body':
+      case 'header':
+      case 'nav':
+      case 'main':
+      case 'aside':
+      case 'footer':
+      case 'div':
+      case 'article':
+      case 'section':
+        return this.parseHtmlTree(element.children);
       case 'p':
         return new Paragraph(element, pIndex, this.options).getContent();
       case 'strong':
@@ -96,10 +107,6 @@ export class HtmlParser {
         return new Image(this.coverWithFigure(element), this.options).getContent();
       case 'blockquote':
         return new Blockquote(element).getContent();
-      case 'div':
-      case 'article':
-      case 'section':
-        return this.parseHtmlTree(element.children);
       case 'page-break':
         return new PageBreak().getContent();
       case 'table-of-contents':
