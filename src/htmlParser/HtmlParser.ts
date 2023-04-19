@@ -71,6 +71,7 @@ export class HtmlParser {
       case 'u':
       case 's':
       case 'br':
+      case 'span':
         return new TextBlock({}, new TextInline(element).getContent()).getContent();
       case 'h1':
         return new Header(element, HeadingLevel.HEADING_1).getContent();

@@ -8,11 +8,13 @@ export const exampleText = `
   <h5>H5 Example</h5>
   <h6>H6 Example</h6>
   <p>
-    <s>Something</s>
-    <br/>
-    <i>sometimes</i>
-    <u>sometimes</u>
-    <strong>sometimes</strong>
+    <span>
+      <s>Something</s>
+      <br/>
+      <i>sometimes</i>
+      <u>sometimes</u>
+      <strong>sometimes</strong>
+    </span>
   </p>
   <br/>
   <br/>

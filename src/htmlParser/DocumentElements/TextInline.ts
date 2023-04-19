@@ -5,7 +5,7 @@ import { cleanTextContent } from '../utils';
 
 import { InlineTextType, DocumentElement } from './DocumentElement';
 
-const supportedTextTypes: InlineTextType[] = ['br', 'text', 'strong', 'i', 'u', 's', 'a', 'b', 'em'];
+const supportedTextTypes: InlineTextType[] = ['br', 'text', 'strong', 'i', 'u', 's', 'a', 'b', 'em', 'span'];
 
 const inlineTextOptionsDictionary: { [key in InlineTextType]: IRunOptions } = {
   br: { break: 1 },
@@ -17,6 +17,7 @@ const inlineTextOptionsDictionary: { [key in InlineTextType]: IRunOptions } = {
   u: { underline: { type: UnderlineType.SINGLE } },
   s: { strike: true },
   a: {},
+  span: {},
 };
 
 export class TextInline implements DocumentElement {
