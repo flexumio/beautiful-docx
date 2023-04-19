@@ -16,6 +16,8 @@ export const exampleText = `
   <br/>
   <p>Something</p>
   <strong>bold</strong>
+  <b>bold</b>
+  <em>italic</em>
   <page-break/>
   <p>
     <a href='https://github.com/'>link</a>

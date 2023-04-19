@@ -5,12 +5,14 @@ import { cleanTextContent } from '../utils';
 
 import { InlineTextType, DocumentElement } from './DocumentElement';
 
-const supportedTextTypes: InlineTextType[] = ['br', 'text', 'strong', 'i', 'u', 's', 'a'];
+const supportedTextTypes: InlineTextType[] = ['br', 'text', 'strong', 'i', 'u', 's', 'a', 'b', 'em'];
 
 const inlineTextOptionsDictionary: { [key in InlineTextType]: IRunOptions } = {
   br: { break: 1 },
   text: {},
   strong: { bold: true },
+  b: { bold: true },
+  em: { italics: true },
   i: { italics: true },
   u: { underline: { type: UnderlineType.SINGLE } },
   s: { strike: true },

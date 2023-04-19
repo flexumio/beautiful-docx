@@ -65,7 +65,9 @@ export class HtmlParser {
       case 'p':
         return new Paragraph(element, pIndex, this.options).getContent();
       case 'strong':
+      case 'b':
       case 'i':
+      case 'em':
       case 'u':
       case 's':
       case 'br':
