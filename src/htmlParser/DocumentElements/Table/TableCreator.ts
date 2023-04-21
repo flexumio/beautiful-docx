@@ -166,21 +166,44 @@ export class TableCreator implements DocumentElement {
 
   private get columnWidth() {
     const colGroupCount = this.colGroup?.children.filter(i => i.type === 'element').length;
+    const mediumColWidth = Math.floor(this.width / this.columnsCount);
+
     if (this.colGroup && colGroupCount === this.columnsCount) {
-      return this.colGroup.children.map(item => {
+      const childrenWidth = this.colGroup.children.map(item => {
         if (item.type === 'element' && item.tagName === 'col') {
           const colAttr = getAttributeMap(item.attributes);
           const colStyles = parseStyles(colAttr['style']);
-          const widthPercent = parseFloat(colStyles['width'].slice(0, -1));
+          const [value, unitType] = parseSizeValue(colStyles['width']);
 
-          return (this.width * widthPercent) / 100;
+          switch (unitType) {
+            case 'vw':
+            case '%': {
+              return (this.width * value) / 100;
+            }
+            case 'vh':
+            case 'auto': {
+              return mediumColWidth;
+            }
+            case 'pt': {
+              return convertPointsToTwip(value);
+            }
+            case 'px': {
+              return convertPixelsToTwip(value);
+            }
+            case 'em':
+            case 'rem': {
+              const fontSizeInTwip = convertPointsToTwip(this.exportOptions.font.baseSize);
+
+              return fontSizeInTwip * value;
+            }
+          }
         }
-
-        return Math.floor(this.width / this.columnsCount);
       });
+      const columnWidths = childrenWidth.filter(i => i !== undefined) as number[];
+
+      return columnWidths;
     } else {
-      const columnWidth = Math.floor(this.width / this.columnsCount);
-      return new Array<number>(this.columnsCount).fill(columnWidth);
+      return new Array<number>(this.columnsCount).fill(mediumColWidth);
     }
   }
 

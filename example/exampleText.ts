@@ -52,13 +52,13 @@ export const exampleText = `
   <figure class="table">
     <table style="width:20rem">
       <colgroup>
+        <col style="width:150px;">
+        <col style="width:15vw;">
+        <col style="width:5em;">
+        <col style="width:2rem;">
         <col style="width:14.29%;">
-        <col style="width:14.29%;">
-        <col style="width:14.29%;">
-        <col style="width:14.29%;">
-        <col style="width:14.29%;">
-        <col style="width:14.29%;">
-        <col style="width:14.26%;">
+        <col style="width:10vh;">
+        <col style="width:10pt">
       </colgroup>
       <tbody>
         <tr>
