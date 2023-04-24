@@ -1,3 +1,4 @@
+import { AlignmentType, NumberFormat } from 'docx';
 import { DocxExportOptions, PageFormatSizes, PageOrientation } from './types';
 
 export const PageFormat: PageFormatSizes = {
@@ -35,7 +36,7 @@ export const defaultExportOptions: DocxExportOptions = {
       left: LEFT_MARGIN_DEFAULT,
     },
     size: PageFormat.A4,
-    numbering: true,
+    numbering: { type: NumberFormat.DECIMAL, start: 1, align: AlignmentType.CENTER },
   },
   font: {
     baseSize: PARAGRAPH_FONT_SIZE,

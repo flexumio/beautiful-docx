@@ -2,6 +2,7 @@
 import { HtmlToDocx } from '../src';
 import * as fs from 'fs';
 import { exampleText } from './exampleText';
+import { AlignmentType, NumberFormat } from 'docx';
 
 const main = async () => {
   console.time('Loading');
@@ -11,7 +12,7 @@ const main = async () => {
         width: 5.5,
         height: 8,
       },
-      numbering: false,
+      numbering: { type: NumberFormat.LOWER_LETTER, align: AlignmentType.END },
     },
     font: {
       baseFontFamily: 'Calibri',
