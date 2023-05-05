@@ -309,27 +309,27 @@ Configuration of font sizes and font-family
 
   - `h1: number`
 
-    **Default:** `19.5`
+    **Default:** `16`
 
   - `h2: number`
 
-    **Default:** `16.5`
+    **Default:** `14`
 
   - `h3: number`
 
-    **Default:** `15`
+    **Default:** `12`
 
   - `h4: number`
 
-    **Default:** `13.5`
+    **Default:** `11`
 
   - `h5: number`
 
-    **Default:** `12`
+    **Default:** `10`
 
   - `h6: number`
 
-    **Default:** `10.5`
+    **Default:** `9`
 
     **Example:**
 
