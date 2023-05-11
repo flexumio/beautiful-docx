@@ -1,4 +1,3 @@
-import { convertMillimetersToTwip } from 'docx';
 import { Element } from 'himalaya';
 import { DocxExportOptions } from '../../options';
 import { TextInline } from './TextInline';
@@ -13,12 +12,12 @@ export class Paragraph extends TextBlock {
     const options = {
       alignment: parseTextAlignment(element.attributes),
       indent: getIndent(index, exportOptions),
-      spacing: { after: convertMillimetersToTwip(exportOptions.verticalSpaces) },
     };
 
     super(
       options,
-      element.children.flatMap(child => new TextInline(child).getContent())
+      element.children.flatMap(child => new TextInline(child).getContent()),
+      exportOptions
     );
   }
 }

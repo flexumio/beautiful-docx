@@ -1,6 +1,7 @@
 import { Element, parse } from 'himalaya';
 import { Paragraph as DocxParagraph } from 'docx';
 import { Blockquote, TextBlock, TextInline } from '.';
+import { defaultExportOptions } from '../../options';
 
 describe('Blockquote', () => {
   let instance: Blockquote;
@@ -10,7 +11,7 @@ describe('Blockquote', () => {
       <p>Blockquote</p> and just text
     </blockquote>`;
     const element = parse(html).find(i => i.type === 'element' && i.tagName === 'blockquote') as Element;
-    instance = new Blockquote(element);
+    instance = new Blockquote(element, defaultExportOptions);
   });
 
   test('type should be "blockquote"', () => {

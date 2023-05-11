@@ -1,6 +1,7 @@
 import { HeadingLevel } from 'docx';
 import { Element, parse } from 'himalaya';
 import { Header, TextInline } from '.';
+import { defaultExportOptions } from '../../options';
 
 describe('Header', () => {
   let instance: Header;
@@ -9,7 +10,7 @@ describe('Header', () => {
     const html = '<h1>Heading 1</h1>';
     const element = parse(html).find(i => i.type === 'element' && i.tagName === 'h1') as Element;
 
-    instance = new Header(element, headingLevel);
+    instance = new Header(element, headingLevel, defaultExportOptions);
   });
   test('type should be "heading"', () => {
     expect(instance.type).toBe('heading');

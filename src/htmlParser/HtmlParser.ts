@@ -42,7 +42,7 @@ export class HtmlParser {
     for (const child of root) {
       switch (child.type) {
         case 'text': {
-          paragraphs.push(...new TextBlock({}, new TextInline(child).getContent()).getContent());
+          paragraphs.push(...new TextBlock({}, new TextInline(child).getContent(), this.options).getContent());
           break;
         }
         case 'element': {
@@ -69,15 +69,15 @@ export class HtmlParser {
       case 'u':
       case 's':
       case 'br':
-        return new TextBlock({}, new TextInline(element).getContent()).getContent();
+        return new TextBlock({}, new TextInline(element).getContent(), this.options).getContent();
       case 'h1':
-        return new Header(element, HeadingLevel.HEADING_1).getContent();
+        return new Header(element, HeadingLevel.HEADING_1, this.options).getContent();
       case 'h2':
-        return new Header(element, HeadingLevel.HEADING_2).getContent();
+        return new Header(element, HeadingLevel.HEADING_2, this.options).getContent();
       case 'h3':
-        return new Header(element, HeadingLevel.HEADING_3).getContent();
+        return new Header(element, HeadingLevel.HEADING_3, this.options).getContent();
       case 'h4':
-        return new Header(element, HeadingLevel.HEADING_4).getContent();
+        return new Header(element, HeadingLevel.HEADING_4, this.options).getContent();
       case 'ul':
       case 'ol':
         return new List(element, 0, this.options).getContent();
@@ -88,7 +88,7 @@ export class HtmlParser {
       case 'img':
         return new Image(this.coverWithFigure(element), this.options).getContent();
       case 'blockquote':
-        return new Blockquote(element).getContent();
+        return new Blockquote(element, this.options).getContent();
       case 'div':
       case 'article':
       case 'section':

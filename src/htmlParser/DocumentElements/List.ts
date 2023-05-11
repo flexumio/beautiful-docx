@@ -36,7 +36,7 @@ export class List implements DocumentElement {
         return new ListItem(child, this.childrenOptions, this.level, this.exportOptions).getContent();
       }
       const textContent = new TextInline(child).getContent();
-      return new TextBlock({}, textContent).getContent();
+      return new TextBlock({}, textContent, this.exportOptions).getContent();
     });
   }
 

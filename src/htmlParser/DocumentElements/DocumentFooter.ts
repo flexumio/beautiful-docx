@@ -10,7 +10,8 @@ export class DocumentFooter {
     if (exportOptions.page.numbering) {
       this.children = new TextBlock(
         { alignment: AlignmentType.CENTER },
-        new TextInline({ type: 'text', content: 'Number' }, { children: ['1'] }).getContent()
+        new TextInline({ type: 'text', content: 'Number' }, { children: ['1'] }).getContent(),
+        exportOptions
       ).getContent();
     } else {
       this.children = [];

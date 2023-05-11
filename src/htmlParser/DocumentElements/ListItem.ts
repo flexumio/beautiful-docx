@@ -14,12 +14,7 @@ export class ListItem extends TextBlock {
   type: DocumentElementType = 'list-item';
   private readonly nestedElements: DocumentElement[] = [];
 
-  constructor(
-    element: Node,
-    options: IParagraphOptions,
-    level: number,
-    private readonly exportOptions: DocxExportOptions
-  ) {
+  constructor(element: Node, options: IParagraphOptions, level: number, exportOptions: DocxExportOptions) {
     if (!(element.type === 'element' && element.tagName === 'li')) {
       throw new Error('The child of list should be list item');
     }
@@ -46,7 +41,7 @@ export class ListItem extends TextBlock {
       nestedElements.push(...new HtmlParser(exportOptions).parseHtmlTree([child]));
     });
 
-    super(liOptions, children);
+    super(liOptions, children, exportOptions);
     this.nestedElements = nestedElements;
   }
 

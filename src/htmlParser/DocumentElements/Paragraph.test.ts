@@ -171,33 +171,6 @@ describe('Paragraph', () => {
         });
       });
     });
-
-    describe('spacing calculated from export options', () => {
-      test('should be 0 by default', () => {
-        const html = '<p>Paragraph</p>';
-        const element = parse(html).find(i => i.type === 'element' && i.tagName === 'p') as Element;
-        const expectedSpacing = { after: 0 };
-
-        const instance = new Paragraph(element, 0, defaultExportOptions);
-
-        expect(instance.options.spacing).toBeDefined();
-        expect(instance.options.spacing).toStrictEqual(expectedSpacing);
-      });
-
-      test('should be converted to twip', () => {
-        const providedVerticalSpacingInMillimeters = 42;
-        const expectedSpacing = { after: convertMillimetersToTwip(42) };
-
-        const html = '<p>Paragraph</p>';
-        const element = parse(html).find(i => i.type === 'element' && i.tagName === 'p') as Element;
-        const exportOptions = { ...defaultExportOptions, verticalSpaces: providedVerticalSpacingInMillimeters };
-
-        const instance = new Paragraph(element, 0, exportOptions);
-
-        expect(instance.options.spacing).toBeDefined();
-        expect(instance.options.spacing).toStrictEqual(expectedSpacing);
-      });
-    });
   });
 
   test('type should be "paragraph"', () => {

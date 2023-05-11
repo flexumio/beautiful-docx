@@ -27,7 +27,7 @@ export class DocumentBuilder {
         results.push(nextItem);
         iterator += 2;
       } else {
-        results.push(new TextBlock({}, [currentItem]));
+        results.push(new TextBlock({}, [currentItem], this.options));
         iterator += 1;
       }
     }

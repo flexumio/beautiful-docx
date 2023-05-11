@@ -1,5 +1,5 @@
-import { Paragraph } from 'docx';
-import { IParagraphOptions } from '../../options';
+import { Paragraph, convertMillimetersToTwip } from 'docx';
+import { DocxExportOptions, IParagraphOptions } from '../../options';
 import { DocumentElement, DocumentElementType } from './DocumentElement';
 import { TextInline } from './TextInline';
 import { Mutable } from '../utils';
@@ -7,7 +7,11 @@ import { Mutable } from '../utils';
 export class TextBlock implements DocumentElement {
   type: DocumentElementType = 'text';
 
-  constructor(public options: Mutable<IParagraphOptions>, public children: DocumentElement[] = []) {
+  constructor(
+    public options: Mutable<IParagraphOptions>,
+    public children: DocumentElement[] = [],
+    private readonly exportOptions?: DocxExportOptions
+  ) {
     this.children = children.filter(i => !(i instanceof TextInline && i.isEmpty));
   }
 
@@ -25,6 +29,7 @@ export class TextBlock implements DocumentElement {
     return [
       new Paragraph({
         ...this.options,
+        spacing: { after: convertMillimetersToTwip(this.exportOptions?.verticalSpaces || 0) },
         children: this.children.flatMap(i => i.transformToDocx()),
       }),
     ];

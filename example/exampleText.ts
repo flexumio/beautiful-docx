@@ -15,6 +15,8 @@ export const exampleText = `
   <br/>
   <br/>
   <p>Something</p>
+  <p>Something</p>
+  <p>Something</p>
   <strong>bold</strong>
   <page-break/>
   <p>

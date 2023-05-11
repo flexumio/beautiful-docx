@@ -1,5 +1,5 @@
 import { BorderStyle, convertMillimetersToTwip, Paragraph, ParagraphChild } from 'docx';
-import { IParagraphOptions } from '../../options';
+import { DocxExportOptions, IParagraphOptions } from '../../options';
 import { Element, Node } from 'himalaya';
 import { TextInline } from './TextInline';
 import { parseTextAlignment } from '../utils';
@@ -15,7 +15,7 @@ export class Blockquote implements DocumentElement {
   public options: IParagraphOptions;
   private readonly content: DocumentElement[];
 
-  constructor(private element: Element) {
+  constructor(private element: Element, private readonly exportOptions: DocxExportOptions) {
     this.options = {
       alignment: parseTextAlignment(element.attributes),
       border: {
@@ -32,7 +32,8 @@ export class Blockquote implements DocumentElement {
 
       return new TextBlock(
         this.options,
-        isElement ? node.children.flatMap(this.createInlineChild) : this.createInlineChild(node)
+        isElement ? node.children.flatMap(this.createInlineChild) : this.createInlineChild(node),
+        this.exportOptions
       ).getContent();
     });
   }
