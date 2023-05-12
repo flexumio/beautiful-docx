@@ -125,9 +125,9 @@ Its code must support typing and be fully covered by tests. Documentation should
 
 # **Html tags**
 
-**Supported**: a, article, blockquote, br, caption, col, colgroup, div, figure, h1-h4, i, img, li, ol, p, s, section, strong, table, tbody, td, tfoot,  th, tr, u, ul
+**Supported**: a, article, blockquote, br, caption, col, colgroup, div, figure, h1-h6, i, img, li, ol, p, s, section, strong, table, tbody, td, tfoot,  th, tr, u, ul, em, span, sub, sup, b, pre, aside, html, body, main, header, footer, nav
 
-**Support will be added in the future:** abbr, address, b, cite, code, dd, del, din, dl, dt, em, figcaption, h5-h6, hr, ins, kbd, mark, picture, pre, q, small, span!!, sub, sup, time
+**Support will be added in the future:** abbr, address, cite, code, dd, del, din, dl, dt, figcaption, hr, ins, kbd, mark, picture, q, small, time
 
 **Custom tags:** page-break, table-of-contents
 
@@ -323,6 +323,14 @@ Configuration of font sizes and font-family
 
     **Default:** `13.5`
 
+  - `h5: number`
+
+    **Default:** `12`
+
+  - `h6: number`
+
+    **Default:** `10.5`
+
     **Example:**
 
   ```tsx
@@ -503,7 +511,7 @@ const html = `
 
 ## **Container tags**
 
-The library supports the following container tags: `'div', 'article', 'section'`
+The library supports the following container tags: `'div', 'article', 'section', 'html', 'body', 'aside', 'main', 'header', 'aside', 'footer', 'nav', 'pre'`
 
 These tags will be ignored and their content will be treated as root content, following the same rules.
 
@@ -630,7 +638,7 @@ const html = `
 `;
 ```
 
-## `h1-h4`
+## `h1-h6`
 
 Block tags. They are converted into headings of the appropriate level. Participate in `table-of-contents` formation
 
@@ -1318,9 +1326,9 @@ Inline tag. Adds line break.
 - `caption`
 - `td`
 - `p`
-- `h1-h4`
+- `h1-h6`
 
-When present in the root of the document or container tags, it will add empty line to previous text block.
+When present in the root of the document or container tags, it add line break to previous paragraph
 
 **Supported content:** not supported
 
@@ -1336,7 +1344,7 @@ const html = `
 `;
 ```
 
-## `strong`
+## `strong`, `b`
 
 Inline tag. Makes the text bold.
 
@@ -1349,7 +1357,7 @@ Inline tag. Makes the text bold.
 - `caption`
 - `td`
 - `p`
-- `h1-h4`
+- `h1-h6`
 
 If there are containers in the root of the document or tags - it is wrapped in a paragraph, which is why it is displayed from a new line.
 
@@ -1370,7 +1378,7 @@ const html = `
 `;
 ```
 
-## `i`
+## `i`, `em`
 
 Inline tag. Makes the text italic.
 
@@ -1383,7 +1391,7 @@ Inline tag. Makes the text italic.
 - `caption`
 - `td`
 - `p`
-- `h1-h4`
+- `h1-h6`
 
 If there are containers in the root of the document or tags - it is wrapped in a paragraph, which is why it is displayed from a new line.
 
@@ -1417,7 +1425,7 @@ Inline tag. Makes the text underlined.
 - `caption`
 - `td`
 - `p`
-- `h1-h4`
+- `h1-h6`
 
 If there are containers in the root of the document or tags - it is wrapped in a paragraph, which is why it is displayed from a new line.
 
@@ -1451,7 +1459,7 @@ Inline tag. Makes the text crossed out.
 - `caption`
 - `td`
 - `p`
-- `h1-h4`
+- `h1-h6`
 
 If there are containers in the root of the document or tags - it is wrapped in a paragraph, which is why it is displayed from a new line.
 
@@ -1472,6 +1480,108 @@ const html = `
 `;
 ```
 
+## `span`
+
+Inline tag. Inline container tag.
+
+**Can be nested in:**
+
+- document root
+- container tag
+- `li`
+- `blockquote`
+- `caption`
+- `td`
+- `p`
+- `h1-h6`
+
+If there are containers in the root of the document or tags - it is wrapped in a paragraph, which is why it is displayed from a new line.
+
+**Supported content:**
+
+- plain text
+- inline-tags
+
+**Attributes**: not supported
+
+**Inline-styles**: not supported
+
+**Example**:
+
+```tsx
+const html = `
+<p>some text <span>another text</span><p>
+`;
+```
+
+## `sub`
+
+Inline tag. Defines subscript text
+
+**Can be nested in:**
+
+- document root
+- container tag
+- `li`
+- `blockquote`
+- `caption`
+- `td`
+- `p`
+- `h1-h6`
+
+If there are containers in the root of the document or tags - it is wrapped in a paragraph, which is why it is displayed from a new line.
+
+**Supported content:**
+
+- plain text
+- inline-tags
+
+**Attributes**: not supported
+
+**Inline-styles**: not supported
+
+**Example**:
+
+```tsx
+const html = `
+<p>some text <sub>subscripted text</sub><p>
+`;
+```
+
+## `sub`
+
+Inline tag. Defines superscript text
+
+**Can be nested in:**
+
+- document root
+- container tag
+- `li`
+- `blockquote`
+- `caption`
+- `td`
+- `p`
+- `h1-h6`
+
+If there are containers in the root of the document or tags - it is wrapped in a paragraph, which is why it is displayed from a new line.
+
+**Supported content:**
+
+- plain text
+- inline-tags
+
+**Attributes**: not supported
+
+**Inline-styles**: not supported
+
+**Example**:
+
+```tsx
+const html = `
+<p>some text <sup>superscripted text</sup><p>
+`;
+```
+
 ## `a`
 
 Inline tag. Inserts a link.
@@ -1485,7 +1595,7 @@ Inline tag. Inserts a link.
 - `caption`
 - `td`
 - `p`
-- `h1-h4`
+- `h1-h6`
 
 If there are containers in the root of the document or tags - it is wrapped in a paragraph, which is why it is displayed from a new line.
 

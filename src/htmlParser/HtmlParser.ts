@@ -62,6 +62,19 @@ export class HtmlParser {
 
   parseTopLevelElement = (element: Element, pIndex: number) => {
     switch (element.tagName) {
+      case 'html':
+      case 'body':
+      case 'header':
+      case 'nav':
+      case 'main':
+      case 'aside':
+      case 'footer':
+      case 'div':
+      case 'article':
+      case 'section':
+      case 'pre': {
+        return this.parseHtmlTree(element.children);
+      }
       case 'p': {
         return new Paragraph(element, pIndex, this.options).getContent();
       }
@@ -69,9 +82,14 @@ export class HtmlParser {
         return new TextBlock({}, new TextInline(element).getContent()).getContent();
       }
       case 'strong':
+      case 'b':
       case 'i':
+      case 'em':
       case 'u':
-      case 's': {
+      case 's':
+      case 'span':
+      case 'sup':
+      case 'sub': {
         return new TextBlock({}, new TextInline(element).getContent(), this.options).getContent();
       }
       case 'h1': {
@@ -85,6 +103,12 @@ export class HtmlParser {
       }
       case 'h4': {
         return new Header(element, HeadingLevel.HEADING_4, this.options).getContent();
+      }
+      case 'h5': {
+        return new Header(element, HeadingLevel.HEADING_5, this.options).getContent();
+      }
+      case 'h6': {
+        return new Header(element, HeadingLevel.HEADING_6, this.options).getContent();
       }
       case 'ul':
       case 'ol': {
@@ -101,11 +125,6 @@ export class HtmlParser {
       }
       case 'blockquote': {
         return new Blockquote(element, this.options).getContent();
-      }
-      case 'div':
-      case 'article':
-      case 'section': {
-        return this.parseHtmlTree(element.children);
       }
       case 'page-break': {
         return new PageBreak().getContent();
