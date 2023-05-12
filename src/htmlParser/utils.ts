@@ -48,6 +48,22 @@ export const convertPixelsToPoints = (pixels: string | number) => {
     return pixels * PIXELS_TO_POINT_RATIO;
   }
 };
+export const convertPointsToPixels = (points: string | number) => {
+  if (typeof points === 'string') {
+    const regex = new RegExp(/(\d+)pt/);
+    const matched = points.match(regex);
+
+    if (!matched) {
+      throw new Error(`Unable to parse points string: ${points}`);
+    }
+
+    const [, pointsNumber] = matched;
+
+    return parseInt(pointsNumber) / PIXELS_TO_POINT_RATIO;
+  } else {
+    return points / PIXELS_TO_POINT_RATIO;
+  }
+};
 
 export const convertPixelsToTwip = (pixels: number): number => {
   return convertInchesToTwip(pixels / 96);
@@ -55,6 +71,11 @@ export const convertPixelsToTwip = (pixels: number): number => {
 
 export const convertTwipToPixels = (twip: number): number => {
   return Math.floor(twip / 15);
+};
+
+export const convertPointsToTwip = (points: number): number => {
+  const twipPerPoint = 20;
+  return points * twipPerPoint;
 };
 
 export const parseTextAlignment = (attribs: Attribute[]): AlignmentType => {
@@ -184,4 +205,30 @@ export const parsePaddingsMergedValue = (padding: string) => {
 
 const pixelsToNumber = (string: string): number => {
   return Number(string.replace(/px$/, ''));
+};
+
+export type SizeUnit = 'px' | 'pt' | 'em' | 'rem' | 'vh' | 'vw' | '%' | 'auto';
+
+export const parseSizeValue = (value: string | number): [number, SizeUnit] => {
+  if (typeof value === 'number') {
+    return [value, 'px'];
+  }
+
+  if (value === 'auto') {
+    return [0, 'auto'];
+  }
+
+  const match = value.match(/^(-?\d*\.?\d+)(px|pt|em|rem|vh|vw|%)$/i);
+
+  if (match) {
+    const [, numberValue, unit] = match;
+    const numericValue = parseFloat(numberValue);
+    const allowedUnits: SizeUnit[] = ['px', 'pt', 'em', 'rem', 'vh', 'vw', '%', 'auto'];
+
+    if (allowedUnits.includes(unit.toLowerCase() as SizeUnit)) {
+      return [numericValue, unit.toLowerCase() as SizeUnit];
+    }
+  }
+
+  throw new Error('Invalid units');
 };

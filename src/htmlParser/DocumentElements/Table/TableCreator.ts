@@ -1,7 +1,15 @@
 import { AlignmentType, ITableOptions, Table, TableLayoutType, TableRow as DocxTableRow, WidthType } from 'docx';
 import { Element, Styles } from 'himalaya';
 import { DocxExportOptions } from '../../../options';
-import { AttributeMap, getAttributeMap, getPageWidth, parseStyles } from '../../utils';
+import {
+  AttributeMap,
+  convertPixelsToTwip,
+  convertPointsToTwip,
+  getAttributeMap,
+  getPageWidth,
+  parseSizeValue,
+  parseStyles,
+} from '../../utils';
 import { getTableIndent, parseBorderOptions } from './utils';
 import { TextBlock } from '../TextBlock';
 import { TableRow } from './TableRow';
@@ -120,37 +128,82 @@ export class TableCreator implements DocumentElement {
   }
 
   private get width() {
-    const tableWidthTwip = getPageWidth(this.exportOptions);
+    const pageWidthTwip = getPageWidth(this.exportOptions);
     const tableAttr = getAttributeMap(this.element.attributes);
     const tableStyles = parseStyles(tableAttr['style']);
     const tableWidth = tableStyles['width'];
 
     if (tableWidth) {
-      const widthPercent = parseFloat(tableWidth.slice(0, -1));
-
-      return (tableWidthTwip * widthPercent) / 100;
+      const [value, unitType] = parseSizeValue(tableWidth);
+      switch (unitType) {
+        case 'vw':
+        case '%': {
+          return (pageWidthTwip * value) / 100;
+        }
+        case 'vh':
+        case 'auto': {
+          return pageWidthTwip;
+        }
+        case 'pt': {
+          const width = convertPointsToTwip(value);
+          return width > pageWidthTwip ? pageWidthTwip : width;
+        }
+        case 'px': {
+          const width = convertPixelsToTwip(value);
+          return width > pageWidthTwip ? pageWidthTwip : width;
+        }
+        case 'em':
+        case 'rem': {
+          const fontSizeInTwip = convertPointsToTwip(this.exportOptions.font.baseSize);
+          const width = fontSizeInTwip * value;
+          return width > pageWidthTwip ? pageWidthTwip : width;
+        }
+      }
     }
 
-    return tableWidthTwip;
+    return pageWidthTwip;
   }
 
   private get columnWidth() {
     const colGroupCount = this.colGroup?.children.filter(i => i.type === 'element').length;
+    const mediumColWidth = Math.floor(this.width / this.columnsCount);
+
     if (this.colGroup && colGroupCount === this.columnsCount) {
-      return this.colGroup.children.map(item => {
+      const childrenWidth = this.colGroup.children.map(item => {
         if (item.type === 'element' && item.tagName === 'col') {
           const colAttr = getAttributeMap(item.attributes);
           const colStyles = parseStyles(colAttr['style']);
-          const widthPercent = parseFloat(colStyles['width'].slice(0, -1));
+          const [value, unitType] = parseSizeValue(colStyles['width']);
 
-          return (this.width * widthPercent) / 100;
+          switch (unitType) {
+            case 'vw':
+            case '%': {
+              return (this.width * value) / 100;
+            }
+            case 'vh':
+            case 'auto': {
+              return mediumColWidth;
+            }
+            case 'pt': {
+              return convertPointsToTwip(value);
+            }
+            case 'px': {
+              return convertPixelsToTwip(value);
+            }
+            case 'em':
+            case 'rem': {
+              const fontSizeInTwip = convertPointsToTwip(this.exportOptions.font.baseSize);
+
+              return fontSizeInTwip * value;
+            }
+          }
         }
-
-        return Math.floor(this.width / this.columnsCount);
       });
+      const columnWidths = childrenWidth.filter(i => i !== undefined) as number[];
+
+      return columnWidths;
     } else {
-      const columnWidth = Math.floor(this.width / this.columnsCount);
-      return new Array<number>(this.columnsCount).fill(columnWidth);
+      return new Array<number>(this.columnsCount).fill(mediumColWidth);
     }
   }
 

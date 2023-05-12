@@ -52,15 +52,15 @@ export const exampleText = `
     <img src='https://upload.wikimedia.org/wikipedia/commons/thumb/a/a7/React-icon.svg/640px-React-icon.svg.png'/>
   </figure>
   <figure class="table">
-    <table>
+    <table style="width:20rem">
       <colgroup>
+        <col style="width:150px;">
+        <col style="width:15vw;">
+        <col style="width:5em;">
+        <col style="width:2rem;">
         <col style="width:14.29%;">
-        <col style="width:14.29%;">
-        <col style="width:14.29%;">
-        <col style="width:14.29%;">
-        <col style="width:14.29%;">
-        <col style="width:14.29%;">
-        <col style="width:14.26%;">
+        <col style="width:10vh;">
+        <col style="width:10pt">
       </colgroup>
       <tbody>
         <tr>

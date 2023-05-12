@@ -8,6 +8,8 @@ const {
   parsePaddingsMergedValue,
   parseTextAlignment,
   PIXELS_TO_POINT_RATIO,
+  convertPointsToPixels,
+  parseSizeValue,
 } = utils;
 
 describe('convertPixelsToPoints', () => {
@@ -34,6 +36,32 @@ describe('convertPixelsToPoints', () => {
     const expectedResult = pixels * PIXELS_TO_POINT_RATIO;
 
     expect(convertPixelsToPoints(pixels)).toBe(expectedResult);
+  });
+});
+describe('convertPointsToPixels', () => {
+  test('convert string points', () => {
+    const points = '10pt';
+    const expectedResult = 10 / PIXELS_TO_POINT_RATIO;
+
+    expect(convertPointsToPixels(points)).toBe(expectedResult);
+  });
+
+  test('convert unsupported string points', () => {
+    const points = '10vw';
+
+    try {
+      convertPointsToPixels(points);
+      expect(true).toBe(false);
+    } catch (e) {
+      expect((e as Error).message).toContain('Unable to parse points string:');
+    }
+  });
+
+  test('convert number points', () => {
+    const points = 10;
+    const expectedResult = points / PIXELS_TO_POINT_RATIO;
+
+    expect(convertPointsToPixels(points)).toBe(expectedResult);
   });
 });
 
@@ -213,5 +241,50 @@ describe('parsePaddings', () => {
 
       expect(fn).toBeCalled();
     });
+  });
+});
+
+describe('parseSizeValue', () => {
+  test('should return pixels result if param is number', () => {
+    const number = 42;
+    const expectedResult = [number, 'px'];
+
+    const result = parseSizeValue(number);
+
+    expect(result).toEqual(expectedResult);
+  });
+
+  test('should return appropriate result by different string parameters', () => {
+    const units = ['px', 'pt', 'em', 'rem', 'vh', 'vw', '%'];
+    const size = 42;
+
+    units.forEach(unit => {
+      const expectedResult = [size, unit];
+      const inputString = `${size}${unit}`;
+
+      const result = parseSizeValue(inputString);
+
+      expect(result).toEqual(expectedResult);
+    });
+  });
+
+  test('should return appropriate result by "auto" parameter', () => {
+    const inputString = 'auto';
+
+    const result = parseSizeValue(inputString);
+
+    expect(result).toEqual([0, 'auto']);
+  });
+
+  test('should throw error when units is invalid', () => {
+    const inputString = '42error';
+
+    try {
+      parseSizeValue(inputString);
+
+      expect(true).toBe(false);
+    } catch (e) {
+      expect((e as Error).message).toBe('Invalid units');
+    }
   });
 });

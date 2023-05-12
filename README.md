@@ -882,7 +882,13 @@ Block tag. Responsible for displaying tables.
 
 - `width`
 
-  Currently, only percentage values are supported. Sets the width of the table relative to the page size. Without the attribute - the table will stretch to the entire width of the page
+  Supported units: `%`, `px`, `pt`, `vw`, `auto`, `em`, `rem`
+
+  Without the attribute or with `auto` value - the table will stretch to the entire width of the page
+
+  `vh` value ignored.
+
+  `em`, `rem` sets table width relative to `options.font.baseSize` value
 
 **Example:**
 
@@ -1228,7 +1234,14 @@ Responsible for setting the width of the column.
 
 - `width`
 
-  Responsible for the width of the table column. Currently only supports percentage values. Without a specified style - the size of the column will be automatically calculated from the width of the table and the number of columns.
+  Responsible for the width of the table columns.
+  Supported units: `%`, `px`, `pt`, `vw`, `auto`, `em`, `rem`
+
+  Without the attribute or with `auto` value - the size of the column will be automatically calculated from the width of the table and the number of columns.
+
+  `vh` value ignored.
+
+  `em`, `rem` sets table columns width relative to `options.font.baseSize` value
 
   If the number of `col` does not correspond to the number of columns - the size of the columns will be automatically calculated from the width of the table and the number of columns
 
