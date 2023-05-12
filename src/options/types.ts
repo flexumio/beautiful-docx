@@ -1,5 +1,5 @@
 import { Mutable } from '../htmlParser/utils';
-import { IParagraphOptions as ParagraphOptions } from 'docx';
+import { AlignmentType, NumberFormat, IParagraphOptions as ParagraphOptions } from 'docx';
 
 export type ImageMap = {
   [url: string]: Buffer;
@@ -23,9 +23,15 @@ export type PageSize = {
 };
 
 export type PageFormatSizes = { [x in PageFormatType]: PageSize };
+export type NumberingOptions =
+  | false
+  | {
+      type: NumberFormat;
+      start?: number;
+      align?: AlignmentType;
+    };
 
 export type PageOptions = {
-  // add support
   orientation: PageOrientation;
   size: PageSize;
   margins: {
@@ -34,7 +40,7 @@ export type PageOptions = {
     bottom: LengthUnit;
     left: LengthUnit;
   };
-  numbering: boolean;
+  numbering: NumberingOptions;
 };
 
 export type FontOptions = {

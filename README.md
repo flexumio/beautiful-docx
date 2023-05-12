@@ -268,18 +268,31 @@ Sets document page settings.
   };
   ```
 
-- `numbering: boolean`
+- `numbering: false | NumberingOptions`
 
   Responsible for displaying page numbering.
 
-  **Default:** `true`
+  - `start: number`
+
+    **Default:** `1`
+
+  - `type: NumberFormat`
+
+    **Default:** `NumberFormat.DECIMAL`
+
+  - `align: AlignmentType`
+
+    **Default:** `AlignmentType.CENTER`
 
   **Example:**
 
   ```tsx
   const options = {
     page: {
-      numbering: false,
+      numbering: {
+        type: NumberFormat.LOWER_LETTER,
+        align: AlignmentType.END,
+      },
     },
   };
   ```

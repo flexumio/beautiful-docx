@@ -5,7 +5,6 @@ import {
   Document as DocxDocument,
   LevelFormat,
   LevelSuffix,
-  NumberFormat,
   Paragraph,
 } from 'docx';
 import { DocxExportOptions } from '../../options';
@@ -118,6 +117,9 @@ export class Document {
   }
 
   private getDefaultSectionsProperties = () => {
+    const { numbering } = this.exportOptions.page;
+    const pageNumbersConfig = numbering ? { start: numbering.start, formatType: numbering.type } : {};
+
     return {
       page: {
         size: {
@@ -130,9 +132,7 @@ export class Document {
           bottom: convertMillimetersToTwip(this.exportOptions.page.margins.bottom),
           left: convertMillimetersToTwip(this.exportOptions.page.margins.left),
         },
-        pageNumbers: {
-          formatType: NumberFormat.DECIMAL,
-        },
+        pageNumbers: pageNumbersConfig,
       },
     };
   };
