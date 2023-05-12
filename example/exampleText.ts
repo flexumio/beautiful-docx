@@ -43,6 +43,19 @@ export const exampleText = `
   <blockquote>
     <p>Blockquote</p> and just text
   </blockquote>
+
+  <blockquote>
+    <p>Blockquote</p>
+    <div>
+     <ol>
+      <li>List Item</li>
+      <li>List Item</li>
+      <li>List Item</li>
+    </ol>
+    </div>
+    and just text
+  </blockquote>
+
   <figure class='image'>
     <img src='https://upload.wikimedia.org/wikipedia/commons/thumb/a/a7/React-icon.svg/640px-React-icon.svg.png'/>
   </figure>
