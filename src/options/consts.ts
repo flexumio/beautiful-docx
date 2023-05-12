@@ -7,10 +7,10 @@ export const PageFormat: PageFormatSizes = {
   A6: { width: 4.1, height: 5.8 },
 };
 
-const TOP_MARGIN_DEFAULT = 19;
-const RIGHT_MARGIN_DEFAULT = 12.7;
-const BOTTOM_MARGIN_DEFAULT = 19;
-const LEFT_MARGIN_DEFAULT = 19;
+const TOP_MARGIN_DEFAULT = 25.4;
+const RIGHT_MARGIN_DEFAULT = 25.4;
+const BOTTOM_MARGIN_DEFAULT = 25.4;
+const LEFT_MARGIN_DEFAULT = 25.4;
 
 const PARAGRAPH_FONT_SIZE = 12;
 const HEADING_1_FONT_SIZE = 19.5;

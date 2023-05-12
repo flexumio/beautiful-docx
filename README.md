@@ -239,19 +239,19 @@ Sets document page settings.
 
   - `top: number`
 
-    **Default:** 19 мм
+    **Default:** 25.4 мм
 
   - `left: number`
 
-    **Default:** 19 мм
+    **Default:** 25.4 мм
 
   - `bottom: number`
 
-    **Default:** 19 мм
+    **Default:** 25.4 мм
 
   - `right: number`
 
-    **Default:** 12.7 мм
+    **Default:** 25.4 мм
 
     **Example:**
 
