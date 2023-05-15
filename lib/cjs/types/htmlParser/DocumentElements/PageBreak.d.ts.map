@@ -1,0 +1,1 @@
+{"version":3,"file":"PageBreak.d.ts","sourceRoot":"","sources":["../../../../../src/htmlParser/DocumentElements/PageBreak.ts"],"names":[],"mappings":"AAAA,OAAO,EAA8B,SAAS,EAAE,MAAM,MAAM,CAAC;AAC7D,OAAO,EAAE,eAAe,EAAE,aAAa,EAAE,MAAM,mBAAmB,CAAC;AAEnE,qBAAa,SAAU,YAAW,eAAe;IAC/C,IAAI,EAAE,aAAa,CAAgB;IAEnC,UAAU,IAAI,eAAe,EAAE;IAI/B,eAAe;CAGhB"}

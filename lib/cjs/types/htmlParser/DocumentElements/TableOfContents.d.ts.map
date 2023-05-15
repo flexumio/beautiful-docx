@@ -1,0 +1,1 @@
+{"version":3,"file":"TableOfContents.d.ts","sourceRoot":"","sources":["../../../../../src/htmlParser/DocumentElements/TableOfContents.ts"],"names":[],"mappings":"AAAA,OAAO,EAAE,eAAe,EAAE,mBAAmB,EAAE,MAAM,mBAAmB,CAAC;AACzE,OAAO,EAAE,eAAe,IAAI,mBAAmB,EAAE,MAAM,MAAM,CAAC;AAE9D,qBAAa,eAAgB,YAAW,eAAe;IACrD,IAAI,EAAE,mBAAmB,CAAuB;IAEhD,UAAU,IAAI,eAAe,EAAE;IAI/B,eAAe;CAQhB"}
