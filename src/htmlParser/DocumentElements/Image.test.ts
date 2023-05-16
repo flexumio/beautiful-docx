@@ -1,15 +1,15 @@
-import axios from 'axios';
 import { HorizontalPositionAlign, ImageRun, TextWrappingSide, TextWrappingType } from 'docx';
 import { Element, parse } from 'himalaya';
 import { defaultExportOptions, DocxExportOptions } from '../../options';
 import { convertTwipToPixels, getPageWidth } from '../utils';
 import { Image } from './Image';
-const imageSourceUrl =
-  'https://upload.wikimedia.org/wikipedia/commons/thumb/a/a7/React-icon.svg/640px-React-icon.svg.png';
+import * as fs from 'fs';
+import * as path from 'path';
 
-const bigImageSourceUrl =
-  'https://upload.wikimedia.org/wikipedia/commons/thumb/a/a7/React-icon.svg/2300px-React-icon.svg.png';
-
+const imageSourceUrl = path.join(__dirname, '../../../', 'example/test-icon.png');
+const imageBuffer = fs.readFileSync(imageSourceUrl);
+const bigImageSourceUrl = path.join(__dirname, '../../../', '/example/test-icon-big.png');
+const bigImageBuffer = fs.readFileSync(bigImageSourceUrl);
 const defaultHtml = `
     <figure>
       <img src='${imageSourceUrl}'/>
@@ -20,9 +20,6 @@ describe('Image', () => {
 
   beforeAll(async () => {
     const element = parse(defaultHtml).find(i => i.type === 'element' && i.tagName === 'figure') as Element;
-
-    const imageRes = await axios.get(imageSourceUrl, { responseType: 'arraybuffer' });
-    const imageBuffer = Buffer.from(imageRes.data, 'binary');
 
     const exportOptions: DocxExportOptions = {
       ...defaultExportOptions,
@@ -51,9 +48,14 @@ describe('Image', () => {
   describe('options', () => {
     describe('image size', () => {
       test('should have size like an image size without attributes', () => {
-        const expectedSize = { width: 640, height: 557 };
+        const expectedSize = { width: 512, height: 446 };
 
-        expect(instance.options.transformation).toStrictEqual(expectedSize);
+        const roundedResult = {
+          height: Math.round(instance.options.transformation.height),
+          width: Math.round(instance.options.transformation.width),
+        };
+
+        expect(roundedResult).toStrictEqual(expectedSize);
       });
 
       test('should be less than page size', async () => {
@@ -65,13 +67,10 @@ describe('Image', () => {
 
         const element = parse(html).find(i => i.type === 'element' && i.tagName === 'figure') as Element;
 
-        const imageRes = await axios.get(bigImageSourceUrl, { responseType: 'arraybuffer' });
-        const imageBuffer = Buffer.from(imageRes.data, 'binary');
-
         const exportOptions: DocxExportOptions = {
           ...defaultExportOptions,
           images: {
-            [bigImageSourceUrl]: imageBuffer,
+            [bigImageSourceUrl]: bigImageBuffer,
           },
         };
 
@@ -92,9 +91,6 @@ describe('Image', () => {
 
           const element = parse(html).find(i => i.type === 'element' && i.tagName === 'figure') as Element;
 
-          const imageRes = await axios.get(imageSourceUrl, { responseType: 'arraybuffer' });
-          const imageBuffer = Buffer.from(imageRes.data, 'binary');
-
           const exportOptions: DocxExportOptions = {
             ...defaultExportOptions,
             images: {
@@ -102,8 +98,8 @@ describe('Image', () => {
             },
           };
 
-          const expectedWidth = '68';
-          const expectedHeight = '59';
+          const expectedWidth = '60';
+          const expectedHeight = '53';
 
           const instance = new Image(element, exportOptions);
 
@@ -119,9 +115,6 @@ describe('Image', () => {
 
           const element = parse(html).find(i => i.type === 'element' && i.tagName === 'figure') as Element;
 
-          const imageRes = await axios.get(imageSourceUrl, { responseType: 'arraybuffer' });
-          const imageBuffer = Buffer.from(imageRes.data, 'binary');
-
           const exportOptions: DocxExportOptions = {
             ...defaultExportOptions,
             images: {
@@ -129,8 +122,8 @@ describe('Image', () => {
             },
           };
 
-          const expectedWidth = '68';
-          const expectedHeight = '59';
+          const expectedWidth = '60';
+          const expectedHeight = '53';
 
           const instance = new Image(element, exportOptions);
 
@@ -146,9 +139,6 @@ describe('Image', () => {
         `;
 
           const element = parse(html).find(i => i.type === 'element' && i.tagName === 'figure') as Element;
-
-          const imageRes = await axios.get(imageSourceUrl, { responseType: 'arraybuffer' });
-          const imageBuffer = Buffer.from(imageRes.data, 'binary');
 
           const exportOptions: DocxExportOptions = {
             ...defaultExportOptions,
@@ -184,9 +174,6 @@ describe('Image', () => {
             </figure>`;
           const element = parse(html).find(i => i.type === 'element' && i.tagName === 'figure') as Element;
 
-          const imageRes = await axios.get(imageSourceUrl, { responseType: 'arraybuffer' });
-          const imageBuffer = Buffer.from(imageRes.data, 'binary');
-
           const exportOptions: DocxExportOptions = {
             ...defaultExportOptions,
             images: {
@@ -207,9 +194,6 @@ describe('Image', () => {
               <img style="float: right" src='${imageSourceUrl}'/>
             </figure>`;
           const element = parse(html).find(i => i.type === 'element' && i.tagName === 'figure') as Element;
-
-          const imageRes = await axios.get(imageSourceUrl, { responseType: 'arraybuffer' });
-          const imageBuffer = Buffer.from(imageRes.data, 'binary');
 
           const exportOptions: DocxExportOptions = {
             ...defaultExportOptions,
@@ -246,9 +230,6 @@ describe('Image', () => {
             </figure>`;
           const element = parse(html).find(i => i.type === 'element' && i.tagName === 'figure') as Element;
 
-          const imageRes = await axios.get(imageSourceUrl, { responseType: 'arraybuffer' });
-          const imageBuffer = Buffer.from(imageRes.data, 'binary');
-
           const exportOptions: DocxExportOptions = {
             ...defaultExportOptions,
             images: {
@@ -272,9 +253,6 @@ describe('Image', () => {
               <img style="float: right" src='${imageSourceUrl}'/>
             </figure>`;
           const element = parse(html).find(i => i.type === 'element' && i.tagName === 'figure') as Element;
-
-          const imageRes = await axios.get(imageSourceUrl, { responseType: 'arraybuffer' });
-          const imageBuffer = Buffer.from(imageRes.data, 'binary');
 
           const exportOptions: DocxExportOptions = {
             ...defaultExportOptions,

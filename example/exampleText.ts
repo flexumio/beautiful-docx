@@ -85,12 +85,12 @@ export const exampleText = `
         <table>
           <colgroup>
             <col style="width:14.29%;">
-            <col style="width:14.29%;">
-            <col style="width:14.29%;">
-            <col style="width:14.29%;">
-            <col style="width:14.29%;">
-            <col style="width:14.29%;">
-            <col style="width:14.26%;">
+            <col style="width:14.29px;">
+            <col style="width:14.29pt;">
+            <col style="width:14.29vw;">
+            <col style="width:14.29vh;">
+            <col style="width:14.29em;">
+            <col style="width:14.26rem;">
           </colgroup>
           <tbody>
             <tr>

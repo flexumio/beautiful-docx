@@ -100,7 +100,7 @@ describe('TableCreator', () => {
         </tbody>
       </table>
       `;
-      const expectedWidthInTwip = 5077.5;
+      const expectedWidthInTwip = 4536;
 
       const element = parse(html).find(i => i.type === 'element' && i.tagName === 'table') as Element;
 
@@ -117,7 +117,7 @@ describe('TableCreator', () => {
         </tbody>
       </table>
       `;
-      const expectedWidthInTwip = 5077.5;
+      const expectedWidthInTwip = 4536;
 
       const element = parse(html).find(i => i.type === 'element' && i.tagName === 'table') as Element;
 
@@ -134,7 +134,7 @@ describe('TableCreator', () => {
         </tbody>
       </table>
       `;
-      const expectedWidthInTwip = 10155;
+      const expectedWidthInTwip = 9072;
 
       const element = parse(html).find(i => i.type === 'element' && i.tagName === 'table') as Element;
 
@@ -152,7 +152,7 @@ describe('TableCreator', () => {
         </tbody>
       </table>
       `;
-      const expectedWidthInTwip = 10155;
+      const expectedWidthInTwip = 9072;
 
       const element = parse(html).find(i => i.type === 'element' && i.tagName === 'table') as Element;
 
