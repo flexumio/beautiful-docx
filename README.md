@@ -1595,3 +1595,7 @@ const html = `
 </a>
 
 (Made with [contrib.rocks](https://contrib.rocks))
+
+
+[npm-image]: https://img.shields.io/npm/v/beautiful-docx.svg
+[npm-url]: https://npmjs.org/package/beautiful-docx
