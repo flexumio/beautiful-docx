@@ -1,2 +1,2 @@
-export * from './HtmlToDocx';
+export * from './DocxGenerator';
 //# sourceMappingURL=index.d.ts.map

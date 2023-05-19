@@ -6,7 +6,7 @@ import merge from 'ts-deepmerge';
 import { defaultExportOptions, DocxExportOptions, userOptionsSchema } from './options';
 import { DeepPartial } from './utils';
 
-export class HtmlToDocx {
+export class DocxGenerator {
   public readonly options: DocxExportOptions;
   private parser: HtmlParser;
   private builder: DocumentBuilder;

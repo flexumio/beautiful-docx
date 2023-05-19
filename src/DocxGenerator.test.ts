@@ -1,10 +1,10 @@
-import { HtmlToDocx } from '.';
+import { DocxGenerator } from '.';
 import { exampleText } from '../example/exampleText';
 import { defaultExportOptions } from './options';
 
-describe('HtmlToDocx', () => {
+describe('DocxGenerator', () => {
   test('should return buffer', async () => {
-    const htmlToDocx = new HtmlToDocx({
+    const htmlToDocx = new DocxGenerator({
       page: {
         size: {
           width: 5.5,
@@ -23,7 +23,7 @@ describe('HtmlToDocx', () => {
   });
 
   test('should be created with default options without users options', () => {
-    const instance = new HtmlToDocx();
+    const instance = new DocxGenerator();
 
     expect(instance.options).toBeDefined();
     expect(instance.options).toStrictEqual(defaultExportOptions);

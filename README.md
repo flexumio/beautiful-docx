@@ -1,161 +1,55 @@
-# Html To Docx
+# beautiful-docx
 
-# Motivation
+[![NPM Version][npm-image]][npm-url]
 
-On one of our projects, a challenge arose: to convert an html document into a docx. The converter must support ToC generation, basic styling, image downloading, and typing.
+Easily generate .docx files with HTML and CSS.
 
-At first, we used a paid API for this, specializing in html to docx conversion. But the results were not satisfactory - very low customization and lack of support for many important features for us.
+`beautiful-docx` is a wrapper around [`docx`](https://www.npmjs.com/package/docx) library and allows you to create beautiful .docx files using HTML and CSS (inline styles) instead of JS objects.
 
-After that, there was a search for libraries that would meet our requirements, but none of them came up.
+This library is different from other available HTML to DOCX converters because of the following features (among others):
 
-Subsequently, we switched to a self-written solution - conversion to docx based on the open library - [`docx`](https://www.npmjs.com/package/docx).
-After successfully using it on our own project, we decided to turn our converter into an open-source library to help solve similar problems.
+ * table of content generation
+ * page numbering
+ * custom page sizes
+ * paragraph first line indentation
+ * automatic or manual images downloading
+ * table and image sizing and positioning
 
-Our goal is to create a flexible and easy-to-customize html to docx conversion tool.
+The library is writted with TypeScript and is fully covered with unit tests.
 
-Its code must support typing and be fully covered by tests. Documentation should be transparent, accurately describe the capabilities and support of the library.
+`beautiful-docx` is created and maintained by [Flexum](https://flexum.io). PRs are welcome. Contact us at [opensource@flexum.io](mailto:opensource@flexum.io).
 
-# Competitors
+## Allowed HTML elements
 
-## **Open source tools**
+**Supported**: a, article, blockquote, br, caption, col, colgroup, div, figure, h1-h6, i, img, li, ol, p, s, section, strong, table, tbody, td, tfoot, th, tr, u, ul, em, span, sub, sup, b, pre, aside, html, body, main, header, footer, nav
 
-### **html-to-docx**
+**Custom elements:** page-break, table-of-contents
 
-**Github:** [https://github.com/privateOmega/html-to-docx](https://github.com/privateOmega/html-to-docx)
+**Unsupported:** abbr, address, cite, code, dd, del, din, dl, dt, figcaption, hr, ins, kbd, mark, picture, q, small, time
 
-**Weekly downloads:** 6k.
-
-**Github stars:** 150.
-
-**Maintainability:** the project is maintained by one person and the last changes were made 2 months ago.
-
-**Documentation:** simple README file with the description of some options.
-
-**Why we didn’t choose this project:** doesn’t support TOC generation, pure documentation, pure image support
-
-**Advantages:**
-
-1. Supports docx specific options (page orientation, page margins)
-2. Supports page breaks (`<div class=“page-break”></div>`)
-
-**Disadvantages:**
-
-1. Pure documentation. Hard to know what it supports.
-2. Supports only base64 images without wrapping options
-3. Pure code quality
-4. Cannot create TOC
-5. Doesn’t support custom page sizes
-
-### **html-docx-js**
-
-**Github:** [https://github.com/evidenceprime/html-docx-js](https://github.com/evidenceprime/html-docx-js)
-
-**Weekly downloads:** 7k
-
-**Github stars:** 878
-
-**Maintainability:** last updated 6 years ago
-
-**Why we didn’t choose this project:** doesn’t support TOC generation, pure documentation, pure image support, doesn’t support custom page sizes
-
-**Disadvantages:**
-
-1. Pure documentation. Hard to know what it supports.
-2. Supports only base64 images without wrapping options
-3. Cannot create TOC
-4. Doesn’t support custom page sizes
-
-### **html-docx-js-typescript**
-
-**Github:** [https://github.com/caiyexiang/html-docx-js-typescript](https://github.com/caiyexiang/html-docx-js-typescript)
-
-**Weekly downloads:** 3k
-
-**Github stars:** 31
-
-**Maintainability:** last updated 2 years ago.
-
-**Why we didn’t choose this project:** it’s based on html-docx-js but with typescript support and contains the same problems as html-docx-js project
-
-**Advantages:**
-
-1. Supports Typescript
-
-**Disadvantages:**
-
-1. The same as html-docx-js
-
-## **Paid tools**
-
-### **CKEditor Docx Converter**
-
-[https://docx-converter.cke-cs.com/docs#section/General](https://docx-converter.cke-cs.com/docs#section/General)
-
-**Advantages:**
-
-1. Great documentation
-2. Supports CSS
-
-**Disadvantages:**
-
-1. Doesn’t support custom page sizes
-2. Doesn’t support TOC generation
-3. Paid tool
-
-## **ConvertAPI**
-
-[https://www.convertapi.com/html-to-docx](https://www.convertapi.com/html-to-docx)
-
-**Advantages:**
-
-1. Nice Live Demo Page
-
-**Disadvantages:**
-
-1. Lack of documentation. It isn’t possible to know what it supports.
-
-## **What will differentiate us from our competitors?**
-
-1. **Supporting images by URL and preloading images.**
-2. **TOC generation**
-3. **Supporting more configuration options (page size, font type, etc.)**
-4. **Typescript**
-5. **100% test coverage**
-6. **Clear documentation**
-
-# **Html tags**
-
-**Supported**: a, article, blockquote, br, caption, col, colgroup, div, figure, h1-h6, i, img, li, ol, p, s, section, strong, table, tbody, td, tfoot,  th, tr, u, ul, em, span, sub, sup, b, pre, aside, html, body, main, header, footer, nav
-
-**Support will be added in the future:** abbr, address, cite, code, dd, del, din, dl, dt, figcaption, hr, ins, kbd, mark, picture, q, small, time
-
-**Custom tags:** page-break, table-of-contents
-
-# **Get started**
-
-## **Install**
+## Installation
 
 ```bash
-npm install -S html-to-docx-ts
+npm install beautiful-docx
 ```
 
-## **Usage**
+## Usage
 
-You create a converter instance. It receives parameters as input, or uses default parameters.
+Start with creating a converter instance. You may pass options object as an argument.
 
-The converter has a `generateDocx` method that receives an html string and returns a buffer with the finished document.
+The converter exposes a `generateDocx` method that receives an HTML string and returns a buffer containing the final document.
 
 ```tsx
-import { HtmlToDocx } from 'html-to-docx-ts';
+import { DocxGenerator } from 'beautiful-docx';
 import * as fs from 'fs';
 
 const html = `
 <div>
-	<p>Example</p>
+  <p>Example</p>
 </div>
 `;
 
-const htmlToDocx = new HtmlToDocx({
+const DocxGenerator = new DocxGenerator({
   page: {
     size: {
       width: 5.5,
@@ -164,41 +58,42 @@ const htmlToDocx = new HtmlToDocx({
   },
 });
 
-const buffer = await htmlToDocx.generateDocx(html);
+const buffer = await DocxGenerator.generateDocx(html);
 
 fs.writeFileSync('example.docx', buffer);
 ```
 
-# **Options**
+### Options (`docxExportOptions?: DeepPartial<DocxExportOptions>`)
 
-Options is an object with next fields
+Options is an object with the following fields.
 
-### `page: PageOptions`
+#### `page: PageOptions`
 
 Sets document page settings.
 
-- `orientation: PageOrientaion`
+- `orientation: PageOrientation`
 
   Page orientation.
 
-  **Available values**: `portrait`, `landscape`
+  **Available values**: `'portrait'`, `'landscape'`
 
-  **Default**: `portrait`
+  **Default**: `'portrait'`
 
   **Example**:
 
   ```tsx
-  import { PageOrientation } from 'html-to-docx-ts';
+    import { PageOrientation } from 'beautiful-docx';
 
-  const options = {
-    page: {
-      orientation: PageOrientation.Portrait,
-    },
-  };
+    const options = {
+      page: {
+        orientation: PageOrientation.Portrait,
+      },
+    };
   ```
 
 - `size: PageSize`
-  Page sizes in inches.
+
+  Page width and height in inches.
 
   - `width: number`
 
@@ -212,48 +107,48 @@ Sets document page settings.
 
     **Example**:
 
-  ```tsx
-  import { PageFormat } from 'html-to-docx-ts';
+    ```tsx
+      import { PageFormat } from 'beautiful-docx';
+  
+      const options = {
+        page: {
+          sizes: PageFormat.A4,
+        },
+      };
+    ```
 
-  const options = {
-    page: {
-      sizes: PageFormat.A4,
-    },
-  };
-  ```
-
-  ```tsx
-  const options = {
-    page: {
-      sizes: {
-        width: 8.3,
-        height: 11.7,
-      },
-    },
-  };
-  ```
+    ```tsx
+      const options = {
+        page: {
+          sizes: {
+            width: 8.3,
+            height: 11.7,
+          },
+        },
+      };
+    ```
 
 - `margins: object`
 
-  Page margins in millimeters
+  Page margins in millimeters.
 
   - `top: number`
 
-    **Default:** 25.4 мм
+    **Default:** 25.4
 
   - `left: number`
 
-    **Default:** 25.4 мм
+    **Default:** 25.4
 
   - `bottom: number`
 
-    **Default:** 25.4 мм
+    **Default:** 25.4
 
   - `right: number`
 
-    **Default:** 25.4 мм
+    **Default:** 25.4
 
-    **Example:**
+  **Example:**
 
   ```tsx
   const options = {
@@ -295,11 +190,11 @@ Sets document page settings.
       },
     },
   };
-  ```
+    ```
 
-### `font: FontOptions`
+#### `font: FontOptions`
 
-Configuration of font sizes and font-family
+Configuration of font sizes and font-family.
 
 - `baseSize: number`
 
@@ -344,7 +239,7 @@ Configuration of font sizes and font-family
 
     **Default:** `10.5`
 
-    **Example:**
+  **Example:**
 
   ```tsx
   const options = {
@@ -395,9 +290,9 @@ Configuration of font sizes and font-family
   };
   ```
 
-### `table: TableOptions`
+#### `table: TableOptions`
 
-Properties of tables
+Properties of tables.
 
 - `cellPaddings: object`
 
@@ -419,22 +314,22 @@ Properties of tables
 
     **Default:** `5`
 
-**Example:**
-
-```tsx
-const options = {
-  table: {
-    cellPaddings: {
-      top: 10,
-      left: 15,
+  **Example:**
+  
+  ```tsx
+  const options = {
+    table: {
+      cellPaddings: {
+        top: 10,
+        left: 15,
+      },
     },
-  },
-};
-```
+  };
+  ```
 
-### `images: ImageMap | undefined`
+#### `images: ImageMap | undefined`
 
-The `images` parameter allows you to preload the images used in the `html`
+The `images` parameter allows you to preload the images used in the `html`.
 
 This is an object in which the `urls` of the images are the keys, and the `Buffer` with the image is the value.
 
@@ -458,7 +353,7 @@ const options = {
 };
 ```
 
-### `verticalSpaces: number`
+#### `verticalSpaces: number`
 
 Vertical indents between lines in millimeters.
 
@@ -472,7 +367,7 @@ const options: {
 };
 ```
 
-### `ignoreIndentation: boolean`
+#### `ignoreIndentation: boolean`
 
 If `false`, adds an indent for the first line of the paragraph.
 
@@ -488,27 +383,25 @@ const options: {
 };
 ```
 
-# Supported type of contents
+### Supported types of top-level content
 
-The `html-to-docx-ts` library supports various types of `html` input content.
+The `beautiful-docx` library supports various types of `html` input content.
 
-## Plan text
+#### Plain text
 
 Will be reformatted into a paragraph with appropriate content.
 
 **Example:**
 
 ```tsx
-const html = 'Some plain text'; // equal to <p>Some plain text</p>
+const html = 'Some plain text'; // transforms to: <p>Some plain text</p>
 ```
 
-## Supported inline tags
+#### Inline elements
 
-The library supports the following inline tags: `'strong', 'i', 'u', 's', 'br'`;
+The library supports the following inline elements: `'strong', 'i', 'u', 's', 'br'`.
 
-Each of them will be converted into a paragraph with the corresponding content. Accordingly, each tape will start on a new line.
-
-To avoid this, it is necessary to immediately wrap the inline content in the `<p>` tag
+Each inline element on the top level will be wrapped with `<p>`, for example:
 
 **Example:**
 
@@ -517,16 +410,18 @@ const html = `
 <strong>strong</strong>
 <i>italic</i>
 `;
-// equal to:
+// transforms to:
 // <p><strong>strong</strong></p>
 // <p><i>italic</i></p>
 ```
 
-## **Container tags**
+To avoid this you should keep inline elements within block elements.
 
-The library supports the following container tags: `'div', 'article', 'section', 'html', 'body', 'aside', 'main', 'header', 'aside', 'footer', 'nav', 'pre'`
+#### Block elements-containers
 
-These tags will be ignored and their content will be treated as root content, following the same rules.
+The library allows the following container elements: `'div', 'article', 'section', 'html', 'body', 'aside', 'main', 'header', 'aside', 'footer', 'nav', 'pre'`.
+
+The library effectively ignores these elements and treats the inner content as a top-level content.
 
 **Example:**
 
@@ -535,16 +430,16 @@ const html = `
 <div>plain text</div>
 <section><p>paragraph</p></section>
 `;
-// equal to:
+// transforms to:
 // <p>plain text</p>
 // <p>paragraph</p>
 ```
 
-## Block tags
+#### Block elements
 
-The library supports the following block tags: `'p', 'h1', 'h2', 'h3', 'h4', 'ul', 'ol', 'figure', 'blockquote', 'table', 'img'`
+The library supports the following block elements: `'p', 'h1', 'h2', 'h3', 'h4', 'ul', 'ol', 'figure', 'blockquote', 'table', 'img'`.
 
-Block tags cannot be nested in other block tags, except for the cases provided for in the exceptions (see the description of a specific tag)
+Block elements cannot be nested in other block elements, except for the cases provided for in the exceptions (see the description for each specific element).
 
 **Example:**
 
@@ -563,22 +458,22 @@ const html = `
 `;
 ```
 
-## Custom tags
+#### Custom elements
 
-Supported custom tags: `page-break`, `table-of-contents`
+Supported custom elements: `page-break`, `table-of-contents`.
 
-Custom tags are required to insert additional content
+Custom elements are used to insert additional content.
 
-# Tags - support and nesting
+### Supported element specs
 
-## `div, article, section`
+#### `div, article, section`
 
-Tags containers.
+Container elements.
 
 **Can be nested in:**
 
 - document root
-- container tag
+- other container element
 
 **Supported content:**
 
@@ -602,15 +497,15 @@ const html = `
 `;
 ```
 
-## `p`
+#### `p`
 
-Block tag. Converts to a paragraph with text.
+Converts to a paragraph with text.
 
 **Can be nested in:**
 
 - document root
-- container tag
-- `li` (partial support - displayed from a new line)
+- container element
+- `li` (known issue: displayed with a new line)
 - `blockquote`
 - `caption`
 - `td`
@@ -633,7 +528,7 @@ Block tag. Converts to a paragraph with text.
 
 **Extra:**
 
-By default, `text-indent` is added for paragraphs (except the first paragraph in each block). This can be disabled by passing `ignoreIndentation: true`;
+By default, `text-indent` is added for paragraphs (except the first paragraph in each block). This can be disabled by passing `ignoreIndentation: true`.
 
 If necessary, you can add vertical indents between paragraphs. For this, you need to pass the parameter `verticalSpaces`.
 
@@ -651,14 +546,14 @@ const html = `
 `;
 ```
 
-## `h1-h6`
+#### `h1-h6`
 
-Block tags. They are converted into headings of the appropriate level. Participate in `table-of-contents` formation
+Block elements. They are converted into headings of the appropriate level. Participate in `table-of-contents` formation.
 
 **Can be nested in:**
 
 - document root
-- container tag
+- container element
 - `li` (partial support - displayed from a new line)
 - `caption`
 - `td`
@@ -666,7 +561,7 @@ Block tags. They are converted into headings of the appropriate level. Participa
 **Supported content:**
 
 - plain text
-- inline-tags
+- inline elements
 - `img`
 
 **Attributes**: not supported
@@ -681,7 +576,7 @@ Block tags. They are converted into headings of the appropriate level. Participa
 
 **Extra:**
 
-For headings, you can set the `font size` and `font-family`. To do this, you need to pass the appropriate parameters: `font.headersSize`, `font.headersFontFamily`
+For headings, you can set the `font size` and `font-family`. To do this, you need to pass the appropriate parameters: `font.headersSize`, `font.headersFontFamily`.
 
 **Example**:
 
@@ -692,14 +587,14 @@ const html = `
 `;
 ```
 
-## `ul, ol`
+#### `ul, ol`
 
-Block tags. Convert to lists.
+Block elements. Convert to lists.
 
 **Can be nested in:**
 
 - document root
-- container tag
+- container element
 - `li` - are displayed as lower-level lists
 - `caption`
 - `td`
@@ -730,9 +625,9 @@ const html = `
 `;
 ```
 
-## `li`
+#### `li`
 
-Block tag. Tag container. Displayed as a list item
+Block element. Displayed as a list item.
 
 **Can be nested in:**
 
@@ -771,14 +666,14 @@ const html = `
 `;
 ```
 
-## `figure`
+#### `figure`
 
-Block tag
+Block element.
 
 **Can be nested in:**
 
 - document root
-- container tag
+- container element
 - `li`
 - `caption`
 - `td`
@@ -811,14 +706,14 @@ const html = `
 `;
 ```
 
-## `img`
+#### `img`
 
-Inline-block tag. Responsible for displaying images.
+Inline-block element. Responsible for displaying images.
 
 **Can be nested in:**
 
 - document root
-- container tag
+- container element
 - `li`
 - `caption`
 - `td`
@@ -830,7 +725,7 @@ Inline-block tag. Responsible for displaying images.
 
 - `src`
 
-  Url to download the image.
+  URL to download the image.
 
 **Inline-styles**:
 
@@ -859,7 +754,7 @@ Inline-block tag. Responsible for displaying images.
 
 Image orientation is calculated automatically based on file metadata.
 
-Images for insertion can be preloaded (if they are found locally on the device or server). To do this, you need to download the image as a buffer and insert it into the `images` parameter
+Images for insertion can be preloaded (if they are found locally on the device or server). To do this, you need to download the image as a buffer and insert it into the `images` options parameter.
 
 If a paragraph is found after the image, the image will be "linked" to this paragraph. If there is no paragraph after the image, it will be created automatically.
 
@@ -876,14 +771,14 @@ const html = `
 `;
 ```
 
-## `li`
+#### `blockquote`
 
-Block tag. Tag container. Displayed as italic text with left border
+Block element. Displayed as italic text with left border.
 
 **Can be nested in:**
 
 - document root
-- container tag
+- container element
 - `li` (partial support - displayed from a new line)
 - `caption`
 - `td`
@@ -913,14 +808,14 @@ const html = `
 `;
 ```
 
-## `table`
+#### `table`
 
-Block tag. Responsible for displaying tables.
+Block element. Responsible for displaying tables.
 
 **Can be nested in:**
 
 - document root
-- container tag
+- container element
 - `li`
 - `td`
 - `figure`
@@ -972,9 +867,9 @@ const html = `
 `;
 ```
 
-## `caption`
+#### `caption`
 
-Block tag. Container tag. Responsible for displaying the table header.
+Block element. Responsible for displaying the table header.
 
 **Can be nested in:**
 
@@ -1003,7 +898,7 @@ const html = `
 `;
 ```
 
-## `thead`
+#### `thead`
 
 Responsible for displaying rows of the table with a header.
 
@@ -1033,9 +928,9 @@ const html = `
 `;
 ```
 
-## `tbody`
+#### `tbody`
 
-Responsible for displaying the body of the table
+Responsible for displaying the body of the table.
 
 **Can be nested in:**
 
@@ -1063,9 +958,9 @@ const html = `
 `;
 ```
 
-## `tfoot`
+#### `tfoot`
 
-Responsible for displaying the footer of the table
+Responsible for displaying the footer of the table.
 
 **Can be nested in:**
 
@@ -1093,9 +988,9 @@ const html = `
 `;
 ```
 
-## `tr`
+#### `tr`
 
-Responsible for displaying table rows
+Responsible for displaying table rows.
 
 **Can be nested in:**
 
@@ -1127,9 +1022,9 @@ const html = `
 `;
 ```
 
-## `colgroup`
+#### `colgroup`
 
-Responsible for setting column widths and styles for those columns
+Responsible for setting column widths and styles for those columns.
 
 **Can be nested in:**
 
@@ -1166,9 +1061,9 @@ const html = `
 `;
 ```
 
-## `td, th`
+#### `td, th`
 
-Responsible for table cells and their display
+Responsible for table cells and their display.
 
 **Can be nested in:**
 
@@ -1219,7 +1114,7 @@ Responsible for table cells and their display
 
   **Default:** `solid`
 
-The `border-width, border-color, border-style` styles are more specific and overwrite the `border` value if it is passed
+The `border-width, border-color, border-style` styles are more specific and overwrite the `border` value if it is passed.
 
 - `vertical-align`
 
@@ -1248,7 +1143,7 @@ The `border-width, border-color, border-style` styles are more specific and over
 
   **Default:** `5px`
 
-Also, the internal indents of the table cells can be set for the entire table through the parameter `table.cellPaddings`.
+Also, the internal indents of the table cells can be set for the entire table through the options parameter `table.cellPaddings`.
 
 Values written through the `style` property have greater specificity than values passed through parameters and are overwritten accordingly.
 
@@ -1276,7 +1171,7 @@ const html = `
 `;
 ```
 
-## `col`
+#### `col`
 
 Responsible for setting the width of the column.
 
@@ -1326,14 +1221,14 @@ const html = `
 `;
 ```
 
-## `br`
+#### `br`
 
-Inline tag. Adds line break.
+Inline element. Adds a line break.
 
 **Can be nested in:**
 
 - document root
-- container tag
+- container element
 - `li`
 - `blockquote`
 - `caption`
@@ -1341,7 +1236,7 @@ Inline tag. Adds line break.
 - `p`
 - `h1-h6`
 
-When present in the root of the document or container tags, it add line break to previous paragraph
+When present in the root of the document or container elements, it add line break to previous paragraph
 
 **Supported content:** not supported
 
@@ -1357,14 +1252,14 @@ const html = `
 `;
 ```
 
-## `strong`, `b`
+#### `strong`, `b`
 
-Inline tag. Makes the text bold.
+Inline element. Makes the text bold.
 
 **Can be nested in:**
 
 - document root
-- container tag
+- container element
 - `li`
 - `blockquote`
 - `caption`
@@ -1391,14 +1286,14 @@ const html = `
 `;
 ```
 
-## `i`, `em`
+#### `i`, `em`
 
-Inline tag. Makes the text italic.
+Inline element. Makes the text italic.
 
 **Can be nested in:**
 
 - document root
-- container tag
+- container element
 - `li`
 - `blockquote`
 - `caption`
@@ -1425,14 +1320,14 @@ const html = `
 `;
 ```
 
-## `u`
+#### `u`
 
-Inline tag. Makes the text underlined.
+Inline element. Makes the text underlined.
 
 **Can be nested in:**
 
 - document root
-- container tag
+- container element
 - `li`
 - `blockquote`
 - `caption`
@@ -1459,14 +1354,14 @@ const html = `
 `;
 ```
 
-## `s`
+#### `s`
 
-Inline tag. Makes the text crossed out.
+Inline element. Makes the text crossed out.
 
 **Can be nested in:**
 
 - document root
-- container tag
+- container element
 - `li`
 - `blockquote`
 - `caption`
@@ -1493,14 +1388,14 @@ const html = `
 `;
 ```
 
-## `span`
+#### `span`
 
-Inline tag. Inline container tag.
+Inline element. Contains other inline elements.
 
 **Can be nested in:**
 
 - document root
-- container tag
+- container element
 - `li`
 - `blockquote`
 - `caption`
@@ -1527,14 +1422,14 @@ const html = `
 `;
 ```
 
-## `sub`
+#### `sub`
 
-Inline tag. Defines subscript text
+Inline element. Defines subscript text.
 
 **Can be nested in:**
 
 - document root
-- container tag
+- container element
 - `li`
 - `blockquote`
 - `caption`
@@ -1561,14 +1456,14 @@ const html = `
 `;
 ```
 
-## `sub`
+#### `sub`
 
-Inline tag. Defines superscript text
+Inline element. Defines superscript text.
 
 **Can be nested in:**
 
 - document root
-- container tag
+- container element
 - `li`
 - `blockquote`
 - `caption`
@@ -1595,14 +1490,14 @@ const html = `
 `;
 ```
 
-## `a`
+#### `a`
 
-Inline tag. Inserts a link.
+Inline element. Inserts a link.
 
 **Can be nested in:**
 
 - document root
-- container tag
+- container element
 - `li`
 - `blockquote`
 - `caption`
@@ -1633,14 +1528,14 @@ const html = `
 `;
 ```
 
-## `page-break`
+#### `page-break`
 
 Adds a page break.
 
 **Can be nested in:**
 
 - document root
-- container tag
+- container element
 - `li`
 - `blockquote`
 - `caption`
@@ -1662,14 +1557,14 @@ const html = `
 `;
 ```
 
-## `table-of-contents`
+#### `table-of-contents`
 
 Adds a table of contents to the document, automatically generated based on the headings.
 
 **Can be nested in:**
 
-- document rott
-- container tag
+- document root
+- container element
 - `li`
 - `blockquote`
 - `caption`
@@ -1693,18 +1588,10 @@ const html = `
 `;
 ```
 
-# **Directions for further work**
+## Contributors
 
-1. Increased support for html tags.
-2. Support CSS
-3. Support CSS-classes
-4. HTML validation
-5. Creating a live-page demo
+<a href="https://github.com/flexumio/beautiful-docx/graphs/contributors">
+  <img src="https://contrib.rocks/image?repo=flexumio/beautiful-docx" />
+</a>
 
-# Contributing
-
-…
-
-# License
-
-…
+(Made with [contrib.rocks](https://contrib.rocks))

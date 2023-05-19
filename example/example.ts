@@ -1,12 +1,12 @@
 /* istanbul ignore file */
-import { HtmlToDocx } from '../src';
+import { DocxGenerator } from '../src';
 import * as fs from 'fs';
 import { exampleText } from './exampleText';
 import { AlignmentType, NumberFormat } from 'docx';
 
 const main = async () => {
   console.time('Loading');
-  const htmlToDocx = new HtmlToDocx({
+  const docxGenerator = new DocxGenerator({
     page: {
       size: {
         width: 5.5,
@@ -20,7 +20,7 @@ const main = async () => {
     },
     verticalSpaces: 2,
   });
-  const buffer = await htmlToDocx.generateDocx(exampleText);
+  const buffer = await docxGenerator.generateDocx(exampleText);
   console.timeEnd('Loading');
   fs.writeFileSync('test-lib.docx', buffer);
 };
