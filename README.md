@@ -4,13 +4,15 @@
 
 Easily generate .docx files with HTML and CSS.
 
-`beautiful-docx` is a wrapper around [`docx`](https://www.npmjs.com/package/docx) library and allows you to create beautiful .docx files using HTML and CSS (inline styles) instead of JS objects.
+<img src="./logo/logo-big.svg" width="300" alt="beautiful-docx logo">
+
+`beautiful-docx` is a wrapper around [`docx`](https://www.npmjs.com/package/docx) library that allows you to create beautiful .docx documents using HTML and CSS (inline styles) instead of JS objects.
 
 This library is different from other available HTML to DOCX converters because of the following features (among others):
 
  * table of content generation
  * page numbering
- * custom page sizes
+ * custom page sizes and margins
  * paragraph first line indentation
  * automatic or manual images downloading
  * table and image sizing and positioning
