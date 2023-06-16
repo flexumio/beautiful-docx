@@ -10,6 +10,7 @@ import { TextInline } from './TextInline';
 
 export class List implements DocumentElement {
   type: DocumentElementType = 'list';
+
   public children: DocumentElement[];
   public childrenOptions: IParagraphOptions;
 
@@ -21,7 +22,9 @@ export class List implements DocumentElement {
         break;
       }
       case 'ol': {
-        this.childrenOptions = { numbering: { reference: DEFAULT_NUMBERING_REF, level } };
+        this.childrenOptions = {
+          numbering: { reference: DEFAULT_NUMBERING_REF, level },
+        };
         this.children = this.getList(element.children);
         break;
       }
@@ -36,7 +39,7 @@ export class List implements DocumentElement {
         return new ListItem(child, this.childrenOptions, this.level, this.exportOptions).getContent();
       }
       const textContent = new TextInline(child).getContent();
-      return new TextBlock({}, textContent, this.exportOptions).getContent();
+      return new TextBlock({}, textContent).getContent();
     });
   }
 

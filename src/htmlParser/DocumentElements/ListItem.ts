@@ -40,8 +40,7 @@ export class ListItem extends TextBlock {
 
       nestedElements.push(...new HtmlParser(exportOptions).parseHtmlTree([child]));
     });
-
-    super(liOptions, children, exportOptions);
+    super(liOptions, children);
     this.nestedElements = nestedElements;
   }
 

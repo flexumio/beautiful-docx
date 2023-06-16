@@ -1,4 +1,4 @@
-import { Document, DocumentElement, Image, Paragraph, TextBlock } from './htmlParser/DocumentElements';
+import { Document, DocumentElement, EmptyLine, Image, Paragraph, TextBlock } from './htmlParser/DocumentElements';
 import { DocxExportOptions } from './options';
 
 export class DocumentBuilder {
@@ -11,6 +11,7 @@ export class DocumentBuilder {
   private postProcessContent(docxTree: DocumentElement[]) {
     const results: DocumentElement[] = [];
     let iterator = 0;
+
     while (iterator < docxTree.length) {
       const currentItem = docxTree[iterator];
       const nextItem = docxTree[iterator + 1];
@@ -18,17 +19,11 @@ export class DocumentBuilder {
       const isNextItemParagraph = nextItem instanceof Paragraph;
 
       const isCurrentItemBr = this.isBr(currentItem);
-      const isNextElementBr = this.isBr(nextItem);
 
       if (isCurrentItemBr) {
+        results.push(new EmptyLine());
         iterator += 1;
         continue;
-      }
-
-      if (isNextElementBr) {
-        if (currentItem instanceof TextBlock) {
-          currentItem.children.push(nextItem.children[0]);
-        }
       }
 
       if (!isCurrentItemImage) {
@@ -42,7 +37,7 @@ export class DocumentBuilder {
         results.push(nextItem);
         iterator += 2;
       } else {
-        results.push(new TextBlock({}, [currentItem], this.options));
+        results.push(new TextBlock({}, [currentItem]));
         iterator += 1;
       }
     }
