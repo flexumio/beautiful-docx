@@ -5,7 +5,9 @@ import { cleanTextContent } from '../utils';
 
 import { InlineTextType, DocumentElement } from './DocumentElement';
 
-const supportedTextTypes: InlineTextType[] = [
+const LINK_TEXT_COLOR = '2200CC';
+
+export const supportedTextTypes: InlineTextType[] = [
   'br',
   'text',
   'strong',
@@ -29,7 +31,10 @@ const inlineTextOptionsDictionary: { [key in InlineTextType]: IRunOptions } = {
   i: { italics: true },
   u: { underline: { type: UnderlineType.SINGLE } },
   s: { strike: true },
-  a: {},
+  a: {
+    color: LINK_TEXT_COLOR,
+    underline: { type: UnderlineType.SINGLE },
+  },
   span: {},
   sup: { superScript: true },
   sub: { subScript: true },
@@ -37,7 +42,7 @@ const inlineTextOptionsDictionary: { [key in InlineTextType]: IRunOptions } = {
 
 export class TextInline implements DocumentElement {
   type: InlineTextType;
-  private content: (string | DocumentElement)[];
+  content: (string | DocumentElement)[];
   isEmpty = false;
 
   constructor(private element: Node, public options: IRunOptions = {}) {
