@@ -55,5 +55,5 @@ export const defaultExportOptions: DocxExportOptions = {
   },
   verticalSpaces: 1,
   table: { cellPaddings: defaultTableCellPaddings },
-  ignoreIndentation: false,
+  ignoreIndentation: true,
 };

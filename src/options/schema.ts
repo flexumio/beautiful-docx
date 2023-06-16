@@ -36,6 +36,7 @@ const optionsSchema = z.object({
       bottom: z.number().positive(),
     }),
   }),
+  ignoreIndentation: z.boolean(),
 });
 
 export const userOptionsSchema = optionsSchema.deepPartial().strict();
