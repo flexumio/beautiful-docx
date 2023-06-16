@@ -10,12 +10,12 @@ Easily generate .docx files with HTML and CSS.
 
 This library is different from other available HTML to DOCX converters because of the following features (among others):
 
- * table of content generation
- * page numbering
- * custom page sizes and margins
- * paragraph first line indentation
- * automatic or manual images downloading
- * table and image sizing and positioning
+- table of content generation
+- page numbering
+- custom page sizes and margins
+- paragraph first line indentation
+- automatic or manual images downloading
+- table and image sizing and positioning
 
 The library is writted with TypeScript and is fully covered with unit tests.
 
@@ -84,13 +84,13 @@ Sets document page settings.
   **Example**:
 
   ```tsx
-    import { PageOrientation } from 'beautiful-docx';
+  import { PageOrientation } from 'beautiful-docx';
 
-    const options = {
-      page: {
-        orientation: PageOrientation.Portrait,
-      },
-    };
+  const options = {
+    page: {
+      orientation: PageOrientation.Portrait,
+    },
+  };
   ```
 
 - `size: PageSize`
@@ -110,24 +110,24 @@ Sets document page settings.
     **Example**:
 
     ```tsx
-      import { PageFormat } from 'beautiful-docx';
-  
-      const options = {
-        page: {
-          sizes: PageFormat.A4,
-        },
-      };
+    import { PageFormat } from 'beautiful-docx';
+
+    const options = {
+      page: {
+        sizes: PageFormat.A4,
+      },
+    };
     ```
 
     ```tsx
-      const options = {
-        page: {
-          sizes: {
-            width: 8.3,
-            height: 11.7,
-          },
+    const options = {
+      page: {
+        sizes: {
+          width: 8.3,
+          height: 11.7,
         },
-      };
+      },
+    };
     ```
 
 - `margins: object`
@@ -192,7 +192,7 @@ Sets document page settings.
       },
     },
   };
-    ```
+  ```
 
 #### `font: FontOptions`
 
@@ -246,7 +246,7 @@ Configuration of font sizes and font-family.
   ```tsx
   const options = {
     font: {
-      headerSizes: {
+      headersSizes: {
         h1: 22,
         h2: 20,
         h3: 18,
@@ -317,7 +317,7 @@ Properties of tables.
     **Default:** `5`
 
   **Example:**
-  
+
   ```tsx
   const options = {
     table: {
@@ -357,15 +357,15 @@ const options = {
 
 #### `verticalSpaces: number`
 
-Vertical indents between lines in millimeters.
+Vertical indents between lines ratio.
 
-**Default:** `0`
+**Default:** `1`
 
 **Example:**
 
 ```tsx
 const options: {
-  verticalSpaces: 10;
+  verticalSpaces: 1.15;
 };
 ```
 
@@ -375,13 +375,13 @@ If `false`, adds an indent for the first line of the paragraph.
 
 Indentation is ignored for the first paragraph in a block.
 
-**Default:** `false`
+**Default:** `true`
 
 **Example:**
 
 ```tsx
 const options: {
-  textIndentation: true;
+  textIndentation: false;
 };
 ```
 
@@ -578,7 +578,7 @@ Block elements. They are converted into headings of the appropriate level. Parti
 
 **Extra:**
 
-For headings, you can set the `font size` and `font-family`. To do this, you need to pass the appropriate parameters: `font.headersSize`, `font.headersFontFamily`.
+For headings, you can set the `font size` and `font-family`. To do this, you need to pass the appropriate parameters: `font.headersSizes`, `font.headersFontFamily`.
 
 **Example**:
 
@@ -1597,7 +1597,6 @@ const html = `
 </a>
 
 (Made with [contrib.rocks](https://contrib.rocks))
-
 
 [npm-image]: https://img.shields.io/npm/v/beautiful-docx.svg
 [npm-url]: https://npmjs.org/package/beautiful-docx
