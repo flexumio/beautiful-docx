@@ -10,11 +10,13 @@ import {
   VerticalPositionAlign,
   VerticalPositionRelativeFrom,
   ITextWrapping,
+  AlignmentType,
 } from 'docx';
 import { Element, Styles } from 'himalaya';
 import { DocxExportOptions } from '../../options';
 import { convertTwipToPixels, getAttributeMap, getPageWidth, parseStyles } from '../utils';
 import { DocumentElement, DocumentElementType } from './DocumentElement';
+import { TextBlock } from './TextBlock';
 
 enum ImageOrientation {
   Horizontal = 1,
@@ -30,15 +32,18 @@ enum ImageOrientation {
 export class Image implements DocumentElement {
   type: DocumentElementType = 'image';
   public options: IImageOptions;
+  public isFloating: boolean;
+
   private readonly style: Styles;
 
   constructor(private imageFigure: Element, private exportOptions: DocxExportOptions) {
-    // TODO: Update Figure and parseTopLevelElement after merge
     const image = imageFigure.children.find(item => item.type === 'element' && item.tagName === 'img') as Element;
     const imageAttr = getAttributeMap(image.attributes);
     const imageSourceUrl = imageAttr['src'];
 
     this.style = parseStyles(imageAttr['style']);
+
+    this.isFloating = this.style['float'] === 'left' || this.style['float'] === 'right';
 
     if (!exportOptions.images) {
       throw new Error('Cannot handle image insertion');
@@ -52,7 +57,13 @@ export class Image implements DocumentElement {
     return {
       data: imageBuffer,
       transformation: this.getImageSize(imageBuffer),
-      floating: {
+      floating: this.floating,
+    };
+  }
+
+  private get floating() {
+    if (this.isFloating) {
+      return {
         horizontalPosition: {
           relative: HorizontalPositionRelativeFrom.COLUMN,
           align: this.getHorizontalPositionAlign(),
@@ -63,8 +74,10 @@ export class Image implements DocumentElement {
         },
         wrap: this.getWrapping(),
         margins: this.margins,
-      },
-    };
+      };
+    }
+
+    return undefined;
   }
 
   private getHorizontalPositionAlign(): HorizontalPositionAlign {
@@ -165,7 +178,7 @@ export class Image implements DocumentElement {
   }
 
   private get margins() {
-    const MARGIN_VALUE = 101440;
+    const MARGIN_VALUE = 181142; // ~0.5sm. Calculated by trial and error.
     if (this.style.float === 'left') {
       return {
         top: 0,
@@ -182,12 +195,6 @@ export class Image implements DocumentElement {
         right: 0,
       };
     }
-    return {
-      top: MARGIN_VALUE,
-      bottom: MARGIN_VALUE,
-      left: 0,
-      right: 0,
-    };
   }
 
   private getWrapping(): ITextWrapping {
@@ -205,10 +212,7 @@ export class Image implements DocumentElement {
       };
     }
 
-    return {
-      type: TextWrappingType.TOP_AND_BOTTOM,
-      side: TextWrappingSide.BOTH_SIDES,
-    };
+    throw new Error('Image does not have a float style property');
   }
 
   getContent() {
@@ -217,5 +221,9 @@ export class Image implements DocumentElement {
 
   transformToDocx() {
     return [new ImageRun(this.options)];
+  }
+
+  static getStaticImageElement(image: Image) {
+    return new TextBlock({ alignment: AlignmentType.CENTER, spacing: { before: 280, after: 280 } }, [image]);
   }
 }

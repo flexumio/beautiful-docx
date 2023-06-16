@@ -32,12 +32,12 @@ export class DocumentBuilder {
         continue;
       }
 
-      if (isNextItemParagraph) {
+      if (isNextItemParagraph && currentItem.isFloating) {
         nextItem.children.push(currentItem);
         results.push(nextItem);
         iterator += 2;
       } else {
-        results.push(new TextBlock({}, [currentItem]));
+        results.push(Image.getStaticImageElement(currentItem));
         iterator += 1;
       }
     }
