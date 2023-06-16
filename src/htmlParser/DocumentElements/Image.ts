@@ -62,12 +62,7 @@ export class Image implements DocumentElement {
           align: VerticalPositionAlign.BOTTOM,
         },
         wrap: this.getWrapping(),
-        margins: {
-          top: 200,
-          bottom: 200,
-          left: 200,
-          right: 200,
-        },
+        margins: this.margins,
       },
     };
   }
@@ -167,6 +162,32 @@ export class Image implements DocumentElement {
       default:
         return {};
     }
+  }
+
+  private get margins() {
+    const MARGIN_VALUE = 101440;
+    if (this.style.float === 'left') {
+      return {
+        top: 0,
+        bottom: MARGIN_VALUE,
+        left: 0,
+        right: MARGIN_VALUE,
+      };
+    }
+    if (this.style.float === 'right') {
+      return {
+        top: 0,
+        bottom: MARGIN_VALUE,
+        left: MARGIN_VALUE,
+        right: 0,
+      };
+    }
+    return {
+      top: MARGIN_VALUE,
+      bottom: MARGIN_VALUE,
+      left: 0,
+      right: 0,
+    };
   }
 
   private getWrapping(): ITextWrapping {
