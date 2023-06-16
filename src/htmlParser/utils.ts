@@ -97,8 +97,7 @@ export const parseTextAlignment = (attribs: Attribute[]): AlignmentType => {
 };
 
 export const cleanTextContent = (content: string): string => {
-  // replace &nbsp; characters
-  return content.replace(/&nbsp;/g, ' ').trim();
+  return content.replace(/&nbsp;/g, ' ');
 };
 
 export const getIndent = (paragraphIndex: number, docxExportOptions: DocxExportOptions) => {
@@ -231,4 +230,11 @@ export const parseSizeValue = (value: string | number): [number, SizeUnit] => {
   }
 
   throw new Error('Invalid units');
+};
+
+export const hasSpacesAtStart = (str: string): boolean => {
+  return str.trimStart() !== str;
+};
+export const hasSpacesAtEnd = (str: string): boolean => {
+  return str.trimEnd() !== str;
 };

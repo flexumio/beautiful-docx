@@ -1,15 +1,15 @@
 import { Paragraph } from 'docx';
 import { IParagraphOptions } from '../../options';
 import { DocumentElement, DocumentElementType } from './DocumentElement';
-import { TextInline } from './TextInline';
 import { Mutable } from '../utils';
+import { TextInlineNormalizer } from '../TextInlineNormalizer';
 
 export class TextBlock implements DocumentElement {
   type: DocumentElementType = 'text';
   public children: DocumentElement[] = [];
 
   constructor(public options: Mutable<IParagraphOptions>, children: DocumentElement[] = []) {
-    this.children = children.filter(i => !(i instanceof TextInline && i.isEmpty));
+    this.children = new TextInlineNormalizer(children).normalize();
   }
 
   getContent(): DocumentElement[] {
