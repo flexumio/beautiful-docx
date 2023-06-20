@@ -53,7 +53,7 @@ export const defaultExportOptions: DocxExportOptions = {
       h6: HEADING_6_FONT_SIZE,
     },
   },
-  verticalSpaces: 0,
+  verticalSpaces: 1,
   table: { cellPaddings: defaultTableCellPaddings },
-  ignoreIndentation: false,
+  ignoreIndentation: true,
 };

@@ -12,8 +12,7 @@ export class DocumentFooter {
     } else {
       this.children = new TextBlock(
         { alignment: exportOptions.page.numbering.align },
-        new TextInline({ type: 'text', content: 'Number' }, { children: [PageNumber.CURRENT] }).getContent(),
-        exportOptions
+        new TextInline({ type: 'text', content: 'Number' }, { children: [PageNumber.CURRENT] }).getContent()
       ).getContent();
     }
   }

@@ -32,9 +32,9 @@ export class TableCreator implements DocumentElement {
     this.styles = parseStyles(this.attr['style']);
 
     this.createRows();
-    const beforeTableContent = this.caption ? this.caption : [new TextBlock({ children: [] }, [], exportOptions)];
+    const beforeTableContent = this.caption ? this.caption : [new TextBlock({ children: [] }, [])];
 
-    this.content = [...beforeTableContent, this, new TextBlock({ children: [] }, [], exportOptions)];
+    this.content = [...beforeTableContent, this, new TextBlock({ children: [] }, [])];
 
     this.options = {
       layout: TableLayoutType.FIXED,

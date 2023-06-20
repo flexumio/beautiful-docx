@@ -15,6 +15,8 @@ const FONT_RATIO = 2;
 export const FONT_TO_LINE_RATIO = 10 * FONT_RATIO;
 export const PAGE_TITLE_STYLE_ID = 'PageTitle';
 export const DEFAULT_NUMBERING_REF = 'default-numbering';
+const OL_START_INDENT = 350;
+const OL_HANGING_INDENT = 260;
 
 export class Document {
   constructor(public exportOptions: DocxExportOptions, public children: DocumentElement[]) {}
@@ -57,19 +59,14 @@ export class Document {
         },
       ],
       default: {
-        document: {
-          run: {
-            font: this.exportOptions.font.baseFontFamily,
-            size: this.exportOptions.font.baseSize * FONT_RATIO,
-            bold: false,
-          },
-        },
-        heading1: this.getHeadingFontSettings('h1'),
-        heading2: this.getHeadingFontSettings('h2'),
-        heading3: this.getHeadingFontSettings('h3'),
-        heading4: this.getHeadingFontSettings('h4'),
-        heading5: this.getHeadingFontSettings('h5'),
-        heading6: this.getHeadingFontSettings('h6'),
+        document: this.getFontSettings(),
+        listParagraph: this.getFontSettings(),
+        heading1: this.getFontSettings('h1'),
+        heading2: this.getFontSettings('h2'),
+        heading3: this.getFontSettings('h3'),
+        heading4: this.getFontSettings('h4'),
+        heading5: this.getFontSettings('h5'),
+        heading6: this.getFontSettings('h6'),
       },
     };
   }
@@ -79,41 +76,24 @@ export class Document {
       config: [
         {
           reference: DEFAULT_NUMBERING_REF,
-          levels: [
-            {
-              level: 0,
-              format: LevelFormat.DECIMAL,
-              text: '%1.',
-              suffix: LevelSuffix.SPACE,
-            },
-            {
-              level: 1,
-              format: LevelFormat.DECIMAL,
-              text: '%1.',
-              suffix: LevelSuffix.SPACE,
-            },
-            {
-              level: 2,
-              format: LevelFormat.DECIMAL,
-              text: '%1.',
-              suffix: LevelSuffix.SPACE,
-            },
-            {
-              level: 3,
-              format: LevelFormat.DECIMAL,
-              text: '%1.',
-              suffix: LevelSuffix.SPACE,
-            },
-            {
-              level: 4,
-              format: LevelFormat.DECIMAL,
-              text: '%1.',
-              suffix: LevelSuffix.SPACE,
-            },
-          ],
+          levels: this.generateNumbering(),
         },
       ],
     };
+  }
+
+  private generateNumbering() {
+    return [0, 1, 2, 3, 4].map(level => ({
+      level,
+      format: LevelFormat.DECIMAL,
+      text: `%${level + 1}.`,
+      suffix: LevelSuffix.SPACE,
+      style: {
+        paragraph: {
+          indent: { left: OL_START_INDENT * (level + 2), hanging: OL_HANGING_INDENT },
+        },
+      },
+    }));
   }
 
   private getDefaultSectionsProperties = () => {
@@ -141,15 +121,31 @@ export class Document {
     return new DocumentFooter(this.exportOptions);
   }
 
-  private getHeadingFontSettings(level: keyof DocxExportOptions['font']['headersSizes']) {
+  private getFontSettings(level?: keyof DocxExportOptions['font']['headersSizes']) {
+    if (level) {
+      return {
+        run: {
+          font: this.exportOptions.font.headersFontFamily,
+          size: this.exportOptions.font.headersSizes[level] * FONT_RATIO,
+          bold: true,
+        },
+        paragraph: {
+          spacing: {
+            line: this.exportOptions.font.headersSizes[level] * FONT_TO_LINE_RATIO * this.exportOptions.verticalSpaces,
+          },
+        },
+      };
+    }
     return {
       run: {
-        font: this.exportOptions.font.headersFontFamily,
-        size: this.exportOptions.font.headersSizes[level] * FONT_RATIO,
-        bold: true,
+        font: this.exportOptions.font.baseFontFamily,
+        size: this.exportOptions.font.baseSize * FONT_RATIO,
+        bold: false,
       },
       paragraph: {
-        spacing: { line: this.exportOptions.font.headersSizes[level] * FONT_TO_LINE_RATIO },
+        spacing: {
+          line: this.exportOptions.font.baseSize * FONT_TO_LINE_RATIO * this.exportOptions.verticalSpaces,
+        },
       },
     };
   }

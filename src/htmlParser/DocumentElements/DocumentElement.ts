@@ -13,7 +13,8 @@ export type DocumentElementType =
   | ContainerElementType
   | ImageType
   | PageBreakType
-  | TableOfContentsType;
+  | TableOfContentsType
+  | EmptyLineType;
 
 export type BlockTextType = 'paragraph' | 'text' | 'heading' | 'list' | 'list-item' | 'blockquote';
 export type InlineTextType = 'br' | 'text' | 'strong' | 'i' | 'u' | 's' | 'a' | 'b' | 'em' | 'span' | 'sup' | 'sub';
@@ -22,3 +23,4 @@ export type ContainerElementType = 'figure';
 export type ImageType = 'image';
 export type PageBreakType = 'page-break';
 export type TableOfContentsType = 'table-of-contents';
+export type EmptyLineType = 'empty-line';

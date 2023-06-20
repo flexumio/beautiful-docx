@@ -11,3 +11,4 @@ export * from './TextBlock';
 export * from './DocumentElement';
 export * from './Document';
 export * from './PageBreak';
+export * from './EmptyLine';

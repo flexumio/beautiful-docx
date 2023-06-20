@@ -15,7 +15,7 @@ export class Blockquote implements DocumentElement {
   public options: IParagraphOptions;
   private readonly content: DocumentElement[];
 
-  constructor(private element: Element, private readonly exportOptions: DocxExportOptions) {
+  constructor(private element: Element) {
     this.options = {
       alignment: parseTextAlignment(element.attributes),
       border: {
@@ -27,10 +27,14 @@ export class Blockquote implements DocumentElement {
   }
 
   private createContent(element: Element) {
-    const children = this.parseChildren(element);
+    const childrenNodes = this.parseChildren(element);
 
-    return children.flatMap(node => {
-      return new TextBlock(this.options, this.createInlineChild(node), this.exportOptions).getContent();
+    const children = childrenNodes.flatMap(node => {
+      return new TextBlock(this.options, this.createInlineChild(node)).getContent();
+    });
+    return children.map(i => {
+      i.type = 'blockquote';
+      return i;
     });
   }
 

@@ -15,7 +15,7 @@ describe('DocxGenerator', () => {
         baseFontFamily: 'Calibri',
         headersFontFamily: 'Calibri',
       },
-      verticalSpaces: 0,
+      verticalSpaces: 1,
     });
     const buffer = await htmlToDocx.generateDocx(exampleText);
 

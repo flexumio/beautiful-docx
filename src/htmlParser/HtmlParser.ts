@@ -42,7 +42,7 @@ export class HtmlParser {
     for (const child of root) {
       switch (child.type) {
         case 'text': {
-          paragraphs.push(...new TextBlock({}, new TextInline(child).getContent(), this.options).getContent());
+          paragraphs.push(...new TextBlock({}, new TextInline(child).getContent()).getContent());
           break;
         }
         case 'element': {
@@ -90,25 +90,25 @@ export class HtmlParser {
       case 'span':
       case 'sup':
       case 'sub': {
-        return new TextBlock({}, new TextInline(element).getContent(), this.options).getContent();
+        return new TextBlock({}, new TextInline(element).getContent()).getContent();
       }
       case 'h1': {
-        return new Header(element, HeadingLevel.HEADING_1, this.options).getContent();
+        return new Header(element, HeadingLevel.HEADING_1).getContent();
       }
       case 'h2': {
-        return new Header(element, HeadingLevel.HEADING_2, this.options).getContent();
+        return new Header(element, HeadingLevel.HEADING_2).getContent();
       }
       case 'h3': {
-        return new Header(element, HeadingLevel.HEADING_3, this.options).getContent();
+        return new Header(element, HeadingLevel.HEADING_3).getContent();
       }
       case 'h4': {
-        return new Header(element, HeadingLevel.HEADING_4, this.options).getContent();
+        return new Header(element, HeadingLevel.HEADING_4).getContent();
       }
       case 'h5': {
-        return new Header(element, HeadingLevel.HEADING_5, this.options).getContent();
+        return new Header(element, HeadingLevel.HEADING_5).getContent();
       }
       case 'h6': {
-        return new Header(element, HeadingLevel.HEADING_6, this.options).getContent();
+        return new Header(element, HeadingLevel.HEADING_6).getContent();
       }
       case 'ul':
       case 'ol': {
@@ -124,7 +124,7 @@ export class HtmlParser {
         return new Image(this.coverWithFigure(element), this.options).getContent();
       }
       case 'blockquote': {
-        return new Blockquote(element, this.options).getContent();
+        return new Blockquote(element).getContent();
       }
       case 'page-break': {
         return new PageBreak().getContent();

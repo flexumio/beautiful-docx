@@ -16,8 +16,7 @@ export class Paragraph extends TextBlock {
 
     super(
       options,
-      element.children.flatMap(child => new TextInline(child).getContent()),
-      exportOptions
+      element.children.flatMap(child => new TextInline(child).getContent())
     );
   }
 }

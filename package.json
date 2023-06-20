@@ -20,7 +20,8 @@
     "lint": "eslint --quiet --cache --fix",
     "format": "prettier --write",
     "lint-staged": "lint-staged",
-    "prepare": "husky install"
+    "prepare": "husky install",
+    "example": "ts-node ./example/example.ts"
   },
   "repository": {
     "type": "git",

@@ -3,22 +3,33 @@ import { DocxGenerator } from '../src';
 import * as fs from 'fs';
 import { exampleText } from './exampleText';
 import { AlignmentType, NumberFormat } from 'docx';
+import { PageFormat } from '../src/options';
 
 const main = async () => {
   console.time('Loading');
   const docxGenerator = new DocxGenerator({
     page: {
-      size: {
-        width: 5.5,
-        height: 8,
+      size: PageFormat.A5,
+      numbering: { type: NumberFormat.DECIMAL, align: AlignmentType.END },
+      margins: {
+        top: 20,
+        left: 15,
+        right: 15,
+        bottom: 15,
       },
-      numbering: { type: NumberFormat.LOWER_LETTER, align: AlignmentType.END },
     },
     font: {
-      baseFontFamily: 'Calibri',
-      headersFontFamily: 'Calibri',
+      baseFontFamily: 'Times New Roman',
+      headersFontFamily: 'Times New Roman',
+      baseSize: 12,
+      headersSizes: {
+        h1: 16,
+        h2: 14,
+        h3: 12,
+      },
     },
-    verticalSpaces: 2,
+    ignoreIndentation: true,
+    verticalSpaces: 1.15,
   });
   const buffer = await docxGenerator.generateDocx(exampleText);
   console.timeEnd('Loading');
