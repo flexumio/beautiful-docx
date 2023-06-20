@@ -4,3 +4,4 @@ coverage/
 .eslintcache
 test-lib.docx
 .idea
+.DS_Store
