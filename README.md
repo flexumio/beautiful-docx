@@ -21,6 +21,12 @@ The library is writted with TypeScript and is fully covered with unit tests.
 
 `beautiful-docx` is created and maintained by [Flexum](https://flexum.io). PRs are welcome. Contact us at [opensource@flexum.io](mailto:opensource@flexum.io).
 
+## Example
+
+Here's an [example](./example/exampleText.ts) of an HTML document that allows you to generate to following file (utilizing these [parameters](./example/example.ts)):
+
+[<img src="./example/example.png" alt="beautiful-docx logo">](./example/example.png)
+
 ## Allowed HTML elements
 
 **Supported**: a, article, blockquote, br, caption, col, colgroup, div, figure, h1-h6, i, img, li, ol, p, s, section, strong, table, tbody, td, tfoot, th, tr, u, ul, em, span, sub, sup, b, pre, aside, html, body, main, header, footer, nav
