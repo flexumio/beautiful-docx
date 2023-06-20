@@ -8,9 +8,11 @@ export const exampleText = `
   <h1 style="text-align: center;"><strong>Beautiful Places</strong></h1>
   <br/>
   <blockquote style="text-align: right;">
-    "The world is full of magical places, and Wulingyuan Scenic Area is one of them. Its stunning sandstone pillars and canyons will leave you in awe." 
-    <em>- Traveler</em>
+  "The world is full of magical places, and Wulingyuan Scenic Area is one of them. Its stunning sandstone pillars and canyons will leave you in awe."
+  <br />
+  - Traveler
   </blockquote>
+
   <br/>
   
   <h2 style="text-align: center;">The <i>Azores</i></h2>
