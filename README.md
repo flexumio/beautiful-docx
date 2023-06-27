@@ -1396,6 +1396,40 @@ const html = `
 `;
 ```
 
+#### `del`
+
+Inline element. Makes the text crossed out.
+
+**Can be nested in:**
+
+- document root
+- container element
+- `li`
+- `blockquote`
+- `caption`
+- `td`
+- `p`
+- `h1-h6`
+
+If there are containers in the root of the document or tags - it is wrapped in a paragraph, which is why it is displayed from a new line.
+
+**Supported content:**
+
+- plain text
+- inline-tags
+
+**Attributes**: not supported
+
+**Inline-styles**: not supported
+
+**Example**:
+
+```tsx
+const html = `
+<p>some text <del>strikethrough</del><p>
+`;
+```
+
 #### `span`
 
 Inline element. Contains other inline elements.
