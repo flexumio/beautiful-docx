@@ -29,11 +29,11 @@ Here's an [example](./example/exampleText.ts) of an HTML document that allows yo
 
 ## Allowed HTML elements
 
-**Supported**: a, article, blockquote, br, caption, col, colgroup, div, figure, h1-h6, i, img, li, ol, p, s, section, strong, table, tbody, td, tfoot, th, tr, u, ul, em, span, sub, sup, b, pre, aside, html, body, main, header, footer, nav
+**Supported**: a, article, blockquote, br, caption, col, colgroup, div, figure, h1-h6, i, img, li, ol, p, s, del, section, strong, table, tbody, td, tfoot, th, tr, u, ul, em, span, sub, sup, b, pre, aside, html, body, main, header, footer, nav
 
 **Custom elements:** page-break, table-of-contents
 
-**Unsupported:** abbr, address, cite, code, dd, del, din, dl, dt, figcaption, hr, ins, kbd, mark, picture, q, small, time
+**Unsupported:** abbr, address, cite, code, dd, din, dl, dt, figcaption, hr, ins, kbd, mark, picture, q, small, time
 
 ## Installation
 
