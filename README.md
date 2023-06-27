@@ -57,7 +57,7 @@ const html = `
 </div>
 `;
 
-const DocxGenerator = new DocxGenerator({
+const docxGenerator = new DocxGenerator({
   page: {
     size: {
       width: 5.5,
@@ -66,7 +66,7 @@ const DocxGenerator = new DocxGenerator({
   },
 });
 
-const buffer = await DocxGenerator.generateDocx(html);
+const buffer = await docxGenerator.generateDocx(html);
 
 fs.writeFileSync('example.docx', buffer);
 ```
