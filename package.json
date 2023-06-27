@@ -1,6 +1,6 @@
 {
   "name": "beautiful-docx",
-  "version": "1.0.5",
+  "version": "1.0.6",
   "description": "Easily generate .docx files with HTML and CSS.",
   "types": "./lib/cjs/types/index.d.ts",
   "main": "./lib/cjs/index.js",
