@@ -17,7 +17,7 @@ export type DocumentElementType =
   | EmptyLineType;
 
 export type BlockTextType = 'paragraph' | 'text' | 'heading' | 'list' | 'list-item' | 'blockquote';
-export type InlineTextType = 'br' | 'text' | 'strong' | 'i' | 'u' | 's' | 'a' | 'b' | 'em' | 'span' | 'sup' | 'sub';
+export type InlineTextType = 'br' | 'text' | 'strong' | 'i' | 'u' | 's' | 'del' | 'a' | 'b' | 'em' | 'span' | 'sup' | 'sub';
 export type TableElementType = 'table' | 'table-row' | 'table-cell';
 export type ContainerElementType = 'figure';
 export type ImageType = 'image';
