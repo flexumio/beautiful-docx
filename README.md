@@ -23,9 +23,70 @@ The library is writted with TypeScript and is fully covered with unit tests.
 
 ## Example
 
-Here's an [example](./example/exampleText.ts) of an HTML document that allows you to generate to following file (utilizing these [parameters](./example/example.ts)):
+Here's an [example](./example/exampleText.ts) of an HTML document that allows you to generate the following file (utilizing these [parameters](./example/example.ts)):
 
 [<img src="./example/example.png" alt="beautiful-docx logo">](./example/example.png)
+
+
+## Table of Contents
+
+<details>
+  <summary>Click to open TOC</summary>
+
+<!-- MarkdownTOC autolink="true" markdown_preview="github" -->
+
+- [Allowed HTML elements](#allowed-html-elements)
+- [Installation](#installation)
+- [Usage](#usage)
+  - [Options \(`docxExportOptions?: DeepPartial`\)](#options-docxexportoptions-deeppartial)
+    - [`page: PageOptions`](#page-pageoptions)
+    - [`font: FontOptions`](#font-fontoptions)
+    - [`table: TableOptions`](#table-tableoptions)
+    - [`images: ImageMap | undefined`](#images-imagemap--undefined)
+    - [`verticalSpaces: number`](#verticalspaces-number)
+    - [`ignoreIndentation: boolean`](#ignoreindentation-boolean)
+  - [Supported types of top-level content](#supported-types-of-top-level-content)
+    - [Plain text](#plain-text)
+    - [Inline elements](#inline-elements)
+    - [Block elements-containers](#block-elements-containers)
+    - [Block elements](#block-elements)
+    - [Custom elements](#custom-elements)
+  - [Supported element specs](#supported-element-specs)
+    - [`div, article, section`](#div-article-section)
+    - [`p`](#p)
+    - [`h1-h6`](#h1-h6)
+    - [`ul, ol`](#ul-ol)
+    - [`li`](#li)
+    - [`figure`](#figure)
+    - [`img`](#img)
+    - [`blockquote`](#blockquote)
+    - [`table`](#table)
+    - [`caption`](#caption)
+    - [`thead`](#thead)
+    - [`tbody`](#tbody)
+    - [`tfoot`](#tfoot)
+    - [`tr`](#tr)
+    - [`colgroup`](#colgroup)
+    - [`td, th`](#td-th)
+    - [`col`](#col)
+    - [`br`](#br)
+    - [`strong`, `b`](#strong-b)
+    - [`i`, `em`](#i-em)
+    - [`u`](#u)
+    - [`s`](#s)
+    - [`del`](#del)
+    - [`span`](#span)
+    - [`sub`](#sub)
+    - [`sub`](#sub-1)
+    - [`a`](#a)
+    - [`page-break`](#page-break)
+    - [`table-of-contents`](#table-of-contents)
+- [Contributors](#contributors)
+
+<!-- /MarkdownTOC -->
+
+</details>
+
 
 ## Allowed HTML elements
 
