@@ -14,6 +14,7 @@ export const supportedTextTypes: InlineTextType[] = [
   'i',
   'u',
   's',
+  'del',
   'a',
   'b',
   'em',
@@ -31,6 +32,7 @@ const inlineTextOptionsDictionary: { [key in InlineTextType]: IRunOptions } = {
   i: { italics: true },
   u: { underline: { type: UnderlineType.SINGLE } },
   s: { strike: true },
+  del: { strike: true },
   a: {
     color: LINK_TEXT_COLOR,
     underline: { type: UnderlineType.SINGLE },
