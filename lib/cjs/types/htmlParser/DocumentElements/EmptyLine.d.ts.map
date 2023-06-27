@@ -1,0 +1,1 @@
+{"version":3,"file":"EmptyLine.d.ts","sourceRoot":"","sources":["../../../../../src/htmlParser/DocumentElements/EmptyLine.ts"],"names":[],"mappings":"AAAA,OAAO,EAAE,SAAS,EAAE,MAAM,MAAM,CAAC;AACjC,OAAO,EAAE,eAAe,EAAE,mBAAmB,EAAE,MAAM,mBAAmB,CAAC;AAEzE,qBAAa,SAAU,YAAW,eAAe;IAC/C,IAAI,EAAE,mBAAmB,CAAgB;IAEzC,UAAU,IAAI,eAAe,EAAE;IAI/B,eAAe;CAGhB"}

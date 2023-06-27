@@ -11,8 +11,9 @@ export declare class Document {
     transformToDocx(): DocxDocument;
     private getStyles;
     private getNumberingConfig;
+    private generateNumbering;
     private getDefaultSectionsProperties;
     private get footer();
-    private getHeadingFontSettings;
+    private getFontSettings;
 }
 //# sourceMappingURL=Document.d.ts.map

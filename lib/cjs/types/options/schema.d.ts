@@ -131,6 +131,7 @@ export declare const userOptionsSchema: z.ZodObject<{
             bottom?: number | undefined;
         } | undefined;
     }>>;
+    ignoreIndentation: z.ZodOptional<z.ZodBoolean>;
 }, "strict", z.ZodTypeAny, {
     page?: {
         number?: boolean | undefined;
@@ -166,6 +167,7 @@ export declare const userOptionsSchema: z.ZodObject<{
             bottom?: number | undefined;
         } | undefined;
     } | undefined;
+    ignoreIndentation?: boolean | undefined;
 }, {
     page?: {
         number?: boolean | undefined;
@@ -201,5 +203,6 @@ export declare const userOptionsSchema: z.ZodObject<{
             bottom?: number | undefined;
         } | undefined;
     } | undefined;
+    ignoreIndentation?: boolean | undefined;
 }>;
 //# sourceMappingURL=schema.d.ts.map

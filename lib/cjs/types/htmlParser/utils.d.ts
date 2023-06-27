@@ -38,5 +38,7 @@ export declare const parsePaddingsMergedValue: (padding: string) => {
 };
 export declare type SizeUnit = 'px' | 'pt' | 'em' | 'rem' | 'vh' | 'vw' | '%' | 'auto';
 export declare const parseSizeValue: (value: string | number) => [number, SizeUnit];
+export declare const hasSpacesAtStart: (str: string) => boolean;
+export declare const hasSpacesAtEnd: (str: string) => boolean;
 export {};
 //# sourceMappingURL=utils.d.ts.map

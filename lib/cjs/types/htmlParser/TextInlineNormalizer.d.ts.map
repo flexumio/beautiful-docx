@@ -1,0 +1,1 @@
+{"version":3,"file":"TextInlineNormalizer.d.ts","sourceRoot":"","sources":["../../../../src/htmlParser/TextInlineNormalizer.ts"],"names":[],"mappings":"AAAA,OAAO,EAAE,eAAe,EAAc,MAAM,oBAAoB,CAAC;AAGjE,qBAAa,oBAAoB;IAGnB,OAAO,CAAC,KAAK;IAFzB,OAAO,CAAC,QAAQ,CAAyB;gBAErB,KAAK,EAAE,eAAe,EAAE;IAE5C,SAAS;IAoDT,OAAO,CAAC,cAAc;IAQtB,OAAO,CAAC,QAAQ;IAIhB,OAAO,CAAC,0BAA0B;CAWnC"}
