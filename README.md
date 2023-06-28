@@ -23,17 +23,78 @@ The library is writted with TypeScript and is fully covered with unit tests.
 
 ## Example
 
-Here's an [example](./example/exampleText.ts) of an HTML document that allows you to generate to following file (utilizing these [parameters](./example/example.ts)):
+Here's an [example](./example/exampleText.ts) of an HTML document that allows you to generate the following file (utilizing these [parameters](./example/example.ts)):
 
 [<img src="./example/example.png" alt="beautiful-docx logo">](./example/example.png)
 
+
+## Table of Contents
+
+<details>
+  <summary>Click to open TOC</summary>
+
+<!-- MarkdownTOC autolink="true" markdown_preview="github" -->
+
+- [Allowed HTML elements](#allowed-html-elements)
+- [Installation](#installation)
+- [Usage](#usage)
+  - [Options \(`docxExportOptions?: DeepPartial`\)](#options-docxexportoptions-deeppartial)
+    - [`page: PageOptions`](#page-pageoptions)
+    - [`font: FontOptions`](#font-fontoptions)
+    - [`table: TableOptions`](#table-tableoptions)
+    - [`images: ImageMap | undefined`](#images-imagemap--undefined)
+    - [`verticalSpaces: number`](#verticalspaces-number)
+    - [`ignoreIndentation: boolean`](#ignoreindentation-boolean)
+  - [Supported types of top-level content](#supported-types-of-top-level-content)
+    - [Plain text](#plain-text)
+    - [Inline elements](#inline-elements)
+    - [Block elements-containers](#block-elements-containers)
+    - [Block elements](#block-elements)
+    - [Custom elements](#custom-elements)
+  - [Supported element specs](#supported-element-specs)
+    - [`div, article, section`](#div-article-section)
+    - [`p`](#p)
+    - [`h1-h6`](#h1-h6)
+    - [`ul, ol`](#ul-ol)
+    - [`li`](#li)
+    - [`figure`](#figure)
+    - [`img`](#img)
+    - [`blockquote`](#blockquote)
+    - [`table`](#table)
+    - [`caption`](#caption)
+    - [`thead`](#thead)
+    - [`tbody`](#tbody)
+    - [`tfoot`](#tfoot)
+    - [`tr`](#tr)
+    - [`colgroup`](#colgroup)
+    - [`td, th`](#td-th)
+    - [`col`](#col)
+    - [`br`](#br)
+    - [`strong`, `b`](#strong-b)
+    - [`i`, `em`](#i-em)
+    - [`u`](#u)
+    - [`s`](#s)
+    - [`del`](#del)
+    - [`span`](#span)
+    - [`sub`](#sub)
+    - [`sub`](#sub-1)
+    - [`a`](#a)
+    - [`page-break`](#page-break)
+    - [`table-of-contents`](#table-of-contents)
+- [Contributors](#contributors)
+
+<!-- /MarkdownTOC -->
+
+</details>
+
+
 ## Allowed HTML elements
 
-**Supported**: a, article, blockquote, br, caption, col, colgroup, div, figure, h1-h6, i, img, li, ol, p, s, section, strong, table, tbody, td, tfoot, th, tr, u, ul, em, span, sub, sup, b, pre, aside, html, body, main, header, footer, nav
+**Supported**: a, article, blockquote, br, caption, col, colgroup, div, figure, h1-h6, i, img, li, ol, p, s, del, section, strong, table, tbody, td, tfoot, th, tr, u, ul, em, span, sub, sup, b, pre, aside, html, body, main, header, footer, nav
 
 **Custom elements:** page-break, table-of-contents
 
-**Unsupported:** abbr, address, cite, code, dd, del, din, dl, dt, figcaption, hr, ins, kbd, mark, picture, q, small, time
+**Unsupported:** abbr, address, cite, code, dd, din, dl, dt, figcaption, hr, ins, kbd, mark, picture, q, small, time
 
 ## Installation
 
@@ -1393,6 +1454,40 @@ If there are containers in the root of the document or tags - it is wrapped in a
 ```tsx
 const html = `
 <p>some text <s>strikethrough</s><p>
+`;
+```
+
+#### `del`
+
+Inline element. Makes the text crossed out.
+
+**Can be nested in:**
+
+- document root
+- container element
+- `li`
+- `blockquote`
+- `caption`
+- `td`
+- `p`
+- `h1-h6`
+
+If there are containers in the root of the document or tags - it is wrapped in a paragraph, which is why it is displayed from a new line.
+
+**Supported content:**
+
+- plain text
+- inline-tags
+
+**Attributes**: not supported
+
+**Inline-styles**: not supported
+
+**Example**:
+
+```tsx
+const html = `
+<p>some text <del>strikethrough</del><p>
 `;
 ```
 
