@@ -22,17 +22,18 @@ export class Document {
   constructor(public exportOptions: DocxExportOptions, public children: DocumentElement[]) {}
 
   transformToDocx() {
+    const children = this.children.flatMap(i => i.transformToDocx()) as Paragraph[];
     return new DocxDocument({
       features: { updateFields: true },
       styles: this.getStyles(),
-      numbering: this.getNumberingConfig(),
+      numbering: { config: this.getNumberingConfig() },
       sections: [
         {
           properties: this.getDefaultSectionsProperties(),
           footers: {
             default: this.footer.transformToDocx(),
           },
-          children: this.children.flatMap(i => i.transformToDocx()) as Paragraph[],
+          children,
         },
       ],
     });
@@ -72,14 +73,12 @@ export class Document {
   }
 
   private getNumberingConfig() {
-    return {
-      config: [
-        {
-          reference: DEFAULT_NUMBERING_REF,
-          levels: this.generateNumbering(),
-        },
-      ],
-    };
+    return this.exportOptions.numberingReference.map(reference => {
+      return {
+        reference: reference,
+        levels: this.generateNumbering(),
+      };
+    });
   }
 
   private generateNumbering() {

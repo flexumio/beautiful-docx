@@ -7,6 +7,7 @@ import { ListItem } from './ListItem';
 
 import { TextBlock } from './TextBlock';
 import { TextInline } from './TextInline';
+import { getUUID } from '../utils';
 
 export class List implements DocumentElement {
   type: DocumentElementType = 'list';
@@ -22,8 +23,10 @@ export class List implements DocumentElement {
         break;
       }
       case 'ol': {
+        const reference = `${DEFAULT_NUMBERING_REF}-${getUUID()}`;
+        this.exportOptions.numberingReference.push(reference);
         this.childrenOptions = {
-          numbering: { reference: DEFAULT_NUMBERING_REF, level },
+          numbering: { reference, level },
         };
         this.children = this.getList(element.children);
         break;

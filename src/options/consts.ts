@@ -1,5 +1,6 @@
 import { AlignmentType, NumberFormat } from 'docx';
 import { DocxExportOptions, PageFormatSizes, PageOrientation } from './types';
+import { DEFAULT_NUMBERING_REF } from '../htmlParser/DocumentElements';
 
 export const PageFormat: PageFormatSizes = {
   A3: { width: 11.7, height: 16.5 },
@@ -55,5 +56,6 @@ export const defaultExportOptions: DocxExportOptions = {
   },
   verticalSpaces: 1,
   table: { cellPaddings: defaultTableCellPaddings },
+  numberingReference: [DEFAULT_NUMBERING_REF],
   ignoreIndentation: true,
 };
