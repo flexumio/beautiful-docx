@@ -44,7 +44,7 @@
     "axios": "^0.27.2",
     "colortranslator": "^1.9.2",
     "deepmerge": "^4.2.2",
-    "docx": "^7.4.0",
+    "docx": "^7.8.2",
     "himalaya": "^1.1.0",
     "image-size": "^1.0.1",
     "jest": "^28.1.2",
