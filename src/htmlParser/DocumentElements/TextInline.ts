@@ -1,9 +1,10 @@
-import { Element, Node } from 'himalaya';
-import { ExternalHyperlink, IRunOptions, ParagraphChild, TextRun, UnderlineType } from 'docx';
+import { Element, Node, Styles } from 'himalaya';
+import { ExternalHyperlink, IRunOptions, ParagraphChild, ShadingType, TextRun, UnderlineType } from 'docx';
 
-import { cleanTextContent } from '../utils';
+import { cleanTextContent, getAttributeMap, parseStyles } from '../utils';
 
 import { InlineTextType, DocumentElement } from './DocumentElement';
+import { ColorTranslator } from 'colortranslator';
 
 const LINK_TEXT_COLOR = '2200CC';
 
@@ -65,7 +66,12 @@ export class TextInline implements DocumentElement {
       throw new Error(`Unsupported ${this.element.tagName} tag`);
     }
 
-    this.options = { ...this.options, ...inlineTextOptionsDictionary[this.element.tagName as InlineTextType] };
+    this.options = {
+      color: this.textColor,
+      shading: this.textShading,
+      ...this.options,
+      ...inlineTextOptionsDictionary[this.element.tagName as InlineTextType],
+    };
 
     this.content = this.element.children.flatMap(i => {
       return new TextInline(i, this.options).getContent();
@@ -103,5 +109,39 @@ export class TextInline implements DocumentElement {
         return content.transformToDocx();
       }
     });
+  }
+
+  private get textColor() {
+    const textAttr = getAttributeMap(this.element.attributes);
+    const styles = parseStyles(textAttr['style']);
+    const color = styles['color'];
+    if (color) {
+      const textColorTranslator = new ColorTranslator(color);
+      return textColorTranslator.HEX;
+    }
+    return undefined;
+  }
+  private get textShading() {
+    const textAttr = getAttributeMap(this.element.attributes);
+    const styles = parseStyles(textAttr['style']);
+    const backgroundColor = styles['background-color'];
+    const color = styles['color'];
+    if (backgroundColor || color) {
+      const shading = {
+        fill: 'auto',
+        color: 'auto',
+        type: ShadingType.CLEAR,
+      };
+      if (backgroundColor) {
+        const backgroundColorTranslator = new ColorTranslator(backgroundColor);
+        shading.fill = backgroundColorTranslator.HEX;
+      }
+      if (color) {
+        const textColorTranslator = new ColorTranslator(color);
+        shading.color = textColorTranslator.HEX;
+      }
+      return shading;
+    }
+    return undefined;
   }
 }
