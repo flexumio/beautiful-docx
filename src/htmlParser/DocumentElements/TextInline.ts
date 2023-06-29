@@ -1,4 +1,4 @@
-import { Element, Node, Styles } from 'himalaya';
+import { Element, Node, Attribute } from 'himalaya';
 import { ExternalHyperlink, IRunOptions, ParagraphChild, ShadingType, TextRun, UnderlineType } from 'docx';
 
 import { cleanTextContent, getAttributeMap, parseStyles } from '../utils';
@@ -48,7 +48,7 @@ export class TextInline implements DocumentElement {
   content: (string | DocumentElement)[];
   isEmpty = false;
 
-  constructor(private element: Node, public options: IRunOptions = {}) {
+  constructor(private element: Node & { attributes?: [Attribute] }, public options: IRunOptions = {}) {
     if (this.element.type === 'text') {
       this.content = [this.element.content];
       this.type = 'text';
@@ -112,6 +112,7 @@ export class TextInline implements DocumentElement {
   }
 
   private get textColor() {
+    if (!this.element.attributes) return undefined;
     const textAttr = getAttributeMap(this.element.attributes);
     const styles = parseStyles(textAttr['style']);
     const color = styles['color'];
@@ -122,6 +123,7 @@ export class TextInline implements DocumentElement {
     return undefined;
   }
   private get textShading() {
+    if (!this.element.attributes) return undefined;
     const textAttr = getAttributeMap(this.element.attributes);
     const styles = parseStyles(textAttr['style']);
     const backgroundColor = styles['background-color'];
