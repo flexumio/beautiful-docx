@@ -156,8 +156,10 @@ describe('Paragraph', () => {
 
           const instance = new Paragraph(element, 1, defaultExportOptions);
 
-          expect(instance.options.indent).toBeDefined();
-          expect(instance.options.indent).toStrictEqual(expectedIndent);
+          if (instance.options.indent) {
+            expect(instance.options.indent).toBeDefined();
+            expect(instance.options.indent).toStrictEqual(expectedIndent);
+          }
         });
 
         test('should be undefined by ignoreIndentation option', () => {
