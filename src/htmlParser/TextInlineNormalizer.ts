@@ -1,4 +1,5 @@
-import { DocumentElement, TextInline } from './DocumentElements';
+import { DocumentElement } from './DocumentElements';
+import { TextInline } from './DocumentElements/TextInline';
 import { hasSpacesAtEnd, hasSpacesAtStart } from './utils';
 
 export class TextInlineNormalizer {

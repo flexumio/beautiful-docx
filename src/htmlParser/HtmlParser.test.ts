@@ -145,6 +145,28 @@ describe('HtmlParser', () => {
       expect(content[0]).toBeInstanceOf(Header);
     });
 
+    test('tag "h5"', () => {
+      const html = '<h5>h5</h5>';
+      const element = parse(html)[0] as Element;
+
+      const content = instance.parseTopLevelElement(element, 0);
+
+      expect(content).toBeInstanceOf(Array);
+      expect(content.length).toBe(1);
+      expect(content[0]).toBeInstanceOf(Header);
+    });
+
+    test('tag "h6"', () => {
+      const html = '<h6>h6</h6>';
+      const element = parse(html)[0] as Element;
+
+      const content = instance.parseTopLevelElement(element, 0);
+
+      expect(content).toBeInstanceOf(Array);
+      expect(content.length).toBe(1);
+      expect(content[0]).toBeInstanceOf(Header);
+    });
+
     test('tag "ul"', () => {
       const html = '<ul><li>li</li></ul>';
       const element = parse(html)[0] as Element;

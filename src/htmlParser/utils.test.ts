@@ -1,9 +1,11 @@
 import { AlignmentType } from 'docx';
 
 import * as utils from './utils';
+import { getIndent } from './utils';
 const {
   convertPixelsToPoints,
   convertPixelsToTwip,
+  convertPointsToTwip,
   parsePaddings,
   parsePaddingsMergedValue,
   parseTextAlignment,
@@ -11,6 +13,7 @@ const {
   convertPointsToPixels,
   parseSizeValue,
 } = utils;
+import { defaultExportOptions } from '../options';
 
 describe('convertPixelsToPoints', () => {
   test('convert string pixels', () => {
@@ -116,6 +119,12 @@ describe('convertPixelsToTwip', () => {
   const expectedResult = 15;
 
   expect(convertPixelsToTwip(1)).toBe(expectedResult);
+});
+
+describe('convertMillimetersToTwip', () => {
+  const expectedResult = 20;
+
+  expect(convertPointsToTwip(1)).toBe(expectedResult);
 });
 
 describe('parsePaddingsMergedValue', () => {
@@ -286,5 +295,33 @@ describe('parseSizeValue', () => {
     } catch (e) {
       expect((e as Error).message).toBe('Invalid units');
     }
+  });
+});
+
+describe('getIndent', () => {
+  const optionsWithIndent = defaultExportOptions;
+  const optionsWithoutIndent = {
+    ...defaultExportOptions,
+    ignoreIndentation: false,
+  };
+  const paragraphIndex = 1;
+
+  test('should return undefined when paragraph index is 0', () => {
+    const result = getIndent(0, optionsWithoutIndent);
+
+    expect(result).toBeUndefined();
+  });
+
+  test('should return undefined when ignoreIndentation is true', () => {
+    const result = getIndent(paragraphIndex, optionsWithIndent);
+
+    expect(result).toBeUndefined();
+  });
+
+  test('should call convertMillimetersToTwip and return the expected result', () => {
+    const expectedResult = 340;
+    const result = getIndent(paragraphIndex, optionsWithoutIndent);
+
+    expect(result).toEqual({ firstLine: expectedResult });
   });
 });
