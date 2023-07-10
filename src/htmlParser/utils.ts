@@ -73,6 +73,14 @@ export const convertTwipToPixels = (twip: number): number => {
   return Math.floor(twip / 15);
 };
 
+export const convertEmuToMillimeters = (emu: number): number => {
+  return Math.floor(emu / 36000);
+};
+
+export const convertMillimetersToEmu = (millimeters: number): number => {
+  return Math.floor(millimeters * 36000);
+};
+
 export const convertPointsToTwip = (points: number): number => {
   const twipPerPoint = 20;
   return points * twipPerPoint;
