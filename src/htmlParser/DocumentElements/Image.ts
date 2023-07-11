@@ -14,7 +14,7 @@ import {
 } from 'docx';
 import { Element, Styles } from 'himalaya';
 import { DocxExportOptions } from '../../options';
-import { convertTwipToPixels, getAttributeMap, getPageWidth, parseStyles } from '../utils';
+import { convertTwipToPixels, convertMillimetersToEmu, getAttributeMap, getPageWidth, parseStyles } from '../utils';
 import { DocumentElement, DocumentElementType } from './DocumentElement';
 import { TextBlock } from './TextBlock';
 
@@ -178,7 +178,7 @@ export class Image implements DocumentElement {
   }
 
   private get margins() {
-    const MARGIN_VALUE = 181142; // ~0.5sm. Calculated by trial and error.
+    const MARGIN_VALUE = convertMillimetersToEmu(5);
     if (this.style.float === 'left') {
       return {
         top: 0,
