@@ -1,6 +1,7 @@
 import { defaultExportOptions, IParagraphOptions } from '../../options';
 import { Element, parse } from 'himalaya';
 import { ListItem, TextInline } from '.';
+import { Paragraph } from 'docx';
 
 describe('ListItem', () => {
   const bulletListItemOptions: IParagraphOptions = {
@@ -112,6 +113,14 @@ describe('ListItem', () => {
 
         expect(content).toBeInstanceOf(Array);
         expect(isContentListItems).toBeTruthy();
+      });
+
+      test('transformToDocx should return array with Paragraph elements', () => {
+        const result = instance.transformToDocx();
+        const isChildrenParagraph = result.every(child => child instanceof Paragraph);
+
+        expect(result).toBeInstanceOf(Array);
+        expect(isChildrenParagraph).toBe(true);
       });
 
       test('children should be array with TextInline elements', () => {
