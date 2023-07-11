@@ -6,6 +6,8 @@ const {
   convertPixelsToPoints,
   convertPixelsToTwip,
   convertPointsToTwip,
+  convertEmuToMillimeters,
+  convertMillimetersToEmu,
   parsePaddings,
   parsePaddingsMergedValue,
   parseTextAlignment,
@@ -125,6 +127,18 @@ describe('convertMillimetersToTwip', () => {
   const expectedResult = 20;
 
   expect(convertPointsToTwip(1)).toBe(expectedResult);
+});
+
+describe('convertEmuToMillimeters', () => {
+  const expectedResult = 1;
+
+  expect(convertEmuToMillimeters(36000)).toBe(expectedResult);
+});
+
+describe('convertMillimetersToEmu', () => {
+  const expectedResult = 36000;
+
+  expect(convertMillimetersToEmu(1)).toBe(expectedResult);
 });
 
 describe('parsePaddingsMergedValue', () => {
