@@ -14,6 +14,7 @@ const {
   PIXELS_TO_POINT_RATIO,
   convertPointsToPixels,
   parseSizeValue,
+  getAttributeMap,
 } = utils;
 import { defaultExportOptions } from '../options';
 
@@ -338,4 +339,13 @@ describe('getIndent', () => {
 
     expect(result).toEqual({ firstLine: expectedResult });
   });
+});
+
+test('create AttributeMap from attributes without values', () => {
+  const expectedResult = { src: '', alt: '' };
+
+  const attributes = [{ key: 'src' }, { key: 'alt' }];
+  const result = getAttributeMap(attributes);
+
+  expect(result).toStrictEqual(expectedResult);
 });

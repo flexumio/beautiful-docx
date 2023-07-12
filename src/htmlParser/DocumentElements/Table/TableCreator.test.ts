@@ -162,7 +162,7 @@ describe('TableCreator', () => {
       expect(instance.options.width?.size).toBe(expectedWidthInTwip);
     });
 
-    test('should support pt value', () => {
+    test('should support pt value, width < pageWidth', () => {
       const html = `
       <table style="width: 10pt">
         <tbody>
@@ -178,7 +178,25 @@ describe('TableCreator', () => {
       expect(instance.options.width).toBeDefined();
       expect(instance.options.width?.size).toBe(expectedWidthInTwip);
     });
-    test('should support px value', () => {
+
+    test('should support pt value, width > pageWidth', () => {
+      const html = `
+      <table style="width: 1000pt">
+        <tbody>
+          <tr><td>First</td></tr>
+        </tbody>
+      </table>
+      `;
+      const expectedWidthInTwip = 9072;
+
+      const element = parse(html).find(i => i.type === 'element' && i.tagName === 'table') as Element;
+
+      const instance = new TableCreator(element, defaultExportOptions);
+      expect(instance.options.width).toBeDefined();
+      expect(instance.options.width?.size).toBe(expectedWidthInTwip);
+    });
+
+    test('should support px value, width < pageWidth', () => {
       const html = `
       <table style="width: 10px">
         <tbody>
@@ -196,7 +214,25 @@ describe('TableCreator', () => {
       expect(instance.options.width?.size).toBe(expectedWidthInTwip);
     });
 
-    test('should support em value', () => {
+    test('should support px value, width > pageWidth', () => {
+      const html = `
+      <table style="width: 10000px">
+        <tbody>
+          <tr><td>First</td></tr>
+        </tbody>
+      </table>
+      `;
+      const expectedWidthInTwip = 9072;
+
+      const element = parse(html).find(i => i.type === 'element' && i.tagName === 'table') as Element;
+
+      const instance = new TableCreator(element, defaultExportOptions);
+
+      expect(instance.options.width).toBeDefined();
+      expect(instance.options.width?.size).toBe(expectedWidthInTwip);
+    });
+
+    test('should support em value, width < pageWidth', () => {
       const html = `
       <table style="width: 10em">
         <tbody>
@@ -214,7 +250,25 @@ describe('TableCreator', () => {
       expect(instance.options.width?.size).toBe(expectedWidthInTwip);
     });
 
-    test('should support rem value', () => {
+    test('should support em value, width > pageWidth', () => {
+      const html = `
+      <table style="width: 100em">
+        <tbody>
+          <tr><td>First</td></tr>
+        </tbody>
+      </table>
+      `;
+      const expectedWidthInTwip = 9072;
+
+      const element = parse(html).find(i => i.type === 'element' && i.tagName === 'table') as Element;
+
+      const instance = new TableCreator(element, defaultExportOptions);
+
+      expect(instance.options.width).toBeDefined();
+      expect(instance.options.width?.size).toBe(expectedWidthInTwip);
+    });
+
+    test('should support rem value, width < pageWidth', () => {
       const html = `
       <table style="width: 10rem">
         <tbody>
@@ -223,6 +277,24 @@ describe('TableCreator', () => {
       </table>
       `;
       const expectedWidthInTwip = 2400;
+
+      const element = parse(html).find(i => i.type === 'element' && i.tagName === 'table') as Element;
+
+      const instance = new TableCreator(element, defaultExportOptions);
+
+      expect(instance.options.width).toBeDefined();
+      expect(instance.options.width?.size).toBe(expectedWidthInTwip);
+    });
+
+    test('should support rem value, width > pageWidth', () => {
+      const html = `
+      <table style="width: 100rem">
+        <tbody>
+          <tr><td>First</td></tr>
+        </tbody>
+      </table>
+      `;
+      const expectedWidthInTwip = 9072;
 
       const element = parse(html).find(i => i.type === 'element' && i.tagName === 'table') as Element;
 

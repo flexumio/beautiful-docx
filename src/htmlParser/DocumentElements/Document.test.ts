@@ -1,5 +1,5 @@
 import { Document as DocxDocument } from 'docx';
-import { defaultExportOptions } from '../../options';
+import { DocxExportOptions, defaultExportOptions } from '../../options';
 import { HtmlParser } from '../HtmlParser';
 import { Document } from './Document';
 
@@ -18,4 +18,18 @@ describe('Document', () => {
 
     expect(docx).toBeInstanceOf(DocxDocument);
   });
+});
+
+test('create Docx without numbering', async () => {
+  const html = '<p>Paragraph</p>';
+  const options: DocxExportOptions = {
+    ...defaultExportOptions,
+    page: { ...defaultExportOptions.page, numbering: false },
+  };
+  const documentContent = await new HtmlParser(options).parse(html);
+
+  const instance = new Document(options, documentContent);
+  const docx = instance.transformToDocx();
+
+  expect(docx).toBeInstanceOf(DocxDocument);
 });
