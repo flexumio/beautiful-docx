@@ -86,6 +86,7 @@ export class HtmlParser {
       case 'i':
       case 'em':
       case 'u':
+      case 'del':
       case 's':
       case 'span':
       case 'sup':
