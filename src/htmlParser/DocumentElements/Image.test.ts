@@ -155,6 +155,29 @@ describe('Image', () => {
           expect(instance.options.transformation.width.toFixed()).toBe(expectedWidth);
           expect(instance.options.transformation.height.toFixed()).toBe(expectedHeight);
         });
+
+        test('width > pageWidth', async () => {
+          const html = `
+          <figure class='image'>
+            <img style="width: 10000px" src='${imageSourceUrl}'/>
+          </figure>;
+        `;
+
+          const element = parse(html).find(i => i.type === 'element' && i.tagName === 'figure') as Element;
+
+          const exportOptions: DocxExportOptions = {
+            ...defaultExportOptions,
+            images: {
+              [imageSourceUrl]: imageBuffer,
+            },
+          };
+
+          const expectedWidth = '9072';
+
+          const instance = new Image(element, exportOptions);
+
+          expect(instance.options.transformation.width.toFixed()).toBe(expectedWidth);
+        });
       });
     });
 

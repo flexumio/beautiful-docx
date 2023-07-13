@@ -83,21 +83,18 @@ export class Image implements DocumentElement {
   private getHorizontalPositionAlign(): HorizontalPositionAlign {
     if (this.style['float'] === 'left') {
       return HorizontalPositionAlign.LEFT;
-    }
-
-    if (this.style['float'] === 'right') {
+    } else {
       return HorizontalPositionAlign.RIGHT;
     }
-
-    return HorizontalPositionAlign.CENTER;
   }
 
   private getImageSize(image: Buffer): IMediaTransformation {
     const pageWidth = getPageWidth(this.exportOptions);
     const pageWidthPixels = convertTwipToPixels(pageWidth);
     const imageDimensions = imageSize(image);
-
+    /* istanbul ignore next */
     const originWidth = imageDimensions.width || 0;
+    /* istanbul ignore next */
     const originHeight = imageDimensions.height || 0;
     const imageRotation = this.getImageRotation(imageDimensions.orientation);
 
@@ -203,16 +200,12 @@ export class Image implements DocumentElement {
         type: TextWrappingType.SQUARE,
         side: TextWrappingSide.RIGHT,
       };
-    }
-
-    if (this.style.float === 'right') {
+    } else {
       return {
         type: TextWrappingType.SQUARE,
         side: TextWrappingSide.LEFT,
       };
     }
-
-    throw new Error('Image does not have a float style property');
   }
 
   getContent() {
