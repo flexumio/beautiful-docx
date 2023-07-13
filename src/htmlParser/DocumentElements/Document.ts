@@ -14,7 +14,6 @@ import { DocumentFooter } from './DocumentFooter';
 const FONT_RATIO = 2;
 export const FONT_TO_LINE_RATIO = 10 * FONT_RATIO;
 export const PAGE_TITLE_STYLE_ID = 'PageTitle';
-export const DEFAULT_NUMBERING_REF = 'default-numbering';
 const OL_START_INDENT = 350;
 const OL_HANGING_INDENT = 260;
 
