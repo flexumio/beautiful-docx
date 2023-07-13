@@ -246,3 +246,11 @@ export const hasSpacesAtStart = (str: string): boolean => {
 export const hasSpacesAtEnd = (str: string): boolean => {
   return str.trimEnd() !== str;
 };
+
+export const getUUID = (): string => {
+  return (
+    Math.random().toString(16).substring(2) +
+    Math.random().toString(16).substring(2) +
+    new Date().getTime().toString(16)
+  ).substr(0, 32);
+};
