@@ -23,6 +23,7 @@ export class TextInlineNormalizer {
 
         const prevChild = this.children[idx - 1];
 
+        /* istanbul ignore next */
         if (!this.isInline(prevChild)) {
           return this.processDefault(i);
         }
