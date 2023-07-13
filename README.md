@@ -77,7 +77,7 @@ Here's an [example](./example/exampleText.ts) of an HTML document that allows yo
     - [`del`](#del)
     - [`span`](#span)
     - [`sub`](#sub)
-    - [`sub`](#sub-1)
+    - [`sup`](#sup)
     - [`a`](#a)
     - [`page-break`](#page-break)
     - [`table-of-contents`](#table-of-contents)
@@ -1345,7 +1345,10 @@ If there are containers in the root of the document or tags - it is wrapped in a
 
 **Attributes**: not supported
 
-**Inline-styles**: not supported
+**Inline-styles**:
+
+- `color`
+- `background-color`
 
 **Example**:
 
@@ -1379,7 +1382,10 @@ If there are containers in the root of the document or tags - it is wrapped in a
 
 **Attributes**: not supported
 
-**Inline-styles**: not supported
+**Inline-styles**:
+
+- `color`
+- `background-color`
 
 **Example**:
 
@@ -1413,7 +1419,10 @@ If there are containers in the root of the document or tags - it is wrapped in a
 
 **Attributes**: not supported
 
-**Inline-styles**: not supported
+**Inline-styles**:
+
+- `color`
+- `background-color`
 
 **Example**:
 
@@ -1447,7 +1456,10 @@ If there are containers in the root of the document or tags - it is wrapped in a
 
 **Attributes**: not supported
 
-**Inline-styles**: not supported
+**Inline-styles**:
+
+- `color`
+- `background-color`
 
 **Example**:
 
@@ -1481,7 +1493,10 @@ If there are containers in the root of the document or tags - it is wrapped in a
 
 **Attributes**: not supported
 
-**Inline-styles**: not supported
+**Inline-styles**:
+
+- `color`
+- `background-color`
 
 **Example**:
 
@@ -1515,7 +1530,10 @@ If there are containers in the root of the document or tags - it is wrapped in a
 
 **Attributes**: not supported
 
-**Inline-styles**: not supported
+**Inline-styles**:
+
+- `color`
+- `background-color`
 
 **Example**:
 
@@ -1549,7 +1567,10 @@ If there are containers in the root of the document or tags - it is wrapped in a
 
 **Attributes**: not supported
 
-**Inline-styles**: not supported
+**Inline-styles**:
+
+- `color`
+- `background-color`
 
 **Example**:
 
@@ -1559,7 +1580,7 @@ const html = `
 `;
 ```
 
-#### `sub`
+#### `sup`
 
 Inline element. Defines superscript text.
 
@@ -1583,7 +1604,10 @@ If there are containers in the root of the document or tags - it is wrapped in a
 
 **Attributes**: not supported
 
-**Inline-styles**: not supported
+**Inline-styles**:
+
+- `color`
+- `background-color`
 
 **Example**:
 
