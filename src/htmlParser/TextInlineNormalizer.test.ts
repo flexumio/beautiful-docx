@@ -6,8 +6,8 @@ import { parse } from 'himalaya';
 describe('TextInlineNormalizer', () => {
   test('normalize method should handle default child correctly', () => {
     const html = `
-    <text>Text 1</text>
-    <text>Text 2</text>
+    <span>Text 1</span>
+    <span>Text 2</span>
   `;
     const nodes = parse(html);
     const children: DocumentElement[] = nodes.map(node => {
@@ -30,7 +30,7 @@ describe('TextInlineNormalizer', () => {
   describe('trim spaces', () => {
     test('first text has spaces at start', () => {
       const html = `
-          <text> Text 1</text>
+          <span> Text 1</span>
       `;
       const nodes = parse(html);
       const children: DocumentElement[] = nodes.map(node => {
@@ -47,8 +47,8 @@ describe('TextInlineNormalizer', () => {
 
     test('previous text has spaces at end && current text has spaces at start', () => {
       const html = `
-        <text>Text 1 </text>
-        <text> Text 2</text>
+        <span>Text 1 </span>
+        <span> Text 2</span>
     `;
       const nodes = parse(html);
       const children: DocumentElement[] = nodes.map(node => {
@@ -69,8 +69,8 @@ describe('TextInlineNormalizer', () => {
 
     test(`previous text has spaces at end && current text hasn't spaces at start`, () => {
       const html = `
-      <s>Text 1 </s>
-      <i>Text 2</i>
+      <span>Text 1 </span>
+      <span>Text 2</span>
   `;
       const nodes = parse(html);
       const children: DocumentElement[] = nodes.map(node => {
@@ -91,8 +91,8 @@ describe('TextInlineNormalizer', () => {
 
     test(`previous text hasn't spaces at end && current text has spaces at start`, () => {
       const html = `
-      <s>Text 1</s>
-      <i> Text 2</i>
+      <span>Text 1</span>
+      <span> Text 2</span>
   `;
       const nodes = parse(html);
       const children: DocumentElement[] = nodes.map(node => {
@@ -114,7 +114,7 @@ describe('TextInlineNormalizer', () => {
 
   test('child without content', () => {
     const html = `
-    <text><text></text></text>
+    <span><span></span></span>
 `;
     const nodes = parse(html);
     const children: DocumentElement[] = nodes.map(node => {

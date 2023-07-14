@@ -154,12 +154,10 @@ describe('Paragraph', () => {
           const element = parse(html).find(i => i.type === 'element' && i.tagName === 'p') as Element;
           const expectedIndent = { firstLine: convertMillimetersToTwip(FIRST_LINE_INDENT_MILLIMETERS) };
 
-          const instance = new Paragraph(element, 1, defaultExportOptions);
+          const instance = new Paragraph(element, 1, { ...defaultExportOptions, ignoreIndentation: false });
 
-          if (instance.options.indent) {
-            expect(instance.options.indent).toBeDefined();
-            expect(instance.options.indent).toStrictEqual(expectedIndent);
-          }
+          expect(instance.options.indent).toBeDefined();
+          expect(instance.options.indent).toStrictEqual(expectedIndent);
         });
 
         test('should be undefined by ignoreIndentation option', () => {
