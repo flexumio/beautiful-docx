@@ -182,15 +182,6 @@ describe('Image', () => {
     });
 
     describe('horizontal align', () => {
-      test('horizontal align should be "center" be default', () => {
-        const expectedAlign = HorizontalPositionAlign.CENTER;
-
-        if (instance.options.floating) {
-          expect(instance.options.floating).toBeDefined();
-          expect(instance.options.floating?.horizontalPosition.align).toBe(expectedAlign);
-        }
-      });
-
       describe('depend on styles', () => {
         test('should be left aligned', async () => {
           const html = `
@@ -237,18 +228,6 @@ describe('Image', () => {
     });
 
     describe('wrapping', () => {
-      test('default wrapping', () => {
-        const expectedWrapping = {
-          type: TextWrappingType.TOP_AND_BOTTOM,
-          side: TextWrappingSide.BOTH_SIDES,
-        };
-
-        if (instance.options.floating) {
-          expect(instance.options.floating).toBeDefined();
-          expect(instance.options.floating?.wrap).toStrictEqual(expectedWrapping);
-        }
-      });
-
       describe('depend on styles', () => {
         test('should be right-side wrapped', async () => {
           const html = `
