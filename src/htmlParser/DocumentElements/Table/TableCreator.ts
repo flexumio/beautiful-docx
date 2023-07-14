@@ -80,7 +80,7 @@ export class TableCreator implements DocumentElement {
           this.children.push(...this.parseTableRowsFragment(tableChild, false));
           break;
         case 'tr':
-          this.children.push(...new TableRow(tableChild, false, this.exportOptions).getContent());
+          this.children.push(...new TableRow(tableChild, false, this.columnWidth, this.exportOptions).getContent());
           break;
         case 'colgroup':
           this.setColGroup(tableChild);
@@ -105,7 +105,7 @@ export class TableCreator implements DocumentElement {
 
       switch (child.tagName) {
         case 'tr':
-          rows.push(...new TableRow(child, isHeader, this.exportOptions).getContent());
+          rows.push(...new TableRow(child, isHeader, this.columnWidth, this.exportOptions).getContent());
           break;
         default:
           throw new Error(`Unsupported table fragment element: ${child.tagName}`);

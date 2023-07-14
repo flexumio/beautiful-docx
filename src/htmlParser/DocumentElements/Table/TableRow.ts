@@ -10,8 +10,14 @@ export class TableRow implements DocumentElement {
   public children: DocumentElement[] = [];
   public options: ITableRowOptions;
 
-  constructor(element: Element, private isHeader: boolean, exportOptions: DocxExportOptions) {
+  constructor(
+    element: Element,
+    private isHeader: boolean,
+    private cellWidths: number[],
+    exportOptions: DocxExportOptions
+  ) {
     this.children = [];
+    let i = 0;
     for (const child of element.children) {
       if (child.type !== 'element') {
         continue;
@@ -20,11 +26,12 @@ export class TableRow implements DocumentElement {
       switch (child.tagName) {
         case 'th':
         case 'td':
-          this.children.push(...new Cell(child, exportOptions, isHeader).getContent());
+          this.children.push(...new Cell(child, exportOptions, isHeader, cellWidths[i]).getContent());
           break;
         default:
           throw new Error(`Unsupported row element: ${child.tagName}`);
       }
+      i++;
     }
     this.options = { tableHeader: this.isHeader, children: [] };
   }
