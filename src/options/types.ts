@@ -64,6 +64,7 @@ export type DocxExportOptions = {
   ignoreIndentation: boolean;
   images?: ImageMap;
   table: TableOptions;
+  numberingReference: string[];
 };
 
 export type TableOptions = {
