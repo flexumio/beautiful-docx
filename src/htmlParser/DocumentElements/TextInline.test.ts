@@ -254,8 +254,8 @@ describe('TextInline', () => {
   });
 
   test('created with color', () => {
-    const html = `<text style='color: #008000;'>text</text>`;
-    const element = parse(html).find(i => i.type === 'element' && i.tagName === 'text') as Element;
+    const html = `<span style='color: #008000;'>text</span>`;
+    const element = parse(html).find(i => i.type === 'element' && i.tagName === 'span') as Element;
 
     const instance = new TextInline(element);
 
@@ -264,8 +264,8 @@ describe('TextInline', () => {
   });
 
   test('created with background-color', () => {
-    const html = `<text style='background-color: #008000;'>text</text>`;
-    const element = parse(html).find(i => i.type === 'element' && i.tagName === 'text') as Element;
+    const html = `<span style='background-color: #008000;'>text</span>`;
+    const element = parse(html).find(i => i.type === 'element' && i.tagName === 'span') as Element;
 
     const instance = new TextInline(element);
     expect(instance.options.shading).toBeDefined();
@@ -273,8 +273,8 @@ describe('TextInline', () => {
   });
 
   test('created without attributes', () => {
-    const html = `<text>text</text>`;
-    const element = parse(html).find(i => i.type === 'element' && i.tagName === 'text') as Element;
+    const html = `<span>text</span>`;
+    const element = parse(html).find(i => i.type === 'element' && i.tagName === 'span') as Element;
 
     const instance = new TextInline(element);
     expect(instance.options.color).toBeUndefined();
