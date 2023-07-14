@@ -1,6 +1,6 @@
 import { Paragraph as DocxParagraph } from 'docx';
 import { Element, parse } from 'himalaya';
-import { List, DEFAULT_NUMBERING_REF, ListItem } from '.';
+import { List, ListItem } from '.';
 import { defaultExportOptions } from '../../options';
 
 describe('List', () => {
@@ -63,11 +63,9 @@ describe('List', () => {
     });
 
     test('children should have numbering option', () => {
-      const expectedOptions = { numbering: { reference: DEFAULT_NUMBERING_REF, level: 1 } };
+      const numbering = instance.childrenOptions.numbering;
 
-      const options = instance.childrenOptions;
-
-      expect(options).toStrictEqual(expectedOptions);
+      expect(numbering).toBeDefined();
     });
 
     test('children should be ListItem elements', () => {

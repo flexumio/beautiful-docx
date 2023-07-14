@@ -252,4 +252,32 @@ describe('TextInline', () => {
       expect((docx[0] as ExternalHyperlink).options.link).toBe('');
     });
   });
+
+  test('created with color', () => {
+    const html = `<span style='color: #008000;'>text</span>`;
+    const element = parse(html).find(i => i.type === 'element' && i.tagName === 'span') as Element;
+
+    const instance = new TextInline(element);
+
+    expect(instance.options.color).toBeDefined();
+    expect(instance.options.color).toBe('#008000');
+  });
+
+  test('created with background-color', () => {
+    const html = `<span style='background-color: #008000;'>text</span>`;
+    const element = parse(html).find(i => i.type === 'element' && i.tagName === 'span') as Element;
+
+    const instance = new TextInline(element);
+    expect(instance.options.shading).toBeDefined();
+    expect(instance.options.shading?.fill).toBe('#008000');
+  });
+
+  test('created without attributes', () => {
+    const html = `<span>text</span>`;
+    const element = parse(html).find(i => i.type === 'element' && i.tagName === 'span') as Element;
+
+    const instance = new TextInline(element);
+    expect(instance.options.color).toBeUndefined();
+    expect(instance.options.shading).toBeUndefined();
+  });
 });

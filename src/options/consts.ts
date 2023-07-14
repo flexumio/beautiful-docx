@@ -28,6 +28,8 @@ const defaultTableCellPaddings = {
   bottom: 5,
 };
 
+export const DEFAULT_NUMBERING_REF = 'default-numbering';
+
 export const defaultExportOptions: DocxExportOptions = {
   page: {
     orientation: PageOrientation.Portrait,
@@ -55,5 +57,6 @@ export const defaultExportOptions: DocxExportOptions = {
   },
   verticalSpaces: 1,
   table: { cellPaddings: defaultTableCellPaddings },
+  numberingReference: [DEFAULT_NUMBERING_REF],
   ignoreIndentation: true,
 };
