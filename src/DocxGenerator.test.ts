@@ -1,6 +1,6 @@
 import { DocxGenerator } from '.';
-import { exampleText } from '../example/exampleText';
 import { defaultExportOptions } from './options';
+import * as fs from 'fs';
 
 describe('DocxGenerator', () => {
   test('should return buffer', async () => {
@@ -17,6 +17,8 @@ describe('DocxGenerator', () => {
       },
       verticalSpaces: 1,
     });
+    const exampleText = fs.readFileSync('./example/exampleText.html', 'utf8');
+
     const buffer = await htmlToDocx.generateDocx(exampleText);
 
     expect(buffer).toBeInstanceOf(Buffer);
