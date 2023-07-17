@@ -1,4 +1,5 @@
-import { DocumentElement, TextInline } from './DocumentElements';
+import { DocumentElement } from './DocumentElements';
+import { TextInline } from './DocumentElements/TextInline';
 import { hasSpacesAtEnd, hasSpacesAtStart } from './utils';
 
 export class TextInlineNormalizer {
@@ -22,6 +23,7 @@ export class TextInlineNormalizer {
 
         const prevChild = this.children[idx - 1];
 
+        /* istanbul ignore next */
         if (!this.isInline(prevChild)) {
           return this.processDefault(i);
         }

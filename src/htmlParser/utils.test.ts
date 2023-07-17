@@ -1,16 +1,22 @@
 import { AlignmentType } from 'docx';
 
 import * as utils from './utils';
+import { getIndent } from './utils';
 const {
   convertPixelsToPoints,
   convertPixelsToTwip,
+  convertPointsToTwip,
+  convertEmuToMillimeters,
+  convertMillimetersToEmu,
   parsePaddings,
   parsePaddingsMergedValue,
   parseTextAlignment,
   PIXELS_TO_POINT_RATIO,
   convertPointsToPixels,
   parseSizeValue,
+  getAttributeMap,
 } = utils;
+import { defaultExportOptions } from '../options';
 
 describe('convertPixelsToPoints', () => {
   test('convert string pixels', () => {
@@ -116,6 +122,24 @@ describe('convertPixelsToTwip', () => {
   const expectedResult = 15;
 
   expect(convertPixelsToTwip(1)).toBe(expectedResult);
+});
+
+describe('convertMillimetersToTwip', () => {
+  const expectedResult = 20;
+
+  expect(convertPointsToTwip(1)).toBe(expectedResult);
+});
+
+describe('convertEmuToMillimeters', () => {
+  const expectedResult = 1;
+
+  expect(convertEmuToMillimeters(36000)).toBe(expectedResult);
+});
+
+describe('convertMillimetersToEmu', () => {
+  const expectedResult = 36000;
+
+  expect(convertMillimetersToEmu(1)).toBe(expectedResult);
 });
 
 describe('parsePaddingsMergedValue', () => {
@@ -287,4 +311,41 @@ describe('parseSizeValue', () => {
       expect((e as Error).message).toBe('Invalid units');
     }
   });
+});
+
+describe('getIndent', () => {
+  const optionsWithIndent = defaultExportOptions;
+  const optionsWithoutIndent = {
+    ...defaultExportOptions,
+    ignoreIndentation: false,
+  };
+  const paragraphIndex = 1;
+
+  test('should return undefined when paragraph index is 0', () => {
+    const result = getIndent(0, optionsWithoutIndent);
+
+    expect(result).toBeUndefined();
+  });
+
+  test('should return undefined when ignoreIndentation is true', () => {
+    const result = getIndent(paragraphIndex, optionsWithIndent);
+
+    expect(result).toBeUndefined();
+  });
+
+  test('should call convertMillimetersToTwip and return the expected result', () => {
+    const expectedResult = 340;
+    const result = getIndent(paragraphIndex, optionsWithoutIndent);
+
+    expect(result).toEqual({ firstLine: expectedResult });
+  });
+});
+
+test('create AttributeMap from attributes without values', () => {
+  const expectedResult = { src: '', alt: '' };
+
+  const attributes = [{ key: 'src' }, { key: 'alt' }];
+  const result = getAttributeMap(attributes);
+
+  expect(result).toStrictEqual(expectedResult);
 });

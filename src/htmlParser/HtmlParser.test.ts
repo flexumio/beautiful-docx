@@ -35,6 +35,18 @@ describe('HtmlParser', () => {
       const images = { [imageSourceUrl]: buffer };
       instance = new HtmlParser({ ...defaultExportOptions, images: images });
     });
+
+    test('top level elements', () => {
+      const html = '<html><body>Text</body></html>';
+      const element = parse(html)[0] as Element;
+
+      const content = instance.parseTopLevelElement(element, 0);
+
+      expect(content).toBeInstanceOf(Array);
+      expect(content.length).toBe(1);
+      expect(content[0]).toBeInstanceOf(TextBlock);
+    });
+
     test('tag "p"', () => {
       const html = '<p>Paragraph</p>';
       const element = parse(html)[0] as Element;
@@ -136,6 +148,28 @@ describe('HtmlParser', () => {
 
     test('tag "h4"', () => {
       const html = '<h4>h4</h4>';
+      const element = parse(html)[0] as Element;
+
+      const content = instance.parseTopLevelElement(element, 0);
+
+      expect(content).toBeInstanceOf(Array);
+      expect(content.length).toBe(1);
+      expect(content[0]).toBeInstanceOf(Header);
+    });
+
+    test('tag "h5"', () => {
+      const html = '<h5>h5</h5>';
+      const element = parse(html)[0] as Element;
+
+      const content = instance.parseTopLevelElement(element, 0);
+
+      expect(content).toBeInstanceOf(Array);
+      expect(content.length).toBe(1);
+      expect(content[0]).toBeInstanceOf(Header);
+    });
+
+    test('tag "h6"', () => {
+      const html = '<h6>h6</h6>';
       const element = parse(html)[0] as Element;
 
       const content = instance.parseTopLevelElement(element, 0);

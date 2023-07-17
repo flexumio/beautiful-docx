@@ -154,7 +154,7 @@ describe('Paragraph', () => {
           const element = parse(html).find(i => i.type === 'element' && i.tagName === 'p') as Element;
           const expectedIndent = { firstLine: convertMillimetersToTwip(FIRST_LINE_INDENT_MILLIMETERS) };
 
-          const instance = new Paragraph(element, 1, defaultExportOptions);
+          const instance = new Paragraph(element, 1, { ...defaultExportOptions, ignoreIndentation: false });
 
           expect(instance.options.indent).toBeDefined();
           expect(instance.options.indent).toStrictEqual(expectedIndent);
