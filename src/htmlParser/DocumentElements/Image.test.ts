@@ -333,4 +333,28 @@ describe('Image', () => {
     expect(docx.length).toBe(1);
     expect(docx[0]).toBeInstanceOf(ImageRun);
   });
+
+  test('image inside container', () => {
+    const html = `
+    <td>
+      <img style='width: 50%;' src='${imageSourceUrl}'/>
+    </td>`;
+
+    const element = parse(html).find(i => i.type === 'element' && i.tagName === 'td') as Element;
+
+    const exportOptions: DocxExportOptions = {
+      ...defaultExportOptions,
+      images: {
+        [imageSourceUrl]: imageBuffer,
+      },
+    };
+
+    const containerWidth = 1000;
+    const instance = new Image(element, exportOptions, containerWidth);
+    const docx = instance.transformToDocx();
+
+    expect(docx).toBeInstanceOf(Array);
+    expect(docx.length).toBe(1);
+    expect(docx[0]).toBeInstanceOf(ImageRun);
+  });
 });
