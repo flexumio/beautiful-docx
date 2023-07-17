@@ -28,7 +28,7 @@ export const imageHtml = `
 
 describe('Figure', () => {
   test('unknown element name should throw an error', () => {
-    const html = `<figure><p>something</p></figure>`;
+    const html = `<figure><p>something</p>text</figure>`;
     const element = parse(html).find(i => i.type === 'element' && i.tagName === 'figure') as Element;
 
     try {

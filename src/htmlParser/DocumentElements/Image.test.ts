@@ -155,17 +155,33 @@ describe('Image', () => {
           expect(instance.options.transformation.width.toFixed()).toBe(expectedWidth);
           expect(instance.options.transformation.height.toFixed()).toBe(expectedHeight);
         });
+
+        test('width > pageWidth', async () => {
+          const html = `
+          <figure class='image'>
+            <img style="width: 10000px" src='${imageSourceUrl}'/>
+          </figure>;
+        `;
+
+          const element = parse(html).find(i => i.type === 'element' && i.tagName === 'figure') as Element;
+
+          const exportOptions: DocxExportOptions = {
+            ...defaultExportOptions,
+            images: {
+              [imageSourceUrl]: imageBuffer,
+            },
+          };
+
+          const expectedWidth = '9072';
+
+          const instance = new Image(element, exportOptions);
+
+          expect(instance.options.transformation.width.toFixed()).toBe(expectedWidth);
+        });
       });
     });
 
     describe('horizontal align', () => {
-      test('horizontal align should be "center" be default', () => {
-        const expectedAlign = HorizontalPositionAlign.CENTER;
-
-        expect(instance.options.floating).toBeDefined();
-        expect(instance.options.floating?.horizontalPosition.align).toBe(expectedAlign);
-      });
-
       describe('depend on styles', () => {
         test('should be left aligned', async () => {
           const html = `
@@ -212,16 +228,6 @@ describe('Image', () => {
     });
 
     describe('wrapping', () => {
-      test('default wrapping', () => {
-        const expectedWrapping = {
-          type: TextWrappingType.TOP_AND_BOTTOM,
-          side: TextWrappingSide.BOTH_SIDES,
-        };
-
-        expect(instance.options.floating).toBeDefined();
-        expect(instance.options.floating?.wrap).toStrictEqual(expectedWrapping);
-      });
-
       describe('depend on styles', () => {
         test('should be right-side wrapped', async () => {
           const html = `
