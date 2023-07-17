@@ -1,9 +1,12 @@
 /* istanbul ignore file */
 import { DocxGenerator } from '../src';
 import * as fs from 'fs';
-import { exampleText } from './exampleText';
 import { AlignmentType, NumberFormat } from 'docx';
 import { PageFormat } from '../src/options';
+
+function readHTMLFile(): string {
+  return fs.readFileSync('./example/exampleText.html', 'utf8');
+}
 
 const main = async () => {
   console.time('Loading');
@@ -31,6 +34,7 @@ const main = async () => {
     ignoreIndentation: true,
     verticalSpaces: 1.15,
   });
+  const exampleText = readHTMLFile();
   const buffer = await docxGenerator.generateDocx(exampleText);
   console.timeEnd('Loading');
   fs.writeFileSync('test-lib.docx', buffer);
