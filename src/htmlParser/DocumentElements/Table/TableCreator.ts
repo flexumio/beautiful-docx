@@ -124,7 +124,11 @@ export class TableCreator implements DocumentElement {
   }
 
   private get columnsCount() {
-    return Math.max(...this.children.map(row => row.cellCount));
+    if (!this.children || this.children.length === 0) {
+      return 0;
+    }
+    const cellCounts = this.children.map(row => row.cellCount);
+    return Math.max(...cellCounts);
   }
 
   private get width() {
