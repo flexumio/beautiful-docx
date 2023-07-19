@@ -1,4 +1,4 @@
-import { Node } from 'himalaya';
+import { Node, Attribute } from 'himalaya';
 import { IRunOptions, ParagraphChild } from 'docx';
 import { InlineTextType, DocumentElement } from './DocumentElement';
 export declare const supportedTextTypes: InlineTextType[];
@@ -8,8 +8,12 @@ export declare class TextInline implements DocumentElement {
     type: InlineTextType;
     content: (string | DocumentElement)[];
     isEmpty: boolean;
-    constructor(element: Node, options?: IRunOptions);
+    constructor(element: Node & {
+        attributes?: [Attribute];
+    }, options?: IRunOptions);
     getContent(): this[];
     transformToDocx(): ParagraphChild[];
+    private get textColor();
+    private get textShading();
 }
 //# sourceMappingURL=TextInline.d.ts.map

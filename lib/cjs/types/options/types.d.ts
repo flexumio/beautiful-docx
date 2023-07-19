@@ -54,6 +54,7 @@ export declare type DocxExportOptions = {
     ignoreIndentation: boolean;
     images?: ImageMap;
     table: TableOptions;
+    numberingReference: string[];
 };
 export declare type TableOptions = {
     cellPaddings: {
