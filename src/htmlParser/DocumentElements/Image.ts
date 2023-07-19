@@ -137,7 +137,12 @@ export class Image implements DocumentElement {
       }
     }
 
-    const maxImageWidth = pageWidthPixels;
+    let maxImageWidth = pageWidthPixels;
+
+    if (this.containerWidth) {
+      const containerWidthPixels = convertTwipToPixels(this.containerWidth);
+      maxImageWidth = containerWidthPixels;
+    }
 
     if (originWidth > maxImageWidth) {
       const resizeRatio = maxImageWidth / originWidth;
