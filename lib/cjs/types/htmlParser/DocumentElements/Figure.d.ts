@@ -5,7 +5,7 @@ import { DocumentElement, DocumentElementType } from './DocumentElement';
 export declare class Figure implements DocumentElement {
     type: DocumentElementType;
     private readonly content;
-    constructor(element: Element, docxExportOptions: DocxExportOptions);
+    constructor(element: Element, docxExportOptions: DocxExportOptions, containerWidth?: number);
     getContent(): DocumentElement[];
     transformToDocx(): (Paragraph | ParagraphChild)[];
 }

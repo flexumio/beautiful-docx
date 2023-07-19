@@ -12,6 +12,8 @@ export declare const convertPixelsToPoints: (pixels: string | number) => number;
 export declare const convertPointsToPixels: (points: string | number) => number;
 export declare const convertPixelsToTwip: (pixels: number) => number;
 export declare const convertTwipToPixels: (twip: number) => number;
+export declare const convertEmuToMillimeters: (emu: number) => number;
+export declare const convertMillimetersToEmu: (millimeters: number) => number;
 export declare const convertPointsToTwip: (points: number) => number;
 export declare const parseTextAlignment: (attribs: Attribute[]) => AlignmentType;
 export declare const cleanTextContent: (content: string) => string;
@@ -40,5 +42,6 @@ export declare type SizeUnit = 'px' | 'pt' | 'em' | 'rem' | 'vh' | 'vw' | '%' | 
 export declare const parseSizeValue: (value: string | number) => [number, SizeUnit];
 export declare const hasSpacesAtStart: (str: string) => boolean;
 export declare const hasSpacesAtEnd: (str: string) => boolean;
+export declare const getUUID: () => string;
 export {};
 //# sourceMappingURL=utils.d.ts.map

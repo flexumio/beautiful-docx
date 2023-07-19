@@ -3,7 +3,6 @@ import { DocxExportOptions } from '../../options';
 import { DocumentElement } from './DocumentElement';
 export declare const FONT_TO_LINE_RATIO: number;
 export declare const PAGE_TITLE_STYLE_ID = "PageTitle";
-export declare const DEFAULT_NUMBERING_REF = "default-numbering";
 export declare class Document {
     exportOptions: DocxExportOptions;
     children: DocumentElement[];

@@ -16,11 +16,12 @@ declare enum ImageOrientation {
 export declare class Image implements DocumentElement {
     private imageFigure;
     private exportOptions;
+    private containerWidth?;
     type: DocumentElementType;
     options: IImageOptions;
     isFloating: boolean;
     private readonly style;
-    constructor(imageFigure: Element, exportOptions: DocxExportOptions);
+    constructor(imageFigure: Element, exportOptions: DocxExportOptions, containerWidth?: number | undefined);
     private createOptions;
     private get floating();
     private getHorizontalPositionAlign;
