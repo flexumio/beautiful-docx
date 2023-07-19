@@ -1,5 +1,5 @@
 import { ExternalHyperlink, TextRun, UnderlineType } from 'docx';
-import { Element, Node, parse } from 'himalaya';
+import { Element, Node, Attribute, parse } from 'himalaya';
 import { TextInline } from './TextInline';
 
 describe('TextInline', () => {
@@ -274,7 +274,11 @@ describe('TextInline', () => {
 
   test('created without attributes', () => {
     const html = `<span>text</span>`;
-    const element = parse(html).find(i => i.type === 'element' && i.tagName === 'span') as Element;
+    const element = parse(html).find(i => i.type === 'element' && i.tagName === 'span') as Node & {
+      attributes?: [Attribute] | undefined;
+    };
+
+    element.attributes = undefined;
 
     const instance = new TextInline(element);
     expect(instance.options.color).toBeUndefined();
