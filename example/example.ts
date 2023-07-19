@@ -1,7 +1,6 @@
 /* istanbul ignore file */
 import { DocxGenerator } from '../src';
 import * as fs from 'fs';
-import { exampleText } from './exampleText';
 import { AlignmentType, NumberFormat } from 'docx';
 import { PageFormat } from '../src/options';
 
@@ -31,6 +30,7 @@ const main = async () => {
     ignoreIndentation: true,
     verticalSpaces: 1.15,
   });
+  const exampleText = fs.readFileSync('./example/exampleText.html', 'utf8');
   const buffer = await docxGenerator.generateDocx(exampleText);
   console.timeEnd('Loading');
   fs.writeFileSync('test-lib.docx', buffer);
