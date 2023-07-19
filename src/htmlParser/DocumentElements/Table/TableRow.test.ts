@@ -15,8 +15,9 @@ describe('TableRow', () => {
       </tr>`;
 
       const element = parse(html).find(i => i.type === 'element' && i.tagName === 'tr') as Element;
+      const cellWidths = [1000, 1000];
 
-      instance = new TableRow(element, true, defaultExportOptions);
+      instance = new TableRow(element, true, cellWidths, defaultExportOptions);
     });
 
     test('type should be "table-row"', () => {
@@ -54,8 +55,10 @@ describe('TableRow', () => {
       </tr>`;
 
     const element = parse(html).find(i => i.type === 'element' && i.tagName === 'tr') as Element;
+    const cellWidths = [1000, 1000];
+
     try {
-      new TableRow(element, true, defaultExportOptions);
+      new TableRow(element, true, cellWidths, defaultExportOptions);
       expect(true).toBe(false);
     } catch (e) {
       expect((e as Error).message).toContain('Unsupported row element');

@@ -13,7 +13,12 @@ export class Cell implements DocumentElement {
   private readonly attributes: AttributeMap;
   private readonly styles: Styles;
 
-  constructor(private element: Element, private exportOptions: DocxExportOptions, private isHeader: boolean) {
+  constructor(
+    private element: Element,
+    private exportOptions: DocxExportOptions,
+    private isHeader: boolean,
+    private cellWidth: number
+  ) {
     this.attributes = getAttributeMap(element.attributes);
     this.styles = parseStyles(this.attributes.style);
     this.options = {
@@ -35,13 +40,26 @@ export class Cell implements DocumentElement {
     return [
       new TableCell({
         ...this.options,
-        children: this.tableCellChildren.flatMap(i => i.transformToDocx()) as Paragraph[],
+        children: this.children as Paragraph[],
       }),
     ];
   }
 
+  private get children() {
+    return this.tableCellChildren.flatMap(i => {
+      if (i.type === 'image') {
+        return [
+          new Paragraph({
+            children: i.transformToDocx(),
+          }),
+        ];
+      }
+      return i.transformToDocx();
+    });
+  }
+
   public get tableCellChildren() {
-    return new HtmlParser(this.exportOptions).parseHtmlTree(this.element.children);
+    return new HtmlParser(this.exportOptions, this.containerWidth).parseHtmlTree(this.element.children);
   }
 
   private get cellShading() {
@@ -98,5 +116,9 @@ export class Cell implements DocumentElement {
     };
 
     return { ...optionsPaddings, ...stylesPaddings };
+  }
+
+  private get containerWidth() {
+    return this.cellWidth - this.margins.right - this.margins.left;
   }
 }

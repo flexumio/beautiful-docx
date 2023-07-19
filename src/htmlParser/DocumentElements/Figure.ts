@@ -10,14 +10,14 @@ export class Figure implements DocumentElement {
   public type: DocumentElementType = 'figure';
 
   private readonly content: DocumentElement[];
-  constructor(element: Element, docxExportOptions: DocxExportOptions) {
+  constructor(element: Element, docxExportOptions: DocxExportOptions, containerWidth?: number) {
     const tableNode = element.children.find(i => i.type === 'element' && i.tagName === 'table');
     const imageNode = element.children.find(i => i.type === 'element' && i.tagName === 'img');
 
     if (tableNode) {
       this.content = new TableCreator(tableNode as Element, docxExportOptions).getContent();
     } else if (imageNode) {
-      this.content = new Image(element, docxExportOptions).getContent();
+      this.content = new Image(element, docxExportOptions, containerWidth).getContent();
     } else {
       const tagsNames = element.children.map(i => (i.type === 'element' ? i.tagName : i.type)).join(', ');
       throw new Error(`Unsupported figure with content: ${tagsNames}`);

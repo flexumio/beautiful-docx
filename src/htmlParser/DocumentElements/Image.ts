@@ -36,7 +36,7 @@ export class Image implements DocumentElement {
 
   private readonly style: Styles;
 
-  constructor(private imageFigure: Element, private exportOptions: DocxExportOptions) {
+  constructor(private imageFigure: Element, private exportOptions: DocxExportOptions, private containerWidth?: number) {
     const image = imageFigure.children.find(item => item.type === 'element' && item.tagName === 'img') as Element;
     const imageAttr = getAttributeMap(image.attributes);
     const imageSourceUrl = imageAttr['src'];
@@ -106,7 +106,15 @@ export class Image implements DocumentElement {
 
       if (isPercentWidth || isVwWidth) {
         const widthPercent = parseFloat(imageWidth.slice(0, -1));
-        const widthPixels = (pageWidthPixels * widthPercent) / 100;
+        let widthPixels = 0;
+
+        if (this.containerWidth) {
+          const containerWidthPixels = convertTwipToPixels(this.containerWidth);
+          widthPixels = (containerWidthPixels * widthPercent) / 100;
+        } else {
+          widthPixels = (pageWidthPixels * widthPercent) / 100;
+        }
+
         const resizeRatio = widthPixels / originWidth;
 
         return {

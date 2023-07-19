@@ -1,7 +1,12 @@
 import { ShadingType, TableCell, VerticalAlign } from 'docx';
 import { Element, parse } from 'himalaya';
-import { defaultExportOptions } from '../../../options';
+import { DocxExportOptions, defaultExportOptions } from '../../../options';
 import { Cell } from './Cell';
+import * as fs from 'fs';
+import * as path from 'path';
+
+const imageSourceUrl = path.join(__dirname, '../../../../', 'example/test-icon.png');
+const imageBuffer = fs.readFileSync(imageSourceUrl);
 
 describe('Cell', () => {
   let instance: Cell;
@@ -9,8 +14,9 @@ describe('Cell', () => {
   beforeAll(() => {
     const html = '<td>Content</td>';
     const element = parse(html).find(i => i.type === 'element' && i.tagName === 'td') as Element;
+    const cellWidth = 1000;
 
-    instance = new Cell(element, defaultExportOptions, true);
+    instance = new Cell(element, defaultExportOptions, true, cellWidth);
   });
 
   test('type should be "table-cell"', () => {
@@ -27,8 +33,9 @@ describe('Cell', () => {
     const expectedFill = '#FFFFFF';
     const html = `<td style="background-color: ${expectedFill};">Content</td>`;
     const element = parse(html).find(i => i.type === 'element' && i.tagName === 'td') as Element;
+    const cellWidth = 1000;
 
-    const instance = new Cell(element, defaultExportOptions, true);
+    const instance = new Cell(element, defaultExportOptions, true, cellWidth);
 
     expect(instance.options.shading).toBeDefined();
     expect(instance.options.shading?.fill).toBe(expectedFill);
@@ -54,8 +61,9 @@ describe('Cell', () => {
     test('should return array', () => {
       const html = '<td><p>Content</p>  </td>';
       const element = parse(html).find(i => i.type === 'element' && i.tagName === 'td') as Element;
+      const cellWidth = 1000;
 
-      const instance = new Cell(element, defaultExportOptions, true);
+      const instance = new Cell(element, defaultExportOptions, true, cellWidth);
 
       expect(instance.tableCellChildren).toBeInstanceOf(Array);
     });
@@ -65,9 +73,10 @@ describe('Cell', () => {
     test('should be top', () => {
       const html = '<td style="vertical-align: top;">Content</td>';
       const element = parse(html).find(i => i.type === 'element' && i.tagName === 'td') as Element;
+      const cellWidth = 1000;
       const expectedAlign = VerticalAlign.TOP;
 
-      const instance = new Cell(element, defaultExportOptions, true);
+      const instance = new Cell(element, defaultExportOptions, true, cellWidth);
 
       expect(instance.options.verticalAlign).toBeDefined();
       expect(instance.options.verticalAlign).toBe(expectedAlign);
@@ -76,12 +85,35 @@ describe('Cell', () => {
     test('should be bottom', () => {
       const html = '<td style="vertical-align: bottom;">Content</td>';
       const element = parse(html).find(i => i.type === 'element' && i.tagName === 'td') as Element;
+      const cellWidth = 1000;
       const expectedAlign = VerticalAlign.BOTTOM;
 
-      const instance = new Cell(element, defaultExportOptions, true);
+      const instance = new Cell(element, defaultExportOptions, true, cellWidth);
 
       expect(instance.options.verticalAlign).toBeDefined();
       expect(instance.options.verticalAlign).toBe(expectedAlign);
     });
+  });
+
+  test('image within table cell', () => {
+    const html = `
+      <td>
+        <img src='${imageSourceUrl}'/>
+      </td>
+    `;
+    const element = parse(html).find(i => i.type === 'element' && i.tagName === 'td') as Element;
+    const cellWidth = 1000;
+
+    const exportOptions: DocxExportOptions = {
+      ...defaultExportOptions,
+      images: {
+        [imageSourceUrl]: imageBuffer,
+      },
+    };
+
+    const instance = new Cell(element, exportOptions, false, cellWidth);
+    const docx = instance.transformToDocx();
+
+    expect(docx).toBeDefined();
   });
 });

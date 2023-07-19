@@ -19,7 +19,7 @@ import { ImagesAdapter } from './ImagesAdapter';
 import { TableOfContents } from './DocumentElements/TableOfContents';
 
 export class HtmlParser {
-  constructor(public options: DocxExportOptions) {}
+  constructor(public options: DocxExportOptions, public containerWidth?: number) {}
 
   async parse(content: string) {
     const parsedContent = parse(content);
@@ -116,13 +116,13 @@ export class HtmlParser {
         return new List(element, 0, this.options).getContent();
       }
       case 'figure': {
-        return new Figure(element, this.options).getContent();
+        return new Figure(element, this.options, this.containerWidth).getContent();
       }
       case 'table': {
         return new TableCreator(element, this.options).getContent();
       }
       case 'img': {
-        return new Image(this.coverWithFigure(element), this.options).getContent();
+        return new Image(this.coverWithFigure(element), this.options, this.containerWidth).getContent();
       }
       case 'blockquote': {
         return new Blockquote(element).getContent();
