@@ -48,7 +48,7 @@ export class TextInline implements DocumentElement {
   content: (string | DocumentElement)[];
   isEmpty = false;
 
-  constructor(private element: Node & { attributes?: [Attribute] }, public options: IRunOptions = {}) {
+  constructor(private element: Node & { attributes?: [Attribute] | undefined }, public options: IRunOptions = {}) {
     if (this.element.type === 'text') {
       this.content = [this.element.content];
       this.type = 'text';
