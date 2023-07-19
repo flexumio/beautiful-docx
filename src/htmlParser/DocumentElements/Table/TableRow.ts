@@ -17,10 +17,10 @@ export class TableRow implements DocumentElement {
     exportOptions: DocxExportOptions
   ) {
     this.children = [];
-    let i = 0;
-    for (const child of element.children) {
+
+    element.children.forEach((child, i) => {
       if (child.type !== 'element') {
-        continue;
+        return;
       }
 
       switch (child.tagName) {
@@ -31,8 +31,8 @@ export class TableRow implements DocumentElement {
         default:
           throw new Error(`Unsupported row element: ${child.tagName}`);
       }
-      i++;
-    }
+    }, this);
+
     this.options = { tableHeader: this.isHeader, children: [] };
   }
 
