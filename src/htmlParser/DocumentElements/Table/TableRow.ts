@@ -18,9 +18,10 @@ export class TableRow implements DocumentElement {
   ) {
     this.children = [];
 
-    element.children.forEach((child, i) => {
+    let i = 0;
+    for (const child of element.children) {
       if (child.type !== 'element') {
-        return;
+        continue;
       }
 
       switch (child.tagName) {
@@ -31,7 +32,8 @@ export class TableRow implements DocumentElement {
         default:
           throw new Error(`Unsupported row element: ${child.tagName}`);
       }
-    }, this);
+      i++;
+    }
 
     this.options = { tableHeader: this.isHeader, children: [] };
   }
