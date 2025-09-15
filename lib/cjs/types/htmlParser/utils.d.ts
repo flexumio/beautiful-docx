@@ -3,7 +3,7 @@ import { Attribute, Styles } from 'himalaya';
 import { DocxExportOptions } from '../options';
 export declare const FIRST_LINE_INDENT_MILLIMETERS = 6;
 export declare const PIXELS_TO_POINT_RATIO: number;
-export declare type AttributeMap = {
+export type AttributeMap = {
     [k: string]: string;
 };
 export declare const getAttributeMap: (attribs: Attribute[]) => AttributeMap;
@@ -22,10 +22,10 @@ export declare const getIndent: (paragraphIndex: number, docxExportOptions: Docx
 } | undefined;
 export declare const isListTag: (tagName: string) => boolean;
 export declare const getPageWidth: (exportOptions: DocxExportOptions) => number;
-export declare type Mutable<T> = {
+export type Mutable<T> = {
     -readonly [P in keyof T]: T[P];
 };
-declare type PaddingsStyle = {
+type PaddingsStyle = {
     left: number;
     right: number;
     top: number;
@@ -38,7 +38,7 @@ export declare const parsePaddingsMergedValue: (padding: string) => {
     top: number;
     bottom: number;
 };
-export declare type SizeUnit = 'px' | 'pt' | 'em' | 'rem' | 'vh' | 'vw' | '%' | 'auto';
+export type SizeUnit = 'px' | 'pt' | 'em' | 'rem' | 'vh' | 'vw' | '%' | 'auto';
 export declare const parseSizeValue: (value: string | number) => [number, SizeUnit];
 export declare const hasSpacesAtStart: (str: string) => boolean;
 export declare const hasSpacesAtEnd: (str: string) => boolean;

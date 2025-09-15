@@ -9,7 +9,7 @@ export declare class TextInline implements DocumentElement {
     content: (string | DocumentElement)[];
     isEmpty: boolean;
     constructor(element: Node & {
-        attributes?: [Attribute];
+        attributes?: [Attribute] | undefined;
     }, options?: IRunOptions);
     getContent(): this[];
     transformToDocx(): ParagraphChild[];

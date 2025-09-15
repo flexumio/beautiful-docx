@@ -4,13 +4,13 @@ export interface DocumentElement {
     getContent(): DocumentElement[];
     transformToDocx(): (Paragraph | ParagraphChild | TableCell)[];
 }
-export declare type DocumentElementType = InlineTextType | BlockTextType | TableElementType | ContainerElementType | ImageType | PageBreakType | TableOfContentsType | EmptyLineType;
-export declare type BlockTextType = 'paragraph' | 'text' | 'heading' | 'list' | 'list-item' | 'blockquote';
-export declare type InlineTextType = 'br' | 'text' | 'strong' | 'i' | 'u' | 's' | 'del' | 'a' | 'b' | 'em' | 'span' | 'sup' | 'sub';
-export declare type TableElementType = 'table' | 'table-row' | 'table-cell';
-export declare type ContainerElementType = 'figure';
-export declare type ImageType = 'image';
-export declare type PageBreakType = 'page-break';
-export declare type TableOfContentsType = 'table-of-contents';
-export declare type EmptyLineType = 'empty-line';
+export type DocumentElementType = InlineTextType | BlockTextType | TableElementType | ContainerElementType | ImageType | PageBreakType | TableOfContentsType | EmptyLineType;
+export type BlockTextType = 'paragraph' | 'text' | 'heading' | 'list' | 'list-item' | 'blockquote';
+export type InlineTextType = 'br' | 'text' | 'strong' | 'i' | 'u' | 's' | 'del' | 'a' | 'b' | 'em' | 'span' | 'sup' | 'sub';
+export type TableElementType = 'table' | 'table-row' | 'table-cell';
+export type ContainerElementType = 'figure';
+export type ImageType = 'image';
+export type PageBreakType = 'page-break';
+export type TableOfContentsType = 'table-of-contents';
+export type EmptyLineType = 'empty-line';
 //# sourceMappingURL=DocumentElement.d.ts.map

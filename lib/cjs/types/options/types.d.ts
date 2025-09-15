@@ -1,29 +1,30 @@
 /// <reference types="node" />
+/// <reference types="node" />
 import { Mutable } from '../htmlParser/utils';
 import { AlignmentType, NumberFormat, IParagraphOptions as ParagraphOptions } from 'docx';
-export declare type ImageMap = {
+export type ImageMap = {
     [url: string]: Buffer;
 };
-declare type LengthUnit = number;
-declare type FontSize = number;
+type LengthUnit = number;
+type FontSize = number;
 export declare enum PageOrientation {
     Portrait = "portrait",
     Landscape = "landscape"
 }
-export declare type PageFormatType = 'A3' | 'A4' | 'A5' | 'A6';
-export declare type PageSize = {
+export type PageFormatType = 'A3' | 'A4' | 'A5' | 'A6';
+export type PageSize = {
     width: LengthUnit;
     height: LengthUnit;
 };
-export declare type PageFormatSizes = {
+export type PageFormatSizes = {
     [x in PageFormatType]: PageSize;
 };
-export declare type NumberingOptions = false | {
+export type NumberingOptions = false | {
     type: NumberFormat;
     start?: number;
     align?: AlignmentType;
 };
-export declare type PageOptions = {
+export type PageOptions = {
     orientation: PageOrientation;
     size: PageSize;
     margins: {
@@ -34,7 +35,7 @@ export declare type PageOptions = {
     };
     numbering: NumberingOptions;
 };
-export declare type FontOptions = {
+export type FontOptions = {
     baseSize: FontSize;
     baseFontFamily: string;
     headersFontFamily: string;
@@ -47,7 +48,7 @@ export declare type FontOptions = {
         h6: FontSize;
     };
 };
-export declare type DocxExportOptions = {
+export type DocxExportOptions = {
     page: PageOptions;
     font: FontOptions;
     verticalSpaces: number;
@@ -56,7 +57,7 @@ export declare type DocxExportOptions = {
     table: TableOptions;
     numberingReference: string[];
 };
-export declare type TableOptions = {
+export type TableOptions = {
     cellPaddings: {
         left: number;
         right: number;
@@ -64,6 +65,6 @@ export declare type TableOptions = {
         bottom: number;
     };
 };
-export declare type IParagraphOptions = Mutable<ParagraphOptions>;
+export type IParagraphOptions = Mutable<ParagraphOptions>;
 export {};
 //# sourceMappingURL=types.d.ts.map
