@@ -41,7 +41,7 @@
   ],
   "license": "ISC",
   "dependencies": {
-    "axios": "^0.30.0",
+    "axios": "^1.12.0",
     "colortranslator": "^1.9.2",
     "deepmerge": "^4.2.2",
     "docx": "^7.8.2",
