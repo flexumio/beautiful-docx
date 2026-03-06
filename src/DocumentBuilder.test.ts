@@ -3,8 +3,22 @@ import { DocumentBuilder } from './DocumentBuilder';
 import { HtmlParser } from './htmlParser';
 import { defaultExportOptions } from './options';
 import * as fs from 'fs';
+import * as path from 'path';
+
+jest.mock('axios');
+const axios = require('axios');
+
+const imageBuffer = fs.readFileSync(path.join(__dirname, '../example/test-icon.png'));
 
 describe('DocumentBuilder', () => {
+  beforeEach(() => {
+    axios.get.mockResolvedValue({ data: imageBuffer });
+  });
+
+  afterEach(() => {
+    jest.resetAllMocks();
+  });
+
   test('should return File', async () => {
     const exampleText = fs.readFileSync('./example/exampleText.html', 'utf8');
 

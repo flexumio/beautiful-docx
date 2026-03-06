@@ -2,12 +2,24 @@ import { defaultExportOptions } from '../options';
 import { Header, Image, ListItem, Paragraph, TableCreator, TextBlock } from './DocumentElements';
 import { HtmlParser } from '.';
 import { Element, parse } from 'himalaya';
-import axios from 'axios';
+import * as fs from 'fs';
+import * as path from 'path';
 
-const imageSourceUrl =
-  'https://upload.wikimedia.org/wikipedia/commons/thumb/a/a7/React-icon.svg/640px-React-icon.svg.png';
+jest.mock('axios');
+const axios = require('axios');
+
+const imageSourceUrl = 'https://example.com/test-image.png';
+const imageBuffer = fs.readFileSync(path.join(__dirname, '../../example/test-icon.png'));
 
 describe('HtmlParser', () => {
+  beforeEach(() => {
+    axios.get.mockResolvedValue({ data: imageBuffer });
+  });
+
+  afterEach(() => {
+    jest.resetAllMocks();
+  });
+
   describe('parse', () => {
     test('should return array of TextBlock or Image element', async () => {
       const html = `
@@ -28,11 +40,7 @@ describe('HtmlParser', () => {
   describe('parseTopLevelElement', () => {
     let instance: HtmlParser;
     beforeAll(async () => {
-      const buffer = await axios
-        .get(imageSourceUrl, { responseType: 'arraybuffer' })
-        .then(response => Buffer.from(response.data, 'binary'));
-
-      const images = { [imageSourceUrl]: buffer };
+      const images = { [imageSourceUrl]: imageBuffer };
       instance = new HtmlParser({ ...defaultExportOptions, images: images });
     });
 
