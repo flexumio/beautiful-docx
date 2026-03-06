@@ -41,7 +41,7 @@
   ],
   "license": "ISC",
   "dependencies": {
-    "axios": "^1.12.2",
+    "axios": "^1.13.5",
     "colortranslator": "^1.9.2",
     "deepmerge": "^4.2.2",
     "docx": "^7.8.2",
@@ -73,5 +73,10 @@
     "*.{json,js,ts,jsx,tsx,html}": [
       "npm run format"
     ]
+  },
+  "overrides": {
+    "minimatch": "^3.1.4",
+    "js-yaml@3": "^3.14.2",
+    "js-yaml@4": "^4.1.1"
   }
 }
