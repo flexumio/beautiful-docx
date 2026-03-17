@@ -1,8 +1,9 @@
-import axios from 'axios';
 import { Table, Paragraph as DocxParagraph, ImageRun } from 'docx';
 import { Element, parse } from 'himalaya';
 import { Figure, TextBlock, TableCreator, Image } from '.';
 import { defaultExportOptions, DocxExportOptions } from '../../options';
+import * as fs from 'fs';
+import * as path from 'path';
 
 const tableHtml = `
 <figure>
@@ -18,8 +19,7 @@ const tableHtml = `
   </table>
 </figure>`;
 
-const imageSourceUrl =
-  'https://upload.wikimedia.org/wikipedia/commons/thumb/a/a7/React-icon.svg/640px-React-icon.svg.png';
+const imageSourceUrl = 'https://example.com/test-image.png';
 
 export const imageHtml = `
     <figure>
@@ -73,9 +73,7 @@ describe('Figure', () => {
     beforeAll(async () => {
       const element = parse(imageHtml).find(i => i.type === 'element' && i.tagName === 'figure') as Element;
 
-      const imageBuffer = await axios
-        .get(imageSourceUrl, { responseType: 'arraybuffer' })
-        .then(response => Buffer.from(response.data, 'binary'));
+      const imageBuffer = fs.readFileSync(path.join(__dirname, '../../../example/test-icon.png'));
 
       const exportOptions: DocxExportOptions = {
         ...defaultExportOptions,
