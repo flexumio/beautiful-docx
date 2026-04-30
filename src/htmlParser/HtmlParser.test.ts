@@ -1,3 +1,4 @@
+import axios from 'axios';
 import { defaultExportOptions } from '../options';
 import { Header, Image, ListItem, Paragraph, TableCreator, TextBlock } from './DocumentElements';
 import { HtmlParser } from '.';
@@ -6,14 +7,14 @@ import * as fs from 'fs';
 import * as path from 'path';
 
 jest.mock('axios');
-const axios = require('axios');
+const mockedAxios = axios as jest.Mocked<typeof axios>;
 
 const imageSourceUrl = 'https://example.com/test-image.png';
 const imageBuffer = fs.readFileSync(path.join(__dirname, '../../example/test-icon.png'));
 
 describe('HtmlParser', () => {
   beforeEach(() => {
-    axios.get.mockResolvedValue({ data: imageBuffer });
+    mockedAxios.get.mockResolvedValue({ data: imageBuffer });
   });
 
   afterEach(() => {

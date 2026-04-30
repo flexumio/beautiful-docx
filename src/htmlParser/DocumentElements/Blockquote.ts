@@ -1,5 +1,5 @@
 import { BorderStyle, convertMillimetersToTwip, Paragraph, ParagraphChild } from 'docx';
-import { DocxExportOptions, IParagraphOptions } from '../../options';
+import { IParagraphOptions } from '../../options';
 import { Element, Node } from 'himalaya';
 import { TextInline } from './TextInline';
 import { parseTextAlignment } from '../utils';
