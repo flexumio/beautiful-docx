@@ -18,6 +18,7 @@
     "prepack": "npm run build",
     "test": "jest",
     "lint": "eslint --quiet --cache --fix",
+    "lint:ci": "eslint src --ext .ts --max-warnings 0",
     "format": "prettier --write",
     "lint-staged": "lint-staged",
     "prepare": "husky install",

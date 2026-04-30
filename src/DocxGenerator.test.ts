@@ -1,16 +1,17 @@
+import axios from 'axios';
 import { DocxGenerator } from '.';
 import { defaultExportOptions } from './options';
 import * as fs from 'fs';
 import * as path from 'path';
 
 jest.mock('axios');
-const axios = require('axios');
+const mockedAxios = axios as jest.Mocked<typeof axios>;
 
 const imageBuffer = fs.readFileSync(path.join(__dirname, '../example/test-icon.png'));
 
 describe('DocxGenerator', () => {
   beforeEach(() => {
-    axios.get.mockResolvedValue({ data: imageBuffer });
+    mockedAxios.get.mockResolvedValue({ data: imageBuffer });
   });
 
   afterEach(() => {
