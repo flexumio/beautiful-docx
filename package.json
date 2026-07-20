@@ -44,12 +44,11 @@
   "dependencies": {
     "axios": "^1.16.0",
     "colortranslator": "^1.9.2",
-    "deepmerge": "^4.2.2",
     "docx": "^7.8.2",
     "himalaya": "^1.1.0",
     "image-size": "^1.0.1",
     "jest": "^28.1.2",
-    "ts-deepmerge": "^2.0.1",
+    "ts-deepmerge": "^8.0.0",
     "zod": "^3.17.3"
   },
   "devDependencies": {
