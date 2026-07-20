@@ -1,7 +1,7 @@
 import { Packer } from 'docx';
 import { DocumentBuilder } from './DocumentBuilder';
 import { HtmlParser } from './htmlParser';
-import merge from 'ts-deepmerge';
+import { merge } from 'ts-deepmerge';
 
 import { defaultExportOptions, DocxExportOptions, userOptionsSchema } from './options';
 import { DeepPartial } from './utils';
@@ -17,7 +17,10 @@ export class DocxGenerator {
     } else {
       userOptionsSchema.parse(docxExportOptions);
 
-      this.options = merge(defaultExportOptions, docxExportOptions);
+      // ts-deepmerge's return type widens every key to optional because the second
+      // argument is a DeepPartial. Merging a complete base with a partial overlay
+      // always yields a complete object, which the type can't express.
+      this.options = merge(defaultExportOptions, docxExportOptions) as DocxExportOptions;
     }
 
     this.parser = new HtmlParser(this.options);
