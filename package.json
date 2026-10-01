@@ -42,11 +42,11 @@
   ],
   "license": "ISC",
   "dependencies": {
-    "axios": "^1.16.0",
+    "axios": "^1.20.0",
     "colortranslator": "^1.9.2",
     "docx": "^7.8.2",
     "himalaya": "^1.1.0",
-    "image-size": "^1.0.1",
+    "image-size": "^2.0.4",
     "jest": "^28.1.2",
     "ts-deepmerge": "^8.0.0",
     "zod": "^3.17.3"
@@ -79,12 +79,16 @@
     "js-yaml@3": "^3.15.1",
     "js-yaml@4": "^4.3.1",
     "flatted": "^3.4.2",
-    "brace-expansion": "^1.1.16",
+    "brace-expansion": "^1.1.21",
     "follow-redirects": "^1.16.0",
     "@babel/core": "^7.29.6",
     "form-data": "^4.0.6",
     "nanoid": "^3.3.18",
     "browserslist": "^4.28.7",
-    "baseline-browser-mapping": "^2.11.0"
+    "baseline-browser-mapping": "^2.11.0",
+    "ajv@6": "^6.14.0",
+    "diff@4": "^4.0.4",
+    "micromatch": "^4.0.8",
+    "yaml@2": "^2.8.3"
   }
 }
