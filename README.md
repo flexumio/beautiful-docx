@@ -1,5 +1,18 @@
 # beautiful-docx
 
+> **💛 This project is resting**
+>
+> We built `beautiful-docx` at [Flexum](https://flexum.io) to solve our own problem,
+> and we were happy to share it. We're no longer actively developing it, so the
+> repository is now archived (read-only).
+>
+> **The library still works, and you're welcome to keep using it.** The npm package
+> stays published. If you'd like to take it further, please fork it! We'd love to
+> hear what you build. Say hi at [opensource@flexum.io](mailto:opensource@flexum.io),
+> and we're happy to link to an active fork from here.
+>
+> Thank you to everyone who used it, starred it, and sent PRs. 🙏
+
 [![NPM Version][npm-image]][npm-url]
 
 Easily generate .docx files with HTML and CSS.
@@ -19,7 +32,7 @@ This library is different from other available HTML to DOCX converters because o
 
 The library is writted with TypeScript and is fully covered with unit tests.
 
-`beautiful-docx` is created and maintained by [Flexum](https://flexum.io). PRs are welcome. Contact us at [opensource@flexum.io](mailto:opensource@flexum.io).
+`beautiful-docx` was created by [Flexum](https://flexum.io). Contact us at [opensource@flexum.io](mailto:opensource@flexum.io).
 
 ## Example
 
